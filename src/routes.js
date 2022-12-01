@@ -10,9 +10,6 @@ import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
 import HomePage from './pages/guest/HomePage';
-import Words from './pages/admin/Words';
-import Tags from './pages/admin/Tags';
-import Categories from './pages/admin/Categories';
 
 // ----------------------------------------------------------------------
 
@@ -49,16 +46,11 @@ export default function Router() {
       path: '*',
       element: <Navigate to="/404" replace />,
     },
-    {
-      path: "/ad",
-      element: <Words />,
-      children: [
-        { element: <Words to="/ad" />, index: true },
-        { path:"words", element: <Words />},
-        { path:"tags", element: <Tags />},
-        { path:"categories", element: <Categories />} 
-      ]
-    }
+      { path: "/ad" },
+      { path: "/ad/words" },
+      { path: "/ad/tags" },
+      { path: "/ad/categories" } 
+    
   ]);
 
   return routes;
