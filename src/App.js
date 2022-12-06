@@ -15,10 +15,10 @@ export default function App() {
     <div>
       <ThemeProvider>
         <ScrollToTop />
-        <StyledChart />
-        {/* <Router /> */}
+        {/* <StyledChart /> */}
+        <Router />
       </ThemeProvider>
-        <MainPage />
+        {/* <MainPage /> */}
     </div>
   );
 }
