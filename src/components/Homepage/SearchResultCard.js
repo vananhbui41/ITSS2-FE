@@ -15,7 +15,7 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function SearchResultCard({ result }) {
     const renderResult = () => {
         return result?.map(item => (
-            <Box className='search-result-card'>
+            <Box key={item.id} className='search-result-card'>
                 <div className='search-text'>
                     <span className='kanji'>
                         {item.word}
