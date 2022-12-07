@@ -6,6 +6,7 @@ import SimpleLayout from './layouts/simple';
 import BlogPage from './pages/BlogPage';
 import UserPage from './pages/UserPage';
 import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
@@ -31,8 +32,12 @@ export default function Router() {
       ],
     },
     {
-      path: 'login',
+      path: '/login',
       element: <LoginPage />,
+    },
+    {
+      path: '/signup',
+      element: <SignupPage />,
     },
     // {
     //   element: <SimpleLayout />,
@@ -59,7 +64,15 @@ export default function Router() {
         { path:"tags", element: <Tags />},
         { path:"categories", element: <Categories />},
       ]
-    }
+    },
+    {
+      path: '/',
+      element: <HomePage />,
+    },
+    {
+      path: '*',
+      element: <Navigate to="/404" replace />,
+    },
   ]);
 
   return routes;

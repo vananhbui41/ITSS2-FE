@@ -1,12 +1,24 @@
 import { Box, TextField,InputLabel,FormControl,Select,MenuItem,Grid,Button    } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { getTags } from '../../api/search';
 
-export default function SearchCard() {
-    const [age, setAge] = useState('');
+export default function SearchCard({onSearch}) {
+    const [word, setWord] = useState('')
+    const [categories, setCategories] = useState([])
+    const [type, setType] = useState('')
+    const [topic, setTopic] = useState('')
+    const [context, setContext] = useState('')
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            const tagsData = await getTags()
+            setCategories(tagsData.data)
+        }
+        fetchData()
+    },[])
+    const handleOnSearch = () => {
+        onSearch({word, type, topic, context})
+    }
     return (
         <>
             <Box>
@@ -17,13 +29,13 @@ export default function SearchCard() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Age"
-                                onChange={handleChange}
+                                value={context}
+                                label="Context"
+                                onChange={(e) => setContext(e.target.value)}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {categories.filter(item => item.category_id === 1).map(item => (
+                                    <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -33,13 +45,13 @@ export default function SearchCard() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Age"
-                                onChange={handleChange}
+                                value={type}
+                                label="Type"
+                                onChange={(e) => setType(e.target.value)}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {categories.filter(item => item.category_id === 2).map(item => (
+                                    <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -49,23 +61,23 @@ export default function SearchCard() {
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Age"
-                                onChange={handleChange}
+                                value={topic}
+                                label="Topic"
+                                onChange={(e) => setTopic(e.target.value)}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {categories.filter(item => item.category_id === 3).map(item => (
+                                    <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={12} >
                         <FormControl fullWidth>
-                            <TextField id="outlined-basic" label="Word" variant="outlined" />
+                            <TextField id="outlined-basic" label="Word" variant="outlined" value={word} onChange={e => setWord(e.target.value.trim())} />
                         </FormControl>
                     </Grid>
                 </Grid>
-                <Box sx={{ mt: 2,textAlign: "center" }}>
+                <Box sx={{ mt: 2,textAlign: "center" }} onClick={handleOnSearch}>
                     <Button variant="contained">Search</Button>
                 </Box>
             </Box>

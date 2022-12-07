@@ -1,4 +1,4 @@
-// @mui
+// eslint-disable-next-line
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
