@@ -1,10 +1,17 @@
 import axiosInstance from ".."
 
-export async function search({ word, tag, category }) {
+export async function search({ word,type, context,topic  }) {
     try {
+        const tags = [];
+        if (type)
+            tags.push(type)
+        if (context) 
+            tags.push(context)
+        if (topic)
+            tags.push(topic)
         const res = await axiosInstance.get('search', {
             params: {
-                word,tag,category
+                word,tags
             }
         })
         return {

@@ -12,8 +12,8 @@ export default function HomepageComponent() {
     const [result, setResult] = useState([])
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-    const handleOnSearch = async ({ word,tag,category }) => {
-        setData({word, tag,category})
+    const handleOnSearch = async ({ word,type, context,topic }) => {
+        setData({word,type, context,topic })
     }
     useEffect(() => {
         const fetchData = async () => {

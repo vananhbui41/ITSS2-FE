@@ -1,27 +1,23 @@
 import { Box, TextField,InputLabel,FormControl,Select,MenuItem,Grid,Button    } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { getCategories, getTags } from '../../api/search';
+import { getTags } from '../../api/search';
 
 export default function SearchCard({onSearch}) {
-    const [age, setAge] = useState('');
     const [word, setWord] = useState('')
     const [categories, setCategories] = useState([])
-    const [tags, setTags] = useState([])
-    const [tag, setTag] = useState('')
-    const [category, setCategory] = useState('')
+    const [type, setType] = useState('')
+    const [topic, setTopic] = useState('')
+    const [context, setContext] = useState('')
 
     useEffect(() => {
         const fetchData = async () => {
-            const categoriesData = await getCategories()
             const tagsData = await getTags()
-            setCategories(categoriesData.data)
-            setTags(tagsData.data)
-            
+            setCategories(tagsData.data)
         }
         fetchData()
     },[])
     const handleOnSearch = () => {
-        onSearch({word, tag, category})
+        onSearch({word, type, topic, context})
     }
     return (
         <>
@@ -29,55 +25,52 @@ export default function SearchCard({onSearch}) {
                 <Grid container spacing={2}>
                     <Grid item xs={6} >
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Category</InputLabel>
+                            <InputLabel id="demo-simple-select-label">Context</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={category}
-                                label="Category"
-                                onChange={(e) => setCategory(e.target.value)}
+                                value={context}
+                                label="Context"
+                                onChange={(e) => setContext(e.target.value)}
                             >
-                                {categories.map(item => (
+                                {categories.filter(item => item.category_id === 1).map(item => (
                                     <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
                                 ))}
-                                {/* <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem> */}
                             </Select>
                         </FormControl>
                     </Grid>
                     <Grid item xs={6} >
                         <FormControl fullWidth>
-                            <InputLabel id="demo-simple-select-label">Tag</InputLabel>
+                            <InputLabel id="demo-simple-select-label">Type</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={tag}
-                                label="Tag"
-                                onChange={(e) => setTag(e.target.value)}
+                                value={type}
+                                label="Type"
+                                onChange={(e) => setType(e.target.value)}
                             >
-                                {tags.map(item => (
+                                {categories.filter(item => item.category_id === 2).map(item => (
                                     <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
                                 ))}
                             </Select>
                         </FormControl>
                     </Grid>
-                    {/* <Grid item xs={12} >
+                    <Grid item xs={12} >
                         <FormControl fullWidth>
                             <InputLabel id="demo-simple-select-label">Topic</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                value={age}
-                                label="Age"
-                                onChange={handleChange}
+                                value={topic}
+                                label="Topic"
+                                onChange={(e) => setTopic(e.target.value)}
                             >
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {categories.filter(item => item.category_id === 3).map(item => (
+                                    <MenuItem key={item.id} value={item.name}>{ item.name}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
-                    </Grid> */}
+                    </Grid>
                     <Grid item xs={12} >
                         <FormControl fullWidth>
                             <TextField id="outlined-basic" label="Word" variant="outlined" value={word} onChange={e => setWord(e.target.value.trim())} />
