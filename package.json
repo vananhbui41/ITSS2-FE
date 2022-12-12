@@ -38,6 +38,7 @@
     ]
   },
   "dependencies": {
+    "@craco/craco": "^7.0.0",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
     "@faker-js/faker": "^7.6.0",
@@ -45,6 +46,7 @@
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.9",
     "@react-icons/all-files": "^4.1.0",
+    "ant": "^0.2.0",
     "antd": "^5.0.5",
     "apexcharts": "^3.36.0",
     "axios": "^1.2.1",

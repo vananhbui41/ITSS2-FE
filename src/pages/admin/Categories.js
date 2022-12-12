@@ -1,11 +1,16 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import CategoriesData from './data/CategoriesData';
 
 function Categories() {
   return (
         <>
-            <section>
-                <div className="centered text-4xl h-screen">This is Categories Page</div>
-            </section>
+          <Helmet>
+            <title> Categories - Words | Lavie </title>
+          </Helmet>
+          <section>
+            <CategoriesData />
+          </section>
         </>
   );
 }

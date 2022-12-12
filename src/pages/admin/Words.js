@@ -2,13 +2,9 @@ import React , { useEffect, useState } from 'react';
 import { Button, Modal,  Form, Input, Select , Upload, Table} from 'antd';
 import Checkbox from 'antd/es/checkbox/Checkbox';
 import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
+import { Helmet } from 'react-helmet-async';
 import SearchCard from '../../components/Homepage/SearchCard'; 
-import {} from '../../admin/index.css' ;
-
-
-
-
-
+import {} from '../../components/sidebar/index.css' ;
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -22,7 +18,7 @@ function Words() {
       };
       const { TextArea } = Input;
       const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
+        console.log('Failed:', errorInfo)
       };
     const getDetailWord = (word) =>{
         console.log("view word: ", word);
@@ -35,19 +31,19 @@ function Words() {
     const dataSource= [
         {
             key: '1',
-            word: 'word1',
-            content: 'content1',
-            type: 'type1',
-            topic: 'topic1',
-            means: 'means1'
+            word: 'Word1',
+            content: 'Content1',
+            type: 'Type1',
+            topic: 'Topic1',
+            means: 'Means1'
 
         },
         {
             key: '2',
-            word: 'word2',
-            content: 'content1',
-            type: 'type1',
-            topic: 'topic1',
+            word: 'Word2',
+            content: 'Content1',
+            type: 'Type1',
+            topic: 'Topic1',
 
         }
     ];
@@ -57,7 +53,7 @@ function Words() {
     
     const columns = [
         {
-            title: 'word',
+            title: 'Word',
             dataIndex: 'word',
             with: '20%',
             render: (record, data) =>{
@@ -77,7 +73,7 @@ function Words() {
             }
         },
         {
-            title: 'content',
+            title: 'Content',
             dataIndex: 'content',
             with: '20%',
             render: (record, data) =>{
@@ -97,7 +93,7 @@ function Words() {
             }
         },
         {
-            title: 'type',
+            title: 'Type',
             dataIndex: 'type',
             with: '20%',
             render: (record, data) =>{
@@ -117,7 +113,7 @@ function Words() {
             }
         },
         {
-            title: 'topic',
+            title: 'Topic',
             dataIndex: 'topic',
             with: '20%',
             render: (record, data) =>{
@@ -137,7 +133,7 @@ function Words() {
             }
         },
         {
-            title: 'action',
+            title: 'Action',
             dataIndex: 'action',
             with: '20%',
             render: (record, data) => {
@@ -414,7 +410,6 @@ function Words() {
                     />
 
                     {mm &&
-                    
                         // <EditWord data={wordData} />
                         EditWord11(editData)
                     }
@@ -427,7 +422,6 @@ function Words() {
         </>
     );
 }
-
 
 
 export default Words;
