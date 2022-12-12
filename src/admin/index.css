@@ -13,3 +13,19 @@
     @apply flex justify-center items-center
   }
 }
+
+.word-des td {
+ 
+    padding: 10px;
+    font-size: 16px;
+  
+    
+}
+.word-des th {
+ 
+  
+  font-size: 20px;
+
+  
+}
+

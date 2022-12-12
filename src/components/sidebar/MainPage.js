@@ -2,7 +2,8 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import NavPage from "./NavPage";
-import Sidebar from './Sidebar'
+import Sidebar from './Sidebar';
+import "../../admin/index.css";
 
 const MainPage = () => {
   return (
