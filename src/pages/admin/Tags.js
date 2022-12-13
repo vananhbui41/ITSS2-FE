@@ -5,7 +5,7 @@ import Checkbox from 'antd/es/checkbox/Checkbox';
 import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
 
 function Tags() {
-    // datatag: data de search 
+    // datatag: data de search category vs tag, cx la de edit
 
     const [dataTag, setDataTag] = useState({
         'tag': '',
@@ -13,6 +13,8 @@ function Tags() {
     });
 
     const [openDelete, setOpenDelete] = useState(false);
+    const [openDetail, setOpenDetail] = useState(false);
+    const [openAdd, setOpenAdd] = useState(false);
     const [tagDelete, setTagDelete] = useState();
     const deleteTable = (tag) =>{
         const newData = dataTable.filter(dt=> dt.tag !== tag);
@@ -21,36 +23,103 @@ function Tags() {
     }
 
     const ModelDelete = (tag) =>{
+        const aa = `are you sure want to delete tag "${tag}"`
         return(
         <Modal
-            title="are you sure want to delete tag "  
+            title={aa}
             centered
             open={openDelete}
           
             footer={[
                 <Row>
-                <Col span={2}>
-                    <Button onClick={()=>{
+                <Col span={12}>
+                    <Button style={{width: '80%'}} onClick={()=>{
                         setOpenDelete(false)}}
                     >
                         cancel
                     </Button>
                 </Col>
-                <Col span={2}>
-                    <Button onClick={()=>{deleteTable(tag)}}>delete</Button>
+                <Col span={12}>
+                    <Button style={{width: '80%',background: '#1677ff', color: 'white', boder: 'none'}} onClick={()=>{deleteTable(tag)}}>delete</Button>
                 </Col>
             </Row>
                 ]}
             onCancel={()=>{
                 setOpenDelete(false)
             }}
-            width={1000}
+            width={300}
         >
-            {tag}
+            <div style={{display:'none'}}>{tag}</div>
                    
         </Modal>
         );
        
+    }
+
+    const ModelAddTag = ()=>{
+        return(
+            <Modal
+           
+            centered
+            // open={openDetail}
+            onCancel={()=>{setOpenAdd(false)}}
+            open={openAdd}
+            footer={[
+                <Row>
+                    <Col span={12}>
+                        <Button onClick={()=>{
+                            setOpenAdd(false)}}
+                        >
+                            cancel
+                        </Button>
+                    </Col>
+                    <Col span={12}>
+                        <Button style={{background: '#1677ff', color: 'white', boder: 'none'}} >Add</Button>
+                    </Col>
+                </Row>
+            ]}
+
+           
+            width={300}
+        >
+           {searTag()}
+           {selectCategory()}
+                   
+        </Modal>
+        );
+    }
+
+    const ModelDetail = () =>{
+        return(
+            <Modal
+           
+            centered
+            // open={openDetail}
+            onCancel={()=>{setOpenDetail(false)}}
+           open={openDetail}
+            footer={[
+                <Row>
+                    <Col span={12}>
+                        <Button onClick={()=>{
+                            setOpenDetail(false)}}
+                        >
+                            cancel
+                        </Button>
+                    </Col>
+                    <Col span={12}>
+                        <Button style={{background: '#1677ff', color: 'white', boder: 'none'}} >save</Button>
+                    </Col>
+                </Row>
+            ]}
+
+         
+            width={300}
+        >
+           {searTag()}
+           {selectCategory()}
+                   
+        </Modal>
+        );
     }
 
     const dataSource= [
@@ -122,9 +191,14 @@ function Tags() {
                        
                     > 
                         
-                        <Button >
+                        <Button onClick={()=>{
+                            const aaa = {'tag': data.tag, 'category': data.category};
+                            setDataTag(aaa);
+                            setOpenDetail(true);
+                        }}>
                                 <EditOutlined />
                         </Button>
+
                         <Button 
                        onClick={()=>{
                         setOpenDelete(true);
@@ -154,8 +228,8 @@ function Tags() {
         return(
             <Form.Item label="category">
                 <Select 
-                style={{width: '40%'}}
-                // defaultValue={editData.type} 
+                style={{width: '80%'}}
+                defaultValue={dataTag.category} 
                 onChange={handleType}
                 options={[
                     {
@@ -182,7 +256,7 @@ function Tags() {
     const searTag = () =>{
         return(
             <Form.Item label="tag">
-            <Input style={{width: '80%'}} name="tag" 
+            <Input style={{width: '80%'}}   defaultValue={dataTag.tag}
             onChange={(e) =>{
                 const dt1 = dataTag;
                 dt1.tag = e.target.value;
@@ -190,7 +264,7 @@ function Tags() {
                 console.log("hh: ", dataTag);
             }}
            />
-        </Form.Item>
+         </Form.Item>
         )
     }
 
@@ -202,16 +276,7 @@ function Tags() {
             <section>
                 
                 <div className="text-4xl h-screen" style={{marginTop: '5rem'}}>
-                {/* <div className='container'>
-                    <div className='row'>
-                        <div className='col-3'>
-                            {selectCategory()}
-                        </div>
-                        <div className='col-5'>
-                            {searTag()}
-                        </div>
-                    </div>
-                </div> */}
+            
                 <Row>
                     <Col span={10}>
                     {selectCategory()}
@@ -223,14 +288,34 @@ function Tags() {
                    <Button type='primary'>search</Button>
                     </Col>
                 </Row>
+                <Row>
+                    <Col span={5}>
+                        <Button style={{background: '#1677ff', color: 'white', boder: 'none'}} 
+                            onClick={()=>{
+                                const dt1 = dataTag;
+                                dt1.tag = '';
+                                dt1.category = '';
+                                setDataTag(dt1);
+                                setOpenAdd(true);
+                            }}
+                        >Add</Button>
+                    </Col>
+                </Row>
                 <Table 
                         dataSource={dataTable}
                         pagination={{defaultPageSize: 10}}
                         columns={columns}
                     />
-                    {1 &&
+                    {
                     
                      ModelDelete(tagDelete)
+                    }
+
+                    {
+                        ModelDetail()
+                    }
+                    {
+                        ModelAddTag()
                     }
                   
                 </div>

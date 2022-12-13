@@ -1,5 +1,5 @@
 import React , { useEffect, useState } from 'react';
-import { Button, Modal,  Form, Input, Select , Upload, Table} from 'antd';
+import { Button, Modal,  Form, Input, Select , Upload, Table, Row, Col} from 'antd';
 import Checkbox from 'antd/es/checkbox/Checkbox';
 import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
@@ -10,8 +10,9 @@ function Words() {
     const [open, setOpen] = useState(false);
     const [mm, setMM] = useState(false);
     const [wordData, setWordData] = useState();
-    
+    const [openDelete, setOpenDelete] = useState(false);
     const [showExample, setShowExample] = useState(false);
+    const [wordDelete, setWordDelete] = useState();
     
     const onFinish = (values) => {
         console.log('Success:', values);
@@ -26,6 +27,7 @@ function Words() {
     const deleteWord   = (word) =>{
         const newData = data.filter(dt => dt.word !== word);
         setData(newData);
+        setOpenDelete(false)
     }
     
     const dataSource= [
@@ -154,7 +156,9 @@ function Words() {
                                 <EditOutlined />
                         </Button>
                         <Button onClick={()=>{
-                            deleteWord(data.word);
+                            setWordDelete(data.word);
+                            setOpenDelete(true);
+                            
                         }}>
                             <DeleteOutlined />
                         </Button>
@@ -294,7 +298,40 @@ function Words() {
         );
     }
 
-   
+    const ModelDelete = (word) =>{
+        const aa = `are you sure want to delete word "${word}"`;
+        return(
+        <Modal
+            title={aa}  
+            centered
+            open={openDelete}
+          
+            footer={[
+                <Row>
+                    <Col span={12}>
+                        <Button style={{width: '80%'}} onClick={()=>{
+                            setOpenDelete(false)}}
+                        >
+                            cancel
+                        </Button>
+                    </Col>
+                    <Col span={12}>
+                        <Button style={{width: '80%' ,background: '#1677ff', color: 'white', boder: 'none'}} onClick={()=>{deleteWord(word)}}>delete</Button>
+                    </Col>
+                </Row>
+                ]}
+            onCancel={()=>{
+                setOpenDelete(false)
+            }}
+            width={300}
+        >
+            <div style={{display: 'none'}}>{word}</div>
+                   
+        </Modal>
+        );
+       
+    }
+    
     const [data, setData] = useState(dataSource);
     return (
         <>
@@ -413,6 +450,10 @@ function Words() {
                     {mm &&
                         // <EditWord data={wordData} />
                         EditWord11(editData)
+                    }
+
+                    {
+                        ModelDelete(wordDelete)
                     }
 
                 </div>
