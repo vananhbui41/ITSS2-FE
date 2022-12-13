@@ -199,6 +199,7 @@ function Words() {
                                     const dt1 = editData;
                                     dt1.word = e.target.value;
                                      setEditData(dt1);
+                                     console.log("edit word", editData);
                                }}/>
                             </Form.Item>
                             <Form.Item label="type">
@@ -301,7 +302,7 @@ function Words() {
        
             <section>
           
-                <div className="centered text-4xl h-screen word-des mt-5" style={{display:'grid'}} >
+                <div className=" text-4xl h-screen word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
                     <SearchCard />
                    
 
