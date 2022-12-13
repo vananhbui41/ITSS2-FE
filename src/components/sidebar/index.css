@@ -14,6 +14,10 @@
   }
 }
 
+a{
+  text-decoration: none;
+}
+
 .word-des td {
     padding: 10px;
     font-size: 16px;  

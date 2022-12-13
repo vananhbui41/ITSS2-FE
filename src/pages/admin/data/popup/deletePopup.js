@@ -7,9 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import Paper from '@mui/material/Paper';
 import { DeleteOutlined } from '@ant-design/icons'
-import CategoriesData from '../CategoriesData'
 
-export default function DeletePopup() {
+export default function DeletePopup({record}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -33,7 +32,7 @@ export default function DeletePopup() {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete category "{CategoriesData.dataIndex}"?
+            Are you sure you want to delete category "{record.categories}"?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
