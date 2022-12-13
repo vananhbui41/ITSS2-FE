@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
 import { Form, Radio, Button, Space, Switch, Table, Input } from 'antd';
+import DeletePopup from './popup/deletePopup';
+import AddPopup from './popup/addPopup';
+import FixPopup from './popup/fixPopup';
 import './categoriesData.css';
 
 const onSearch = (value) => console.log(value);
@@ -17,10 +20,10 @@ const columns = [
     render: () => (
       <Space size="middle">
         <a>
-          <EditOutlined />
+          <FixPopup />
         </a>
         <a>
-          <DeleteOutlined />
+          <DeletePopup />
         </a>
       </Space>
     ),
@@ -46,21 +49,6 @@ function CategoriesData() {
   const [xScroll, setXScroll] = useState(undefined);
   const handleBorderChange = (enable) => {
     setBordered(enable);
-  };
-  const [loadings, setLoadings] = useState([]);
-  const enterLoading = (index) => {
-    setLoadings((prevLoadings) => {
-      const newLoadings = [...prevLoadings];
-      newLoadings[index] = true;
-      return newLoadings;
-    });
-    setTimeout(() => {
-      setLoadings((prevLoadings) => {
-        const newLoadings = [...prevLoadings];
-        newLoadings[index] = false;
-        return newLoadings;
-      });
-    }, 1000);
   };
   const scroll = {};
   if (yScroll) {
@@ -92,9 +80,7 @@ function CategoriesData() {
   return (
     <div className='ctg-all'>
       <div className='ctg-sbt'>
-        <Button type="primary" loading={loadings[0]} onClick={() => enterLoading(0)}>
-          Add
-        </Button>
+        <AddPopup />
         <Search
         prefix = {<SearchOutlined />}
         placeholder="Search"
