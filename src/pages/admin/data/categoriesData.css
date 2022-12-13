@@ -1,21 +1,40 @@
 
+.ctg-all{
+    padding-top: 150px;
+}
 
 .ant-spin-container{
     padding-right: 10px;
 }
 
-.ant-pagination{
+/* .ant-pagination{
     text-align: center !important;
-}
+} */
 
 .ant-pagination-options{
     visibility: hidden;
 }
 
+.ant-input-wrapper{
+    /* width: 60vh; */
+    width: 100%;
+    margin-bottom: 40px;
+    padding-right: 10px;
+    padding-left: 400px
+}
+
+.ant-btn{
+    width: 15vh;
+}
+
+.ctg-sbt{
+    display: flex;
+}
+
 /* .ant-table-cell{
     text-align: center;
-}
+} */
 
 .ant-table-column-title{
     text-align: center;
-} */
+}

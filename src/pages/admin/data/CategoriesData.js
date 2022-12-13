@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { EditOutlined, DeleteOutlined} from '@ant-design/icons';
-import { Form, Radio, Space, Switch, Table } from 'antd';
+import { EditOutlined, DeleteOutlined, SearchOutlined } from '@ant-design/icons';
+import { Form, Radio, Button, Space, Switch, Table, Input } from 'antd';
 import './categoriesData.css';
 
+const onSearch = (value) => console.log(value);
+const { Search } = Input;
 const columns = [
   {
     title: 'Categories',
@@ -18,7 +20,7 @@ const columns = [
           <EditOutlined />
         </a>
         <a>
-            <DeleteOutlined />
+          <DeleteOutlined />
         </a>
       </Space>
     ),
@@ -44,6 +46,21 @@ function CategoriesData() {
   const [xScroll, setXScroll] = useState(undefined);
   const handleBorderChange = (enable) => {
     setBordered(enable);
+  };
+  const [loadings, setLoadings] = useState([]);
+  const enterLoading = (index) => {
+    setLoadings((prevLoadings) => {
+      const newLoadings = [...prevLoadings];
+      newLoadings[index] = true;
+      return newLoadings;
+    });
+    setTimeout(() => {
+      setLoadings((prevLoadings) => {
+        const newLoadings = [...prevLoadings];
+        newLoadings[index] = false;
+        return newLoadings;
+      });
+    }, 1000);
   };
   const scroll = {};
   if (yScroll) {
@@ -73,7 +90,19 @@ function CategoriesData() {
     tableLayout,
   };
   return (
-    <>
+    <div className='ctg-all'>
+      <div className='ctg-sbt'>
+        <Button type="primary" loading={loadings[0]} onClick={() => enterLoading(0)}>
+          Add
+        </Button>
+        <Search
+        prefix = {<SearchOutlined />}
+        placeholder="Search"
+        allowClear
+        enterButton="Search"
+        onSearch={onSearch}
+        />
+      </div>
       <Table
         {...tableProps}
         pagination={{
@@ -83,7 +112,7 @@ function CategoriesData() {
         dataSource={hasData ? data : []}
         scroll={scroll}
       />
-    </>
+    </div>
   );
 };
 export default CategoriesData;

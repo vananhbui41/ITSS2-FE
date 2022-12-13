@@ -9,11 +9,6 @@ function Categories() {
             <title> Categories - Words | Lavie </title>
           </Helmet>
           <section>
-            <br/>
-            <br/>
-            <br/>
-            <br />
-            <br />
             <CategoriesData />
           </section>
         </>
