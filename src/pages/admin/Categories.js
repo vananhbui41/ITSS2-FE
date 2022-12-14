@@ -10,7 +10,7 @@ function Categories() {
   return (
         <>
           <Helmet>
-            <title> Categories - Words | Lavie </title>
+            <title> Categories - Admin | Lavie </title>
           </Helmet>
           <section>
             <CategoriesData />

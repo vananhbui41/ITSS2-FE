@@ -8,8 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { EditOutlined } from '@ant-design/icons';
 
-
-export default function FixPopup() {
+export default function FixPopup({record}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -30,7 +29,7 @@ export default function FixPopup() {
             autoFocus
             margin="dense"
             id="name"
-            label= "Category 1"
+            label= {record.categories}
             dataIndex="category"
             fullWidth
             variant="standard"
