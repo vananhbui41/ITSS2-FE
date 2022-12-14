@@ -12,8 +12,9 @@ export default function HomepageComponent() {
     const [result, setResult] = useState([])
     const [data, setData] = useState({})
     const [loading, setLoading] = useState(false)
-    const handleOnSearch = async ({ word,type, context,topic }) => {
-        setData({word,type, context,topic })
+    const [words, setWords] = useState([])
+    const handleOnSearch = async ({ keyword,type, context,topic }) => {
+        setData({keyword,type, context,topic })
     }
     useEffect(() => {
         const fetchData = async () => {
@@ -24,9 +25,18 @@ export default function HomepageComponent() {
         }
         fetchData()
     }, [data])
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            const res = await search({})
+            setWords(res.data.map(e => e.word))
+            setLoading(false)
+        }
+        fetchData()
+    }, [])
     return (
         <>
-            <SearchCard onSearch={handleOnSearch} />
+            <SearchCard onSearch={handleOnSearch} words={words} />
             {loading ? <Spinner /> : result.length > 0 ? <SearchResultCard result={result} /> : <p>Your search did not match any documents.</p>}
         </>
     )
