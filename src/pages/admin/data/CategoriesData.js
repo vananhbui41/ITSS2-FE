@@ -38,38 +38,14 @@ function CategoriesData() {
       categories: `This is Category No. ${i}!`,
     });
   }
-  // const [bordered, setBordered] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const [size, setSize] = useState('large');
-  // const [tableLayout, setTableLayout] = useState(undefined);
-  // const [top, setTop] = useState('none');
-  // const [bottom, setBottom] = useState('bottomRight');
-  // const [ellipsis, setEllipsis] = useState(false);
-  // const [yScroll, setYScroll] = useState(false);
-  // const [xScroll, setXScroll] = useState(undefined);
-  // const handleBorderChange = (enable) => {
-  //   setBordered(enable);
-  // };
-  // const scroll = {};
-  // if (yScroll) {
-  //   scroll.y = 240;
-  // }
-  // if (xScroll) {
-  //   scroll.x = '100vw';
-  // }
   const tableColumns = columns.map((item) => ({
     ...item,
-    // ellipsis,
   }));
-  // if (xScroll === 'fixed') {
-  //   tableColumns[0].fixed = true;
-  //   tableColumns[tableColumns.length - 1].fixed = 'right';
-  // }
 
   return (
     <div className='ctg-all'>
       <div className='ctg-sbt'>
-        <AddPopup />
+        <AddPopup tableColumns={tableColumns}/>
         <Search
         prefix = {<SearchOutlined />}
         placeholder="Search"

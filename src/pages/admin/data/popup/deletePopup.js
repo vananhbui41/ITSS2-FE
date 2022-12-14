@@ -28,7 +28,7 @@ export default function DeletePopup({record}) {
         aria-labelledby="draggable-dialog-title"
       >
         <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-          Delete
+          Delete Category
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
