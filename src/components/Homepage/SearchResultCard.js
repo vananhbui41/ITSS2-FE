@@ -7,49 +7,53 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   color: theme.palette.text.secondary,
+  border: '1px solid #1A2027',
+  height: '100%'
 }));
 
 
 
 
 export default function SearchResultCard({ result }) {
-    const renderResult = () => {
-        return result?.map(item => (
+    const renderResult = () => result?.map(item => (
             <Box key={item.id} className='search-result-card'>
                 <div className='search-text'>
                     <span className='kanji'>
                         {item.word}
                     </span>
                     <span className='hiragana'>
-                        {item.meaning}
+                        {item.furigana}
                     </span>
                 </div>
                 <div className='description'>
-                    {/* <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat autem, incidunt fugiat ipsum tempore repellendus non ducimus, illo nulla asperiores recusandae architecto veritatis ex. Cum, maxime iure exercitationem esse atque ex totam accusamus ratione nam repellendus adipisci et ab enim nesciunt. Minus ratione ad incidunt eum vero. Optio, delectus assumenda.</p> */}
                     <Stack direction="row" spacing={1}>
-                        {item.tag?.map(tag => (
+                        {item.tags?.map(tag => (
                             <Chip key={tag.id} label={tag.name} color="primary" variant="outlined" />
                         ))}
                     </Stack>
                 </div>
                 <div className='example'>
-                    <h3>Example</h3>
-                    <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-                        {item.examples?.map((exp) => (
-                            <Grid xs={2} sm={4} md={4} key={exp.id}>
+                    <Grid container spacing={2} >
+                        {item.meanings?.map((exp) => (
+                            <Grid item xs={2} sm={4} md={4} key={exp.id}>
                                 <Item>
-                                    <CardMedia
+                                    {/* <CardMedia
                                         component="img"
                                         height="240"
                                         image="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
                                         alt="Nicola Sturgeon on a TED talk stage"
-                                    />
-                                    <p>{exp.meaning}</p>
-                                    {/* <Stack direction="row" spacing={1}>
-                                        <Chip label="Tag 1" color="primary" variant="outlined" />
-                                        <Chip label="Tag 2" color="success" variant="outlined" />
-                                        <Chip label="Tag 3" color="primary" variant="outlined" />
-                                    </Stack> */}
+                                    /> */}
+                                    <b>Meaning</b>
+                                    <div className='ml-5'>
+                                        <p>{exp.meaning}</p>
+                                        <span>{exp.explanation_of_meaning}</span>
+                                    </div>
+                                    <b>Example</b>
+                                    <div className='ml-5'>
+                                        <p>{exp.example}</p>
+                                        <span>{exp.example_meaning}</span>
+                                    </div>
+                                    
                                 </Item>
                             </Grid>
                         ))}
@@ -82,7 +86,6 @@ export default function SearchResultCard({ result }) {
                 </div>
             </Box>
         ))
-    }
     return (
         <>
            {renderResult()}
