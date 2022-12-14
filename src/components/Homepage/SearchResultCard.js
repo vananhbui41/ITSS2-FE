@@ -63,25 +63,15 @@ export default function SearchResultCard({ result }) {
                     <h3>Related words</h3>
                     <div>
                         <p className='title'>類義語</p>
-                        {/* {Array.from(Array(3)).map((_, index) => (
-                            <span key={index}>
-                                Word {index}
-                            </span>
-                        ))} */}
-                        <span>
-                            {item.dongnghia}
-                        </span>
+                        {item.synonym.map((e) => (
+                            <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
+                        ))}
                     </div>
                     <div>
-                        <p className='title'>対義語</p>
-                        {/* {Array.from(Array(3)).map((_, index) => (
-                            <span key={index}>
-                                Word {index}
-                            </span>
-                        ))} */}
-                        <span>
-                            {item.trainghia}
-                        </span>
+                    <p className='title'>対義語</p>
+                        {item.antonym.map((e) => (
+                            <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
+                        ))}
                     </div>
                 </div>
             </Box>
