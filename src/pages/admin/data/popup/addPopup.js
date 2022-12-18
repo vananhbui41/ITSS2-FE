@@ -4,11 +4,11 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useState } from 'react';
 
-export default function AddPopup({tableColumns}) {
+
+export default function AddPopup({ addCategory }) {
   const [open, setOpen] = React.useState(false);
   const handleClickOpen = () => {
     setOpen(true);
@@ -16,17 +16,23 @@ export default function AddPopup({tableColumns}) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  // const {setColumns} = useContext(CategoriesData);
-  const [column, setColumn] = useState('');
-  // const onInputChange = (e) => {
-  //   setNewEmployee({...newEmployee,[e.target.name]: e.target.value})
-  // }
-  // const {name, email, phone, address} = newEmployee;
-  const handleSubmit = () => {
-    tableColumns(prev => [...prev, column])
-    setColumn('')
+  const closeAndAdd = () => {
+    console.log(setNewdata);
+    onInputChange();
+    handleClose();
   }
+  const [newdata, setNewdata] = useState({
+    name: "",
+  });
+  const onInputChange = (e) => {
+    setNewdata({...newdata, [e.target.name]: e.target.value});
+    setNewdata('');
+  };
+  const {name} = newdata;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    addCategory(name);
+}
   
   return (
     <div>
@@ -36,13 +42,13 @@ export default function AddPopup({tableColumns}) {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Add Category</DialogTitle>
         <DialogContent>
-          <TextField
-            // autoFocus
+          <TextField onSubmit={handleSubmit}
+            autoFocus
             // margin="dense"
             // id="name"
             // dataIndex="category"
-            value={column}
-            onChange={e => setColumn(e.target.value)}
+            value={name}
+            onChange={ (e) => onInputChange(e)}
             label="Add New Category"
             fullWidth
             variant="standard"
@@ -50,7 +56,7 @@ export default function AddPopup({tableColumns}) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="primary" onClick={handleClose} onSubmit={handleSubmit}>Add</Button>
+          <Button type="primary" onClick={closeAndAdd}>Add</Button>
         </DialogActions>
       </Dialog>
     </div>
