@@ -26,3 +26,10 @@ a{
   font-size: 20px;
 }
 
+.box-container{
+  background: #F9FAFB;
+}
+.css-1ifcsjq-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
+  background: #F9FAFB;
+  padding: 0 6px;
+}

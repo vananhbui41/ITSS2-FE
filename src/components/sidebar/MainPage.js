@@ -23,7 +23,7 @@ const MainPage = () => {
           </div>
 
 
-          <div className='col-span-9 bg-indigo-100 h-screen pl-2 md:col-span-10'>
+          <div className='box-container col-span-9 bg-indigo-100 h-screen pl-2 md:col-span-10'>
               <NavPage/>
               <Outlet />
           </div>
