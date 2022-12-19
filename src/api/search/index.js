@@ -62,3 +62,38 @@ export async function getTags() {
         }
     }
 }
+
+export async function getWords({ keyword,type, context,topic  }) {
+    try {
+        const tags = [];
+        if (type)
+            tags.push(...type)
+        if (context) 
+            tags.push(...context)
+        if (topic)
+            tags.push(...topic)
+        if (keyword) {
+            const res = await axiosInstance.get('words', {
+                params: {
+                    keyword,tags
+                }
+            })
+            return {
+                success: true,
+                data: res.data
+            }
+        } 
+        const res = await axiosInstance.get('words', {params: {tags}})
+        return {
+            success: true,
+            data: res.data
+        }
+        
+        
+    } catch (error) {
+        return {
+            success: false,
+            message: error.response.data.message
+        }
+    }
+}
