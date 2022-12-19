@@ -5,6 +5,7 @@ import SearchCard from '../../components/Homepage/SearchCard';
 import { getWords, search } from '../../api/search';
 import { } from '../../components/sidebar/index.css';
 import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/fetchData";
+import Spinner from '../../components/Spinner';
 
 
 function Words() {
@@ -18,6 +19,8 @@ function Words() {
     const [words, setWords] = useState([])
     const [result, setResult] = useState([])
     const [dlWord, setDlWord] = useState();
+
+    const [listTags, setListTags] = useState({})
 
     const handleOnSearch = async ({ keyword, type, context, topic }) => {
         setData({ keyword, type, context, topic })
@@ -322,7 +325,7 @@ function Words() {
     const { TextArea } = Input;
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo)
-    }; 
+    };
     const ModelAdd = () => {
         return (
             <Modal
@@ -482,12 +485,19 @@ function Words() {
                             </Button>
                             {ModelAdd()}
                         </div>
-                        <Table
-                            dataSource={result}
-                            pagination={{ defaultPageSize: 5 }}
-                            columns={columns}
-                        />
+                        {loading ? (
+                            <Spinner />
+                        ) : result?.length > 0 ? (
+                            <Table
+                                dataSource={result}
+                                pagination={{ defaultPageSize: 5 }}
+                                columns={columns}
+                            />
 
+                        ) : (
+                            <p>Your search did not match any documents.</p>
+                        )
+                        }
                         {ModelDelete(dlWord)}
                     </div>
 
