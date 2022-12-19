@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import SearchCard from '../../components/Homepage/SearchCard'; 
 import {} from '../../components/sidebar/index.css' ;
 import {getDataWord} from "./apiAdmin/wordFetch"
+import {search} from '../../api/search'
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -326,7 +327,21 @@ function Words() {
 
    
     const [data, setData] = useState(dataSource);
+    const [dataWord, setDataWord] = useState({});
+    const handleOnSearch = async ({ keyword,type, context,topic }) => {
+        setDataWord({keyword,type, context,topic })
+    }
+    useEffect(() => {
+        const fetchData = async () => {
+           
+            const res = await search({})
+            setWords(res.data.map(e => e.word))
+            
+        }
+        fetchData()
+    }, []);
 
+    
     const ModelAdd = () =>{
         return(
 <Modal
@@ -452,6 +467,8 @@ function Words() {
         fetchData()
        
     }, [])
+
+    const [words, setWords] = useState([]);
     return (
         <>
         <div>
@@ -459,7 +476,8 @@ function Words() {
             <section>
           
                 <div className=" text-4xl  word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
-                    <SearchCard />
+                   
+                <SearchCard onSearch={handleOnSearch} words={words} />
                    
 
                     <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
