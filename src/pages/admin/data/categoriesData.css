@@ -34,3 +34,7 @@
 .ant-table-column-title{
     text-align: center;
 }
+
+.bg-indigo-100 {
+    background-color: rgb(224 231 255 / var(--tw-bg-opacity)) !important;
+}

@@ -10,13 +10,18 @@ import DeletePopup from './popup/deletePopup';
 import AddPopup from './popup/addPopup';
 import FixPopup from './popup/fixPopup';
 
-// Search
-const onSearch = (value) => console.log(value);
-const { Search } = Input;
 
 function CategoriesData(props) {
   const [isEditing, setIsEditing] = useState(false);
-  const [editingCategory, setEditingCategory] = useState(null)
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [searchedText, setSearchText ] = useState("");
+
+  // Search
+  const onSearch = (value) => {
+    setSearchText(value);
+  };
+  const { Search } = Input;
+
   // Data
   const [dataSource, setDataSource] = useState([]);
   useEffect(() => {
@@ -31,12 +36,16 @@ function CategoriesData(props) {
       }
     }
     getTodos()
-  })
+  }, [])
 
   const columns = [
     {
       title: 'Categories',
       dataIndex: 'name',
+      filteredValue: [searchedText],
+      onFilter: (value, record)=>{
+        return String(record.name).toLowerCase().includes(value.toLowerCase());
+      },
     },
     {
       title: 'Action',
@@ -109,6 +118,7 @@ function CategoriesData(props) {
       <Table
         columns={columns}
         dataSource={dataSource}
+        style={{color:'red'}}
       />
       <Modal
       visible={isEditing}
