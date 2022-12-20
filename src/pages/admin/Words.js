@@ -1,59 +1,4 @@
-<<<<<<< HEAD
-import React , { useEffect, useState } from 'react';
-import { Button, Modal,  Form, Input, Select , Upload, Table, Row, Col} from 'antd';
-import Checkbox from 'antd/es/checkbox/Checkbox';
-import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
-import { Helmet } from 'react-helmet-async';
-import SearchCard from '../../components/Homepage/SearchCard'; 
-import {} from '../../components/sidebar/index.css' ;
-import {getDataWord} from "./apiAdmin/wordFetch"
-import {search} from '../../api/search'
 
-function Words() {
-    const [open, setOpen] = useState(false);
-    const [mm, setMM] = useState(false);
-    const [wordData, setWordData] = useState();
-    const [openDelete, setOpenDelete] = useState(false);
-    const [showExample, setShowExample] = useState(false);
-    const [wordDelete, setWordDelete] = useState();
-    
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
-      const { TextArea } = Input;
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
-      };
-    const getDetailWord = (word) =>{
-        console.log("view word: ", word);
-    }
-    const deleteWord   = (word) =>{
-        const newData = data.filter(dt => dt.word !== word);
-        setData(newData);
-        setOpenDelete(false)
-    }
-    
-    const dataSource= [
-        {
-            key: '1',
-            word: 'Word1',
-            content: 'Content1',
-            type: 'Type1',
-            topic: 'Topic1',
-            means: 'Means1'
-
-        },
-        {
-            key: '2',
-            word: 'Word2',
-            content: 'Content1',
-            type: 'Type1',
-            topic: 'Topic1',
-
-        }
-    ];
-    const [dataEditWord, setDataEditWord] = useState(dataSource[0]);
-=======
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
@@ -85,7 +30,6 @@ const Item = styled(Paper)(({ theme }) => ({
 function Words() {
     const [open, setOpen] = useState(false);
     const [showExample, setShowExample] = useState(false);
->>>>>>> feature/admin/words
     const [openEdit, setOpenEdit] = useState(false);
 
     // ìnfor search 
@@ -251,16 +195,9 @@ function Words() {
                         }}>
                             <EditOutlined />
                         </Button>
-<<<<<<< HEAD
-                        <Button onClick={()=>{
-                            setWordDelete(data.word);
-                            setOpenDelete(true);
-                            
-=======
                         <Button onClick={() => {
                             setOpenDelete(true);
                             setDlWord(data.id);
->>>>>>> feature/admin/words
                         }}>
                             <DeleteOutlined />
                         </Button>
@@ -541,54 +478,11 @@ function Words() {
         );
     }
 
-<<<<<<< HEAD
-    const ModelDelete = (word) =>{
-        const aa = `are you sure want to delete word "${word}"`;
-        return(
-        <Modal
-            title={aa}  
-            centered
-            open={openDelete}
-          
-            footer={[
-                <Row>
-                    <Col span={12}>
-                        <Button style={{width: '80%'}} onClick={()=>{
-                            setOpenDelete(false)}}
-                        >
-                            cancel
-                        </Button>
-                    </Col>
-                    <Col span={12}>
-                        <Button style={{width: '80%' ,background: '#1677ff', color: 'white', boder: 'none'}} onClick={()=>{deleteWord(word)}}>delete</Button>
-                    </Col>
-                </Row>
-                ]}
-            onCancel={()=>{
-                setOpenDelete(false)
-            }}
-            width={300}
-        >
-            <div style={{display: 'none'}}>{word}</div>
-                   
-        </Modal>
-        );
-       
-    }
-    
-    const [data, setData] = useState(dataSource);
-    const [dataWord, setDataWord] = useState({});
-    const handleOnSearch = async ({ keyword,type, context,topic }) => {
-        setDataWord({keyword,type, context,topic })
-    }
-    useEffect(() => {
-=======
 
     // model delete words
 
     const [openDelete, setOpenDelete] = useState(false);
     const deleteWord = (wordId) => {
->>>>>>> feature/admin/words
         const fetchData = async () => {
             const res = await deleteData(`words/${wordId}`);
             setOpenDelete(false);
@@ -665,17 +559,6 @@ function Words() {
 
                 </section>
 
-<<<<<<< HEAD
-                    {
-                        ModelDelete(wordDelete)
-                    }
-
-                </div>
-                
-            </section>
-            
-=======
->>>>>>> feature/admin/words
             </div>
         </>
     );
