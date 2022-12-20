@@ -11,21 +11,6 @@ import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/
 import SearchResultCard from '../../components/Homepage/SearchResultCard';
 import Spinner from '../../components/Spinner';
 
-// import SearchResultCard from '../../components/Homepage/SearchResultCard';
-
-
-
-
-const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    color: theme.palette.text.secondary,
-    border: '1px solid #1A2027',
-    height: '100%'
-  }));
-  
-
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -212,7 +197,7 @@ function Words() {
 
     const [openDetail, setOpenDetail] = useState(false);
     const [detailWord, setDetailWord] = useState();
-    const getDetailWord = (wordId) => {
+    const GetDetailWord = (wordId) => {
         const item = result.filter(item => item.id === wordId);
         return (
             <Modal
@@ -223,7 +208,7 @@ function Words() {
                 onCancel={() => setOpenDetail(false)}
                 width={1000}
             >
-                <SearchResultCard result={item}/>
+                <SearchResultCard result={item} />
             </Modal>
         )
     }
@@ -541,19 +526,22 @@ function Words() {
                         {loading ? (
                             <Spinner />
                         ) : result?.length > 0 ? (
-                            <Table
-                                dataSource={result}
-                                pagination={{ defaultPageSize: 5 }}
-                                columns={columns}
-                            />
+                            <>
+                                <Table
+                                    dataSource={result}
+                                    pagination={{ defaultPageSize: 5 }}
+                                    columns={columns}
+                                />
+                                <ModelDelete wordId={dlWord} />
+                                <EditWords data={editData} />
+                                <GetDetailWord wordId={detailWord} />
+                            </>
 
                         ) : (
                             <p>Your search did not match any documents.</p>
                         )
                         }
-                        {ModelDelete(dlWord)}
-                        {EditWords(editData)}
-                        {getDetailWord(detailWord)}
+
 
                     </div>
 
