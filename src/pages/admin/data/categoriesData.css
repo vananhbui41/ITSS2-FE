@@ -35,3 +35,6 @@
     text-align: center;
 }
 
+.ant-table-cell-action{
+    text-align: center !important;
+}

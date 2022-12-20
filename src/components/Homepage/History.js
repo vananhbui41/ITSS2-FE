@@ -21,15 +21,15 @@ const History = () => {
   },[]);
   return (
     <>
-      <h2 className="text-center">History</h2>
+      <h2 className="text-center">Lịch Sử</h2>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Words</TableCell>
-              <TableCell>Context</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Topic</TableCell>
+              <TableCell>Từ Vựng</TableCell>
+              <TableCell>Bối Cảnh</TableCell>
+              <TableCell>Loại Từ</TableCell>
+              <TableCell>Chủ Đề</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

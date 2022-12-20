@@ -23,7 +23,7 @@ export default function FixPopup({dataIndex}) {
     <div>
       <EditOutlined type="primary" variant="outlined" onClick={handleClickOpen} />
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Fix Category</DialogTitle>
+        <DialogTitle>Chỉnh sửa loại tag</DialogTitle>
         <DialogContent>
           <TextField
             // autoFocus
