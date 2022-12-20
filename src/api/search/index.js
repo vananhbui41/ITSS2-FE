@@ -21,7 +21,7 @@ export async function search({ keyword, type, context, topic }) {
           keyword,
           tags,
         },
-        config,
+        ...config,
       });
       return {
         success: true,
@@ -30,7 +30,7 @@ export async function search({ keyword, type, context, topic }) {
     }
     const res = await axiosInstance.get('search', {
       params: { tags },
-      config,
+      ...config,
     });
     return {
       success: true,
