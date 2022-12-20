@@ -55,7 +55,8 @@ function CategoriesData(props) {
         return(
           <Space style={{width:'100%', justifyContent:'center'}} align="center" size="middle">
             <a>
-              <EditOutlined 
+              <EditOutlined
+              style={{color: 'green', marginLeft: '15px'}}
               onClick={()=>{
                 editCategory(record);
               }}
@@ -63,6 +64,7 @@ function CategoriesData(props) {
             </a>
             <a>
               <DeleteOutlined
+              style={{color: 'red', marginLeft: '15px'}}
               onClick={()=>{
                 deleteCategory(record)
               }}

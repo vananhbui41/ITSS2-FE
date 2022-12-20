@@ -58,8 +58,7 @@ function Words() {
             title: 'Word',
             dataIndex: 'word',
             with: '20%',
-            render: (record, data) =>{
-                return(
+            render: (record, data) =>(
                     <div 
                         style={{
                             border: "1px solid #d9d9d9",
@@ -71,8 +70,7 @@ function Words() {
                     >
                         {data.word}
                     </div>
-                );
-            }
+                )
         },
         {
             title: 'Content',
@@ -92,11 +90,9 @@ function Words() {
                     >
                         {data.categories?.context ?
                         <div>
-                            {context1.map((context) =>{
-                                return(
+                            {context1.map((context) =>(
                                 <span key ={context.id}>{context.name} , </span>
-                                );
-                            } )}
+                                ) )}
                         </div>
                         :""    
                         }
@@ -108,8 +104,7 @@ function Words() {
             title: 'Type',
             dataIndex: 'type',
             with: '20%',
-            render: (record, data) =>{
-                return(
+            render: (record, data) =>(
                     <div 
                         style={{
                             border: "1px solid #d9d9d9",
@@ -121,24 +116,19 @@ function Words() {
                     >
                          {data.categories?.type ?
                         <div>
-                            {data.categories?.type.map(context =>{
-                                return(<span>{context.name} , </span>);
-                                
-                            } )}
+                            {data.categories?.type.map(context =>(<span>{context.name} , </span>) )}
                         </div>
                         :""    
                         }
                     </div>
                     
-                );
-            }
+                )
         },
         {
             title: 'Topic',
             dataIndex: 'topic',
             with: '20%',
-            render: (record, data) =>{
-                return(
+            render: (record, data) =>(
                     <div 
                         style={{
                             border: "1px solid #d9d9d9",
@@ -150,49 +140,51 @@ function Words() {
                     >
                         {data.categories?.topic ?
                     <div>
-                        {data.categories?.topic.map(context =>{
-                            return(
+                        {data.categories?.topic.map(context =>(
                                <span> {context.name}</span>
-                            );
-   
-                        } )}
+                            ) )}
                     </div>
                     :""    
                     }
                     </div>
-                );
-            }
+                )
         },
         {
             title: 'Action',
             dataIndex: 'action',
             with: '20%',
-            render: (record, data) => {
-                return(
+            render: (record, data) => (
                     <div 
                        
                     > 
-                        <Button onClick={() =>{
+                        <a>
+                            <EyeOutlined
+                                onClick={() =>{
                             getDetailWord(data.word);
-                        }} ><EyeOutlined /></Button>
-                        <Button onClick={()=>{
-                           
-                            // setOpenEdit(true);
-                            setWordData(data);
-                            setEditData(data);
-                            setOpenEdit(true);
-                            setMM(true);}}>
-                                <EditOutlined />
-                        </Button>
-                        <Button onClick={()=>{
-                            deleteWord(data.word);
-                        }}>
-                            <DeleteOutlined />
-                        </Button>
-
+                        }}
+                            />
+                        </a>
+                        <a>
+                                <EditOutlined
+                                style={{color: 'green', marginLeft: '15px'}}
+                                    onClick={()=>{
+                                    // setOpenEdit(true);
+                                    setWordData(data);
+                                    setEditData(data);
+                                    setOpenEdit(true);
+                                    setMM(true);}}
+                                />
+                        </a>
+                        <a>
+                            <DeleteOutlined
+                                style={{color: 'red', marginLeft: '15px'}}
+                                onClick={()=>{
+                                deleteWord(data.word);
+                                }}
+                            />
+                        </a>
                     </div>
-                );
-            }
+                )
         },
 
     ]
@@ -266,7 +258,7 @@ function Words() {
                                     setEditData(dt1);
                             }}/>
                             </Form.Item>
-                            <h2>example: </h2>
+                            <h2>Example </h2>
                             
                             <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>add example</Button>
                             {showExample && 
@@ -316,8 +308,8 @@ function Words() {
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            add
+                            <Button type="primary" htmlType="submit" style={{background: '#4096ff', marginBottom: '15px'}}>
+                            Add
                             </Button>
                         </Form.Item>
                         </Form>
@@ -342,9 +334,9 @@ function Words() {
     }, []);
 
     
-    const ModelAdd = () =>{
-        return(
-<Modal
+    const ModelAdd = () =>(
+<Modal                    
+                        className='add_word_modal'
                         title="add word"
                         centered
                         open={open}
@@ -382,9 +374,9 @@ function Words() {
                             >
                             <TextArea rows={4} />
                             </Form.Item>
-                            <h2>example: </h2>
+                            <h2 className='ex_title'>Example </h2>
                             
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>add example</Button>
+                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Add example</Button>
                             {showExample && 
                             (
                                 <>
@@ -415,7 +407,7 @@ function Words() {
                             )
                         }
                             
-                        <h2 className='mt-4'>Related word</h2>
+                        <h2 className='mt-4 relate_title'>Related word</h2>
                         <Form.Item
                             label="synonyms"
                             name="synonyms"
@@ -433,13 +425,12 @@ function Words() {
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            add
+                                Add
                             </Button>
                         </Form.Item>
                         </Form>
                     </Modal>
-        );
-    }
+        )
     /// call api
 
     useEffect(() => {
@@ -480,8 +471,8 @@ function Words() {
                 <SearchCard onSearch={handleOnSearch} words={words} />
                    
 
-                    <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
-                        add
+                    <Button type="primary" style={{background: '#4096ff', width: '100px', marginBottom: '20px'}} onClick={() => setOpen(true)}>
+                        Add
                     </Button>
                    
 
