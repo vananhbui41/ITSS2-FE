@@ -199,10 +199,10 @@ function Words() {
     const [detailWord, setDetailWord] = useState();
     const GetDetailWord = (wordId) => {
         const item = result.filter(items => items.id === wordId.wordId);
-        console.log("wordId: ", wordId);
+        // console.log("wordId: ", wordId);
 
-        console.log("result: ", result);
-        console.log("iten: ", item);
+        // console.log("result: ", result);
+        // console.log("iten: ", item);
         return (
             <Modal
                 title="Details words"
