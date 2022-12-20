@@ -25,12 +25,14 @@ export default function SearchResultCard({ result }) {
                         {item.furigana}
                     </span>
                 </div>
-                <div className='description'>
-                    <Stack direction="row" spacing={1}>
-                        {item.tags?.map(tag => (
-                            <Chip key={tag.id} label={tag.name} color="primary" variant="outlined" />
+            <div className='description'>
+                <Grid container spacing={2}>
+                    {item.tags?.map(tag => (
+                        <Grid key={tag.id} item xs={2}>
+                            <Chip label={tag.name} color="primary" variant="outlined" />
+                        </Grid>
                         ))}
-                    </Stack>
+                    </Grid>
                 </div>
                 <div className='example'>
                     <Grid container spacing={2} >
@@ -64,6 +66,7 @@ export default function SearchResultCard({ result }) {
                     <div>
                         <p className='title'>Từ đồng nghĩa</p>
                         {item.synonym.map((e) => (
+
                             <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
                         ))}
                     </div>

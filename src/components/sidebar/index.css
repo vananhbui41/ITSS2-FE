@@ -27,9 +27,9 @@ a{
 }
 
 .box-container{
-  background: #F9FAFB;
+  background: #F9FAFB !important;
 }
-.css-1ifcsjq-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
-  background: #F9FAFB;
-  padding: 0 6px;
+#demo-simple-select-label,.css-1ifcsjq-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
+  background: #F9FAFB !important;
+  padding: 0 6px !important;
 }
