@@ -65,13 +65,13 @@ export default function SearchResultCard({ result }) {
                     <h3>Related words</h3>
                     <div>
                         <p className='title'>類義語</p>
-                        {item.synonym.map((e) => (
+                        {item.synonym?.map((e) => (
                             <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
                         ))}
                     </div>
                     <div>
                     <p className='title'>対義語</p>
-                        {item.antonym.map((e) => (
+                        {item.antonym?.map((e) => (
                             <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
                         ))}
                     </div>
