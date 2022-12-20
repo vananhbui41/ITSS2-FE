@@ -198,7 +198,11 @@ function Words() {
     const [openDetail, setOpenDetail] = useState(false);
     const [detailWord, setDetailWord] = useState();
     const GetDetailWord = (wordId) => {
-        const item = result.filter(item => item.id === wordId);
+        const item = result.filter(items => items.id === wordId.wordId);
+        console.log("wordId: ", wordId);
+
+        console.log("result: ", result);
+        console.log("iten: ", item);
         return (
             <Modal
                 title="Details words"
