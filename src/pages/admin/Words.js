@@ -1,65 +1,59 @@
-import React , { useEffect, useState } from 'react';
-import { Button, Modal,  Form, Input, Select , Upload, Table} from 'antd';
-import Checkbox from 'antd/es/checkbox/Checkbox';
-import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
-import { Helmet } from 'react-helmet-async';
-import SearchCard from '../../components/Homepage/SearchCard'; 
-import {} from '../../components/sidebar/index.css' ;
-import {getDataWord} from "./apiAdmin/wordFetch"
-import {search} from '../../api/search'
+
+import React, { useEffect, useState } from 'react';
+import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
+import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import Paper from '@mui/material/Paper';
+import { styled } from '@mui/material/styles';
+import SearchCard from '../../components/Homepage/SearchCard';
+import { getWords, search, getTags } from '../../api/search';
+import { } from '../../components/sidebar/index.css';
+import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/fetchData";
+import SearchResultCard from '../../components/Homepage/SearchResultCard';
+import Spinner from '../../components/Spinner';
+
 
 function Words() {
     const [open, setOpen] = useState(false);
-    const [mm, setMM] = useState(false);
-    const [wordData, setWordData] = useState();
-    
     const [showExample, setShowExample] = useState(false);
-    
-    const onFinish = (values) => {
-        console.log('Success:', values);
-      };
-      const { TextArea } = Input;
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
-      };
-    const getDetailWord = (word) =>{
-        console.log("view word: ", word);
-    }
-    const deleteWord   = (word) =>{
-        const newData = data.filter(dt => dt.word !== word);
-        setData(newData);
-    }
-    
-    const dataSource= [
-        {
-            key: '1',
-            word: 'Word1',
-            content: 'Content1',
-            type: 'Type1',
-            topic: 'Topic1',
-            means: 'Means1'
-
-        },
-        {
-            key: '2',
-            word: 'Word2',
-            content: 'Content1',
-            type: 'Type1',
-            topic: 'Topic1',
-
-        }
-    ];
-    const [dataEditWord, setDataEditWord] = useState(dataSource[0]);
     const [openEdit, setOpenEdit] = useState(false);
-   
-    
+
+    // ìnfor search 
+    const [data, setData] = useState({})
+    const [loading, setLoading] = useState(false)
+    const [words, setWords] = useState([])
+    const [result, setResult] = useState([])
+    const [dlWord, setDlWord] = useState();
+
+    const handleOnSearch = async ({ keyword, type, context, topic }) => {
+        setData({ keyword, type, context, topic })
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            const res = await getWords(data)
+            setResult(res.data)
+            setLoading(false)
+        }
+        fetchData()
+    }, [data])
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true)
+            const res = await getWords({})
+            setWords(res.data.map(e => e.word))
+            setLoading(false)
+        }
+        fetchData()
+    }, [])
     const columns = [
         {
             title: 'Word',
             dataIndex: 'word',
             with: '20%',
-            render: (record, data) =>(
-                    <div 
+            render: (record, data) => {
+                return (
+                    <div
                         style={{
                             border: "1px solid #d9d9d9",
                             borderRadius: 5,
@@ -76,10 +70,10 @@ function Words() {
             title: 'Content',
             dataIndex: 'content',
             with: '20%',
-            render: (record, data) =>{
+            render: (record, data) => {
                 const context1 = data.categories?.context;
-                return(
-                    <div 
+                return (
+                    <div
                         style={{
                             border: "1px solid #d9d9d9",
                             borderRadius: 5,
@@ -89,12 +83,14 @@ function Words() {
                         }}
                     >
                         {data.categories?.context ?
-                        <div>
-                            {context1.map((context) =>(
-                                <span key ={context.id}>{context.name} , </span>
-                                ) )}
-                        </div>
-                        :""    
+                            <div>
+                                {context1.map((context) => {
+                                    return (
+                                        <span key={context.id}>{context.name} , </span>
+                                    );
+                                })}
+                            </div>
+                            : ""
                         }
                     </div>
                 );
@@ -104,8 +100,9 @@ function Words() {
             title: 'Type',
             dataIndex: 'type',
             with: '20%',
-            render: (record, data) =>(
-                    <div 
+            render: (record, data) => {
+                return (
+                    <div
                         style={{
                             border: "1px solid #d9d9d9",
                             borderRadius: 5,
@@ -114,22 +111,27 @@ function Words() {
                             position: "relative",
                         }}
                     >
-                         {data.categories?.type ?
-                        <div>
-                            {data.categories?.type.map(context =>(<span>{context.name} , </span>) )}
-                        </div>
-                        :""    
+                        {data.categories?.type ?
+                            <div>
+                                {data.categories?.type.map(context => {
+                                    return (<span>{context.name} , </span>);
+
+                                })}
+                            </div>
+                            : ""
                         }
                     </div>
-                    
-                )
+
+                );
+            }
         },
         {
             title: 'Topic',
             dataIndex: 'topic',
             with: '20%',
-            render: (record, data) =>(
-                    <div 
+            render: (record, data) => {
+                return (
+                    <div
                         style={{
                             border: "1px solid #d9d9d9",
                             borderRadius: 5,
@@ -139,13 +141,16 @@ function Words() {
                         }}
                     >
                         {data.categories?.topic ?
-                    <div>
-                        {data.categories?.topic.map(context =>(
-                               <span> {context.name}</span>
-                            ) )}
-                    </div>
-                    :""    
-                    }
+                            <div>
+                                {data.categories?.topic.map(context => {
+                                    return (
+                                        <span> {context.name}</span>
+                                    );
+
+                                })}
+                            </div>
+                            : ""
+                        }
                     </div>
                 )
         },
@@ -188,15 +193,36 @@ function Words() {
         },
 
     ]
+    // display word details model
+
+    const [openDetail, setOpenDetail] = useState(false);
+    const [detailWord, setDetailWord] = useState();
+    const GetDetailWord = (wordId) => {
+        const item = result.filter(item => item.id === wordId);
+        return (
+            <Modal
+                title="Details words"
+                centered
+                open={openDetail}
+                onOk={() => setOpenDetail(false)}
+                onCancel={() => setOpenDetail(false)}
+                width={1000}
+            >
+                <SearchResultCard result={item} />
+            </Modal>
+        )
+    }
+
+
+    // edit data
     const [editData, setEditData] = useState();
-    const EditWord11 = (data) =>{
-       
-       const handleType = (value) =>{
+    const EditWords = (data) => {
+
+        const handleType = (value) => {
             const dt1 = editData;
             dt1.type = value;
             setEditData(dt1);
-       }
-        console.log("hh: ", editData.word);
+        }
         return (
             <Modal
                 title="edit word"
@@ -205,295 +231,321 @@ function Words() {
                 onOk={() => setOpenEdit(false)}
                 onCancel={() => setOpenEdit(false)}
                 width={1000}
+                okText="Save"
             >
                 {/* <div>hello</div> */}
-                        <Form
-                            name="edit-word"
-                            labelCol={{ span: 8 }}
-                            wrapperCol={{ span: 16 }}
-                            initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                           
-                           <Form.Item label="word edit">
-                                <Input value={editData.word} onChange={(e)=>{
-                                    const dt1 = editData;
-                                    dt1.word = e.target.value;
-                                     setEditData(dt1);
-                                     console.log("edit word", editData);
-                               }}/>
-                            </Form.Item>
-                            <Form.Item label="type">
-                                <Select 
-                                defaultValue={editData.type} 
-                                onChange={handleType}
-                                options={[
-                                    {
-                                        value: 'type1',
-                                        lable: 'lable1',
-                                    },
-                                    {
-                                        value: 'type2',
-                                        lable: 'lable2',
-                                    },
-                                    {
-                                        value: 'type3',
-                                        lable: 'lable3',
-                                    },
-                                ]}
-                                  
-                                />
-                               
-                            </Form.Item>
-                            <Form.Item
-                                label="meaning"
-                               
-                                rules={[{ required: true, message: 'Please input your meaning!' }]}
-                            >
-                            <TextArea rows={4} value={editData.means} onChange={(e)=>{
-                                    const dt1 = editData;
-                                    dt1.content = e.target.value;
-                                    setEditData(dt1);
-                            }}/>
-                            </Form.Item>
-                            <h2>Example </h2>
-                            
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>add example</Button>
-                            {showExample && 
-                            (
-                                <>
-                                 <Form.Item label="context" name = "select-context">
-                                <Select>
-                                    <Select.Option value="context1">context1</Select.Option>
-                                    <Select.Option value="context2">context2</Select.Option>
-                                    <Select.Option value="context3">context3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                                <Form.Item
-                                    label="topic"
-                                    name="topic"
-                                    rules={[{ required: true, message: 'Please input your topic!' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                <Form
+                    name="edit-word"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
 
-                                <Form.Item label="picture"  valuePropName="fileList">
-                                    <Upload action="/upload.do" listType="picture-card">
-                                        <div>
-                                        <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Upload</div>
-                                        </div>
-                                    </Upload>
-                                </Form.Item>
-                            </>
-                            )
-                        }
-                            
-                        <h2 className='mt-4'>Related word</h2>
-                        <Form.Item
-                            label="synonyms"
-                            name="synonyms"
-                            rules={[{ required: true, message: 'Please input your synonyms!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Antonym"
-                            name="Antonymic"
-                            rules={[{ required: true, message: 'Please input your Antonym!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button type="primary" htmlType="submit" style={{background: '#4096ff', marginBottom: '15px'}}>
-                            Add
-                            </Button>
-                        </Form.Item>
-                        </Form>
+                    <Form.Item
+                        label="word"
+                        name="word"
+                        rules={[{ required: true, message: 'Please input your word!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="furigana"
+                        name="furigana"
+                        rules={[{ required: true, message: 'Please input your furigana!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="type" name="select-type">
+                        <Select>
+                            {categories
+                                .filter((item) => item.category_id === 2)
+                                .map((item) => (
+                                    <Select.Option key={item.id} value={item.name}>{item.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <ListMeanings />
+                    <h2 className='mt-4'>Related word</h2>
+                    <Form.Item
+                        label="synonyms"
+                        name="synonyms"
+                        rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Antonym"
+                        name="Antonymic"
+                        rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Form>
             </Modal>
         );
     }
+    // model add 
 
-   
-    const [data, setData] = useState(dataSource);
-    const [dataWord, setDataWord] = useState({});
-    const handleOnSearch = async ({ keyword,type, context,topic }) => {
-        setDataWord({keyword,type, context,topic })
-    }
-    useEffect(() => {
-        const fetchData = async () => {
-           
-            const res = await search({})
-            setWords(res.data.map(e => e.word))
-            
-        }
-        fetchData()
-    }, []);
-
-    
-    const ModelAdd = () =>(
-<Modal                    
-                        className='add_word_modal'
-                        title="add word"
-                        centered
-                        open={open}
-                        onOk={() => setOpen(false)}
-                        onCancel={() => setOpen(false)}
-                        width={1000}
-                    >
-                        <Form
-                            name="basic"
-                            labelCol={{ span: 8 }}
-                            wrapperCol={{ span: 16 }}
-                            initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                            <Form.Item
-                                label="word"
-                                name="word"
-                                rules={[{ required: true, message: 'Please input your word!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="type" name = "select-type">
-                                <Select>
-                                    <Select.Option value="type1">type1</Select.Option>
-                                    <Select.Option value="type2">type2</Select.Option>
-                                    <Select.Option value="type3">type3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <Form.Item
-                                label="meaning"
-                                name="means"
-                                rules={[{ required: true, message: 'Please input your meaning!' }]}
-                            >
-                            <TextArea rows={4} />
-                            </Form.Item>
-                            <h2 className='ex_title'>Example </h2>
-                            
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Add example</Button>
-                            {showExample && 
-                            (
-                                <>
-                                 <Form.Item label="context" name = "select-context">
-                                <Select>
-                                    <Select.Option value="context1">context1</Select.Option>
-                                    <Select.Option value="context2">context2</Select.Option>
-                                    <Select.Option value="context3">context3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                                <Form.Item
-                                    label="topic"
-                                    name="topic"
-                                    rules={[{ required: true, message: 'Please input your topic!' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
-
-                                <Form.Item label="picture"  valuePropName="fileList">
-                                    <Upload action="/upload.do" listType="picture-card">
-                                        <div>
-                                        <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Upload</div>
-                                        </div>
-                                    </Upload>
-                                </Form.Item>
-                            </>
-                            )
-                        }
-                            
-                        <h2 className='mt-4 relate_title'>Related word</h2>
-                        <Form.Item
-                            label="synonyms"
-                            name="synonyms"
-                            rules={[{ required: true, message: 'Please input your synonyms!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Antonym"
-                            name="Antonymic"
-                            rules={[{ required: true, message: 'Please input your Antonym!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                                Add
-                            </Button>
-                        </Form.Item>
-                        </Form>
-                    </Modal>
-        )
-    /// call api
+    const [categories, setCategories] = useState([])
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
+    const { TextArea } = Input;
+    const onFinishFailed = (errorInfo) => {
+        console.log('Failed:', errorInfo)
+    };
+    const handleChange = (value) => {
+        console.log(`selected ${value}`);
+    };
+    const [options, setOptions] = useState([]);
+    const [meaningList, setMeaningList] = useState([{}]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await getDataWord('words');
-           console.log("res: ", res);
-            const ck = [];
-            const tt=[];
-            const list = [];
-            setData(res);
-            // res.forEach(data =>{
-            //     if(!ck.includes(data.category.name)){
-            //         ck.push(data.category.name);
-            //         const a = {"value": data.category.name, "lable": data.category.name, "category_id": data.category_id};
-            //         list.push(a);
-            //     }
-            //     const b = {'name' : data.name, 'id': data.id};
-            //     tt.push(b);
-            // })
-            // console.log("create list:", list);
-            // setListCate(list);
-            // setListTag(tt);
-
+            const tagsData = await getTags()
+            setCategories(tagsData.data)
+            const obOptions = tagsData.data.filter(options => options.category_id === 3)
+            const newArrayOptions = []
+            obOptions.forEach((el) => {
+                newArrayOptions.push({
+                    label: el.name,
+                    value: el.name
+                })
+            })
+            setOptions(newArrayOptions)
         }
         fetchData()
-       
     }, [])
 
-    const [words, setWords] = useState([]);
+    const Meaning = (idMeaning) => {
+        const DeleteMeanings = () => {
+            // const newMeaninglist = meaningList.filter(mean => mean !== idMeaning)
+            // setMeaningList(newMeaninglist)
+        }
+        return (
+            <div key={idMeaning}>
+                <Form.Item
+                    label="meaning"
+                    name="means"
+                    rules={[{ required: true, message: 'Please input your meaning!' }]}
+                >
+                    <TextArea rows={4} />
+                </Form.Item>
+                <Form.Item label="context" name="select-context">
+                    <Select>
+                        {categories
+                            .filter((item) => item.category_id === 1)
+                            .map((item) => (
+                                <Select.Option key={item.id} value={item.name}>{item.name}
+                                </Select.Option>
+                            ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    label="topic"
+                    name="topic"
+                    rules={[{ required: true, message: 'Please input your topic!' }]}
+                >
+                    <Select
+                        mode="multiple"
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder="Please select"
+                        initialValues={[]}
+                        onChange={handleChange}
+                        options={options}
+                    />
+                </Form.Item>
+
+                <Form.Item label="picture" valuePropName="fileList">
+                    <Upload action="/upload.do" listType="picture-card">
+                        <div>
+                            <PlusOutlined />
+                            <div style={{ marginTop: 8 }}>Upload</div>
+                        </div>
+                    </Upload>
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" style={{ background: '#4096ff' }} onClick={DeleteMeanings}>
+                        Delete
+                    </Button>
+                </Form.Item>
+            </div>
+        )
+    }
+    const ListMeanings = () => {
+        const onAddBtnClick = event => {
+            setMeaningList(meaningList.concat(<Meaning key={meaningList.length + 1} idMeaning={meaningList.length + 1} />));
+        };
+
+        return (
+            <div>
+                <Button className='mt-4 text-center' onClick={onAddBtnClick}> <PlusOutlined /> Meanings</Button>
+                {
+                    meaningList.length > 0 ?
+                        meaningList.map((key, meaning) => <Meaning idMeaning={key} />) : 'No examples found'
+                }
+            </div>
+        );
+    };
+
+    const ModelAdd = () => {
+        return (
+            <Modal
+                className='add_word_modal'
+                title="add word"
+                open={open}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+                width={1000}
+                z-index={1000}
+            >
+                <Form
+                    name="basic"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
+                    <Form.Item
+                        label="word"
+                        name="word"
+                        rules={[{ required: true, message: 'Please input your word!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="furigana"
+                        name="furigana"
+                        rules={[{ required: true, message: 'Please input your furigana!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="type" name="select-type">
+                        <Select>
+                            {categories
+                                .filter((item) => item.category_id === 2)
+                                .map((item) => (
+                                    <Select.Option key={item.id} value={item.name}>{item.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <ListMeanings />
+                    <h2 className='mt-4 relate_title'>Related word</h2>
+                    <Form.Item
+                        label="synonyms"
+                        name="synonyms"
+                        rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Antonym"
+                        name="Antonymic"
+                        rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button type="primary" htmlType="submit" style={{ background: '#4096ff' }}>
+                            ADD
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
+        );
+    }
+    // model delete words
+
+    const [openDelete, setOpenDelete] = useState(false);
+    const deleteWord = (wordId) => {
+        const fetchData = async () => {
+            const res = await deleteData(`words/${wordId}`);
+            setOpenDelete(false);
+        }
+        fetchData();
+        const newData = result.filter(dt => dt.id !== wordId);
+        setResult(newData)
+    }
+    const ModelDelete = (wordId) => {
+        const msg = `Are you sure want to delete words?`
+        return (
+            <Modal
+                title={msg}
+                centered
+                open={openDelete}
+
+                footer={[
+                    <Row>
+                        <Col span={12}>
+                            <Button style={{ width: '80%' }} onClick={() => {
+                                setOpenDelete(false)
+                            }}
+                            >
+                                Cancel
+                            </Button>
+                        </Col>
+                        <Col span={12}>
+                            <Button style={{ width: '80%', background: '#1677ff', color: 'white', boder: 'none' }}
+                                onClick={() => { deleteWord(wordId) }}>DELETE</Button>
+                        </Col>
+                    </Row>
+                ]}
+                onCancel={() => {
+                    setOpenDelete(false)
+                }}
+                width={300}
+            >
+                <div style={{ display: 'none' }}>{wordId}</div>
+
+            </Modal>
+        );
+
+    }
     return (
         <>
-        <div>
-       
-            <section>
-          
-                <div className=" text-4xl  word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
-                   
-                <SearchCard onSearch={handleOnSearch} words={words} />
-                   
+            <div>
+                <section>
+                    <div className=" text-4xl  word-des " style={{ display: 'grid', marginTop: '5rem', padding: '20px' }} >
+                        <SearchCard onSearch={handleOnSearch} words={words} />
+                        <div>
+                            <Button type="primary" style={{ background: '#4096ff', width: '30%' }} onClick={() => setOpen(true)}>
+                                ADD
+                            </Button>
+                            {ModelAdd()}
+                        </div>
+                        {loading ? (
+                            <Spinner />
+                        ) : result?.length > 0 ? (
+                            <>
+                                <Table
+                                    dataSource={result}
+                                    pagination={{ defaultPageSize: 5 }}
+                                    columns={columns}
+                                />
+                                <ModelDelete wordId={dlWord} />
+                                <EditWords data={editData} />
+                                <GetDetailWord wordId={detailWord} />
+                            </>
 
-                    <Button type="primary" style={{background: '#4096ff', width: '100px', marginBottom: '20px'}} onClick={() => setOpen(true)}>
-                        Add
-                    </Button>
-                   
+                        ) : (
+                            <p>Your search did not match any documents.</p>
+                        )
+                        }
 
-                    <Table 
-                        dataSource={data}
-                        pagination={{defaultPageSize: 5}}
-                        columns={columns}
-                    />
 
-                    {mm &&
-                        // <EditWord data={wordData} />
-                        EditWord11(editData)
-                    }
-                     {
-                        ModelAdd()
-                    }
+                    </div>
 
-                </div>
-                
-            </section>
-            
+                </section>
+
             </div>
         </>
     );

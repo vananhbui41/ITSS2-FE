@@ -1,3 +1,4 @@
+
 {
   "name": "@minimal/material-kit-react",
   "author": "minimals.cc",
@@ -18,8 +19,12 @@
   "eslintConfig": {
     "extends": [
       "react-app"
-    ]
+    ],
+    "rules": {
+      "no-var": 0
+  }
   },
+
   "babel": {
     "presets": [
       "@babel/preset-react"

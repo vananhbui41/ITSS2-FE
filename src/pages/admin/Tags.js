@@ -424,6 +424,7 @@ function Tags() {
                         >Add</Button>
                     </Col>
                 </Row>
+               
                 <Table 
                         className='tag_table'
                         dataSource={dataTable}
