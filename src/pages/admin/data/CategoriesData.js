@@ -1,75 +1,112 @@
-import React, { useState } from 'react';
-import { SearchOutlined } from '@ant-design/icons';
-import { Form, Radio, Button, Space, Switch, Table, Input } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { Form, Radio, Button, Space, Switch, Table, Input, Modal } from 'antd';
+import './categoriesData.css';
+import DialogContent from '@mui/material/DialogContent';
+import TextField from '@mui/material/TextField';
+import DialogTitle from '@mui/material/DialogTitle';
+import axios from 'axios';
 import DeletePopup from './popup/deletePopup';
 import AddPopup from './popup/addPopup';
 import FixPopup from './popup/fixPopup';
-import './categoriesData.css';
 
-const onSearch = (value) => console.log(value);
-const { Search } = Input;
-function CategoriesData() {
-  const [hasData, setHasData] = useState(true);
-  const [columns] = useState([
+
+function CategoriesData(props) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [searchedText, setSearchText ] = useState("");
+
+  // Search
+  const onSearch = (value) => {
+    setSearchText(value);
+  };
+  const { Search } = Input;
+
+  // Data
+  const [dataSource, setDataSource] = useState([]);
+  useEffect(() => {
+    const getTodos = async () => {
+      try {
+        const res = await axios.get(
+          'https://lavie-backend.herokuapp.com/api/categories'
+        )
+        setDataSource(res.data)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    getTodos()
+  }, [])
+
+  const columns = [
     {
       title: 'Categories',
-      dataIndex: 'categories',
+      dataIndex: 'name',
+      filteredValue: [searchedText],
+      onFilter: (value, record)=>{
+        return String(record.name).toLowerCase().includes(value.toLowerCase());
+      },
     },
     {
       title: 'Action',
       key: 'action',
       sorter: true,
-      render: (_,record) => (
-        <Space style={{width:'100%', justifyContent:'center'}} align="center" size="middle">
-          <a>
-            <FixPopup record={record} />
-          </a>
-          <a>
-            <DeletePopup record={record} />
-          </a>
-        </Space>
-      ),
+      render: (record) => {
+        return(
+          <Space style={{width:'100%', justifyContent:'center'}} align="center" size="middle">
+            <a>
+              <EditOutlined 
+              onClick={()=>{
+                editCategory(record);
+              }}
+              />
+            </a>
+            <a>
+              <DeleteOutlined
+              onClick={()=>{
+                deleteCategory(record)
+              }}
+              />
+            </a>
+          </Space>
+        )
+      },
     },
-  ]);
-  const data = [];
-  for (let i = 1; i <= 100; i += 1) {
-    data.push({
-      key: i,
-      categories: `This is Category No. ${i}!`,
-    });
+  ];
+
+  // Add Category
+  const addCategory = (name) => {
+    setDataSource([...dataSource , {name}])
   }
-  // const [bordered, setBordered] = useState(false);
-  // const [loading, setLoading] = useState(false);
-  // const [size, setSize] = useState('large');
-  // const [tableLayout, setTableLayout] = useState(undefined);
-  // const [top, setTop] = useState('none');
-  // const [bottom, setBottom] = useState('bottomRight');
-  // const [ellipsis, setEllipsis] = useState(false);
-  // const [yScroll, setYScroll] = useState(false);
-  // const [xScroll, setXScroll] = useState(undefined);
-  // const handleBorderChange = (enable) => {
-  //   setBordered(enable);
-  // };
-  // const scroll = {};
-  // if (yScroll) {
-  //   scroll.y = 240;
-  // }
-  // if (xScroll) {
-  //   scroll.x = '100vw';
-  // }
-  const tableColumns = columns.map((item) => ({
-    ...item,
-    // ellipsis,
-  }));
-  // if (xScroll === 'fixed') {
-  //   tableColumns[0].fixed = true;
-  //   tableColumns[tableColumns.length - 1].fixed = 'right';
-  // }
+  // Delete Category
+  const deleteCategory = (record) => {
+    
+    Modal.confirm({
+      title: "Are you sure you want to delete this category",
+      okText: "Delete",
+      onOk: () => {
+        setDataSource((pre) => {
+          return pre.filter((td) => td.id !== record.id)
+        })
+      }
+    })
+  }
+  // Edit Category
+  const editCategory = (record) => {
+    setIsEditing(true)
+    setEditingCategory({...record})
+  }
+  const resetEditing = () =>{
+    setIsEditing(false);
+    setEditingCategory(null);
+  }
 
   return (
     <div className='ctg-all'>
       <div className='ctg-sbt'>
-        <AddPopup />
+        <AddPopup addCategory={addCategory}>
+          {props.children}
+        </AddPopup>
         <Search
         prefix = {<SearchOutlined />}
         placeholder="Search"
@@ -79,9 +116,39 @@ function CategoriesData() {
         />
       </div>
       <Table
-        columns={tableColumns}
-        dataSource={hasData ? data : []}
+        columns={columns}
+        dataSource={dataSource}
+        style={{color:'red'}}
       />
+      <Modal
+      visible={isEditing}
+      title="Edit Category"
+      okText="Save"
+      onCancel={() => {
+        resetEditing("");
+      }}
+      onOk={() => {
+        setDataSource(pre=>{
+          return pre.map((td)=>{
+            if(td.id === editingCategory.id){
+              return editingCategory;
+            }
+            return td;
+          });
+        });
+        resetEditing("");
+      }}
+      >
+        <Input
+          // label={dataSource}
+          value={editCategory?.name}
+          onChange={(e) => {
+            setEditingCategory((pre) => {
+              return { ...pre, name: e.target.value };
+            });
+          }}
+        />
+      </Modal>
     </div>
   );
 };

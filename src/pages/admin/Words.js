@@ -5,6 +5,8 @@ import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-de
 import { Helmet } from 'react-helmet-async';
 import SearchCard from '../../components/Homepage/SearchCard'; 
 import {} from '../../components/sidebar/index.css' ;
+import {getDataWord} from "./apiAdmin/wordFetch"
+import {search} from '../../api/search'
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -79,6 +81,7 @@ function Words() {
             dataIndex: 'content',
             with: '20%',
             render: (record, data) =>{
+                const context1 = data.categories?.context;
                 return(
                     <div 
                         style={{
@@ -89,7 +92,16 @@ function Words() {
                             position: "relative",
                         }}
                     >
-                        {data.content}
+                        {data.categories?.context ?
+                        <div>
+                            {context1.map((context) =>{
+                                return(
+                                <span key ={context.id}>{context.name} , </span>
+                                );
+                            } )}
+                        </div>
+                        :""    
+                        }
                     </div>
                 );
             }
@@ -109,8 +121,17 @@ function Words() {
                             position: "relative",
                         }}
                     >
-                        {data.type}
+                         {data.categories?.type ?
+                        <div>
+                            {data.categories?.type.map(context =>{
+                                return(<span>{context.name} , </span>);
+                                
+                            } )}
+                        </div>
+                        :""    
+                        }
                     </div>
+                    
                 );
             }
         },
@@ -129,7 +150,17 @@ function Words() {
                             position: "relative",
                         }}
                     >
-                        {data.topic}
+                        {data.categories?.topic ?
+                    <div>
+                        {data.categories?.topic.map(context =>{
+                            return(
+                               <span> {context.name}</span>
+                            );
+   
+                        } )}
+                    </div>
+                    :""    
+                    }
                     </div>
                 );
             }
@@ -333,20 +364,24 @@ function Words() {
     }
     
     const [data, setData] = useState(dataSource);
-    return (
-        <>
-        <div>
-       
-            <section>
-          
-                <div className=" text-4xl h-screen word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
-                    <SearchCard />
-                   
+    const [dataWord, setDataWord] = useState({});
+    const handleOnSearch = async ({ keyword,type, context,topic }) => {
+        setDataWord({keyword,type, context,topic })
+    }
+    useEffect(() => {
+        const fetchData = async () => {
+           
+            const res = await search({})
+            setWords(res.data.map(e => e.word))
+            
+        }
+        fetchData()
+    }, []);
 
-                    <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
-                        add
-                    </Button>
-                    <Modal
+    
+    const ModelAdd = () =>{
+        return(
+<Modal
                         title="add word"
                         centered
                         open={open}
@@ -440,16 +475,65 @@ function Words() {
                         </Form.Item>
                         </Form>
                     </Modal>
+        );
+    }
+    /// call api
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getDataWord('words');
+           console.log("res: ", res);
+            const ck = [];
+            const tt=[];
+            const list = [];
+            setData(res);
+            // res.forEach(data =>{
+            //     if(!ck.includes(data.category.name)){
+            //         ck.push(data.category.name);
+            //         const a = {"value": data.category.name, "lable": data.category.name, "category_id": data.category_id};
+            //         list.push(a);
+            //     }
+            //     const b = {'name' : data.name, 'id': data.id};
+            //     tt.push(b);
+            // })
+            // console.log("create list:", list);
+            // setListCate(list);
+            // setListTag(tt);
+
+        }
+        fetchData()
+       
+    }, [])
+
+    const [words, setWords] = useState([]);
+    return (
+        <>
+        <div>
+       
+            <section>
+          
+                <div className=" text-4xl  word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
+                   
+                <SearchCard onSearch={handleOnSearch} words={words} />
+                   
+
+                    <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
+                        add
+                    </Button>
+                   
 
                     <Table 
                         dataSource={data}
-                        pagination={{defaultPageSize: 10}}
+                        pagination={{defaultPageSize: 5}}
                         columns={columns}
                     />
 
                     {mm &&
                         // <EditWord data={wordData} />
                         EditWord11(editData)
+                    }
+                     {
+                        ModelAdd()
                     }
 
                     {
