@@ -38,3 +38,7 @@
 .bg-indigo-100 {
     background-color: rgb(224 231 255 / var(--tw-bg-opacity)) !important;
 }
+
+.ant-table-cell-action{
+    text-align: center !important;
+}

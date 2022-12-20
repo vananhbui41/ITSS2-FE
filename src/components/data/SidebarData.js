@@ -3,17 +3,17 @@ import * as BiIcons from "react-icons/bi";
 
 export const SidebarData=[
     {
-        title: "Words",
+        title: "Từ Vựng",
         path: "/ad/words",
         icon: <FaIcons.FaCopy />,
       },
       {
-        title: "Tags",
+        title: "Tag",
         path: "/ad/tags",
         icon: <FaIcons.FaTags />,
       },
       {
-        title: "Categories",
+        title: "Loại Tag",
         path: "/ad/categories",
         icon: <BiIcons.BiCategory />,
       }

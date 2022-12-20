@@ -9,7 +9,7 @@ import {getData, searchTagDB, postData, putData,deleteData} from "./apiAdmin/fet
 const SelectCategory = ({dataTag, handleType, option}) =>{
 
     return(
-        <Form.Item label="category">
+        <Form.Item label="Loại tag">
             <Select 
             style={{width: '80%'}}
             value={dataTag.category} 
@@ -40,7 +40,7 @@ const SelectCategory = ({dataTag, handleType, option}) =>{
 const SearTag = ({dataTag, setDataTag}) =>{
     // console.log("data tag on input: ", dataTag);
     return(
-        <Form.Item label="tag" >
+        <Form.Item label="Tag" >
         <Input style={{width: '80%'}}   value={dataTag.name}
         onChange={(e) =>{
             const dt1 = dataTag;
@@ -82,7 +82,7 @@ function Tags() {
     }
     const [listCate, setListCate] = useState();
     const ModelDelete = (tag) =>{
-        const aa = `are you sure want to delete tag "${tag}"`
+        const aa = `Bạn có chắc chắn muốn xoá tag "${tag}"`
         return(
         <Modal
             title={aa}
@@ -95,12 +95,12 @@ function Tags() {
                     <Button style={{width: '80%'}} onClick={()=>{
                         setOpenDelete(false)}}
                     >
-                        cancel
+                        Huỷ
                     </Button>
                 </Col>
                 <Col span={12}>
                     <Button style={{width: '80%',background: '#1677ff', color: 'white', boder: 'none'}} 
-                    onClick={()=>{deleteTable(tag)}}>delete</Button>
+                    onClick={()=>{deleteTable(tag)}}>Xoá</Button>
                 </Col>
             </Row>
                 ]}
@@ -133,12 +133,12 @@ function Tags() {
                         onClick={()=>{
                             setOpenAdd(false)}}
                         >
-                            cancel
+                            Huỷ
                         </Button>
                     </Col>
                     <Col span={12}>
                         <Button style={{background: '#1677ff', color: 'white', boder: 'none', width:'80%'}}
-                         onClick={() => {AddTagDB(dataTag)}} >Add</Button>
+                         onClick={() => {AddTagDB(dataTag)}} >Thêm</Button>
                     </Col>
                 </Row>
             ]}
@@ -168,7 +168,7 @@ function Tags() {
                         <Button style={{width: '80%'}} onClick={()=>{
                             setOpenDetail(false)}}
                         >
-                            cancel
+                            Huỷ
                         </Button>
                     </Col>
                     
@@ -177,7 +177,7 @@ function Tags() {
                         onClick={() =>{
                             editTag(dataTag);
                         }}
-                        >save</Button>
+                        >Lưu</Button>
                     </Col>
                 </Row>
             ]}
@@ -319,7 +319,7 @@ function Tags() {
             }
         },
         {
-            title: 'category',
+            title: 'Loại tag',
             dataIndex: 'content',
             with: '40%',
             render: (record, data) =>{
@@ -341,7 +341,7 @@ function Tags() {
        
        
         {
-            title: 'Action',
+            title: 'Thao tác',
             dataIndex: 'action',
             with: '30%',
             render: (record, data) => {
@@ -409,7 +409,7 @@ function Tags() {
                     onClick={()=>{
                         setClickSearch(!clickSearch);
                     }}
-                   >search</Button>
+                   >Tìm kiếm</Button>
                     </Col>
                 </Row>
                 <Row>
@@ -422,7 +422,7 @@ function Tags() {
                                 setDataTag(dt1);
                                 setOpenAdd(true);
                             }}
-                        >Add</Button>
+                        >Thêm</Button>
                     </Col>
                 </Row>
                 <Table 

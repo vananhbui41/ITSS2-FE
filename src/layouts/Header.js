@@ -41,19 +41,19 @@ export default function Header() {
                 <Avatar>{user.name.charAt(0)}</Avatar>
                 </Button>
                 <Button sx={{ color: '#fff' }} onClick={logout}>
-                    Logout
+                    Đăng Xuất
                 </Button>
               </Box>
           ): (
               <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                   <Link href="/login" underline="always">
                       <Button sx={{ color: '#fff' }}>
-                          Login
+                          Đăng Nhập
                       </Button>
                 </Link>
                 <Link href="/signUp" underline="always">
                     <Button sx={{ color: '#fff' }}>
-                        Sign up
+                        Đăng Kí
                     </Button>
                 </Link>
               </Box>

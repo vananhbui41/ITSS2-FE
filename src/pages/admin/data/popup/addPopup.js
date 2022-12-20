@@ -37,10 +37,10 @@ export default function AddPopup({ addCategory }) {
   return (
     <div>
       <Button type="primary" variant="outlined" onClick={handleClickOpen}>
-        Add
+        Thêm
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Category</DialogTitle>
+        <DialogTitle>Thêm loại tag</DialogTitle>
         <DialogContent>
           <TextField onSubmit={handleSubmit}
             autoFocus
@@ -49,14 +49,14 @@ export default function AddPopup({ addCategory }) {
             // dataIndex="category"
             value={name}
             onChange={ (e) => onInputChange(e)}
-            label="Add New Category"
+            label="Thêm loại tag mới"
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="primary" onClick={closeAndAdd}>Add</Button>
+          <Button onClick={handleClose}>Huỷ</Button>
+          <Button type="primary" onClick={closeAndAdd}>Thêm</Button>
         </DialogActions>
       </Dialog>
     </div>

@@ -6,7 +6,6 @@ import { Helmet } from 'react-helmet-async';
 import SearchCard from '../../components/Homepage/SearchCard'; 
 import {} from '../../components/sidebar/index.css' ;
 import {getDataWord} from "./apiAdmin/wordFetch"
-import {search} from '../../api/search'
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -55,7 +54,7 @@ function Words() {
     
     const columns = [
         {
-            title: 'Word',
+            title: 'Từ vựng',
             dataIndex: 'word',
             with: '20%',
             render: (record, data) =>{
@@ -75,7 +74,7 @@ function Words() {
             }
         },
         {
-            title: 'Content',
+            title: 'Bối cảnh',
             dataIndex: 'content',
             with: '20%',
             render: (record, data) =>{
@@ -105,7 +104,7 @@ function Words() {
             }
         },
         {
-            title: 'Type',
+            title: 'Loại từ',
             dataIndex: 'type',
             with: '20%',
             render: (record, data) =>{
@@ -134,7 +133,7 @@ function Words() {
             }
         },
         {
-            title: 'Topic',
+            title: 'Chủ đề',
             dataIndex: 'topic',
             with: '20%',
             render: (record, data) =>{
@@ -164,7 +163,7 @@ function Words() {
             }
         },
         {
-            title: 'Action',
+            title: 'Thao tác',
             dataIndex: 'action',
             with: '20%',
             render: (record, data) => {
@@ -202,17 +201,19 @@ function Words() {
        const handleType = (value) =>{
             const dt1 = editData;
             dt1.type = value;
-            setEditData(dt1);
+            setEditData(dt1); 
        }
         console.log("hh: ", editData.word);
         return (
             <Modal
-                title="edit word"
+                title="Chỉnh sửa từ"
                 centered
                 open={openEdit}
                 onOk={() => setOpenEdit(false)}
                 onCancel={() => setOpenEdit(false)}
                 width={1000}
+                okText="Lưu"
+                cancelText="Huỷ"
             >
                 {/* <div>hello</div> */}
                         <Form
@@ -225,7 +226,7 @@ function Words() {
                             autoComplete="off"
                         >
                            
-                           <Form.Item label="word edit">
+                           <Form.Item label="Chỉnh sửa từ">
                                 <Input value={editData.word} onChange={(e)=>{
                                     const dt1 = editData;
                                     dt1.word = e.target.value;
@@ -233,22 +234,22 @@ function Words() {
                                      console.log("edit word", editData);
                                }}/>
                             </Form.Item>
-                            <Form.Item label="type">
+                            <Form.Item label="Loại từ">
                                 <Select 
                                 defaultValue={editData.type} 
                                 onChange={handleType}
                                 options={[
                                     {
-                                        value: 'type1',
-                                        lable: 'lable1',
+                                        value: 'Loại từ 1',
+                                        lable: 'Loại từ 1',
                                     },
                                     {
-                                        value: 'type2',
-                                        lable: 'lable2',
+                                        value: 'Loại từ 2',
+                                        lable: 'Loại từ 2',
                                     },
                                     {
-                                        value: 'type3',
-                                        lable: 'lable3',
+                                        value: 'Loại từ 3',
+                                        lable: 'Loại từ 3',
                                     },
                                 ]}
                                   
@@ -256,9 +257,9 @@ function Words() {
                                
                             </Form.Item>
                             <Form.Item
-                                label="meaning"
+                                label="Ý nghĩa"
                                
-                                rules={[{ required: true, message: 'Please input your meaning!' }]}
+                                rules={[{ required: true, message: 'Hãy nhập ý nghĩa của từ!' }]}
                             >
                             <TextArea rows={4} value={editData.means} onChange={(e)=>{
                                     const dt1 = editData;
@@ -266,32 +267,32 @@ function Words() {
                                     setEditData(dt1);
                             }}/>
                             </Form.Item>
-                            <h2>example: </h2>
+                            <h2>Ví dụ: </h2>
                             
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>add example</Button>
+                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Thêm ví dụ</Button>
                             {showExample && 
                             (
                                 <>
-                                 <Form.Item label="context" name = "select-context">
+                                 <Form.Item label="Bối cảnh" name = "select-context">
                                 <Select>
-                                    <Select.Option value="context1">context1</Select.Option>
-                                    <Select.Option value="context2">context2</Select.Option>
-                                    <Select.Option value="context3">context3</Select.Option>
+                                    <Select.Option value="context1">Bối cảnh 1</Select.Option>
+                                    <Select.Option value="context2">Bối cảnh 2</Select.Option>
+                                    <Select.Option value="context3">Bối cảnh 3</Select.Option>
                                 </Select>
                             </Form.Item>
                                 <Form.Item
-                                    label="topic"
+                                    label="Chủ đề"
                                     name="topic"
-                                    rules={[{ required: true, message: 'Please input your topic!' }]}
+                                    rules={[{ required: true, message: 'Hãy nhập chủ đề của bạn' }]}
                                 >
                                     <Input />
                                 </Form.Item>
 
-                                <Form.Item label="picture"  valuePropName="fileList">
+                                <Form.Item label="Hình ảnh"  valuePropName="fileList">
                                     <Upload action="/upload.do" listType="picture-card">
                                         <div>
                                         <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Upload</div>
+                                        <div style={{ marginTop: 8 }}>Tải lên</div>
                                         </div>
                                     </Upload>
                                 </Form.Item>
@@ -299,25 +300,25 @@ function Words() {
                             )
                         }
                             
-                        <h2 className='mt-4'>Related word</h2>
+                        <h2 className='mt-4'>Từ ngữ liên quan</h2>
                         <Form.Item
-                            label="synonyms"
+                            label="Từ đồng nghĩa"
                             name="synonyms"
-                            rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                            rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Antonym"
+                            label="Từ trái nghĩa"
                             name="Antonymic"
-                            rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                            rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
                         >
                             <Input />
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            add
+                            Thêm
                             </Button>
                         </Form.Item>
                         </Form>
@@ -327,30 +328,18 @@ function Words() {
 
    
     const [data, setData] = useState(dataSource);
-    const [dataWord, setDataWord] = useState({});
-    const handleOnSearch = async ({ keyword,type, context,topic }) => {
-        setDataWord({keyword,type, context,topic })
-    }
-    useEffect(() => {
-        const fetchData = async () => {
-           
-            const res = await search({})
-            setWords(res.data.map(e => e.word))
-            
-        }
-        fetchData()
-    }, []);
 
-    
     const ModelAdd = () =>{
         return(
-<Modal
-                        title="add word"
+                    <Modal
+                        title="Thêm từ"
                         centered
                         open={open}
                         onOk={() => setOpen(false)}
                         onCancel={() => setOpen(false)}
                         width={1000}
+                        okText="Thêm"
+                        cancelText="Huỷ"
                     >
                         <Form
                             name="basic"
@@ -362,13 +351,13 @@ function Words() {
                             autoComplete="off"
                         >
                             <Form.Item
-                                label="word"
+                                label="Từ vựng"
                                 name="word"
-                                rules={[{ required: true, message: 'Please input your word!' }]}
+                                rules={[{ required: true, message: 'Hãy nhập từ vựng!' }]}
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="type" name = "select-type">
+                            <Form.Item label="Loại từ" name = "select-type">
                                 <Select>
                                     <Select.Option value="type1">type1</Select.Option>
                                     <Select.Option value="type2">type2</Select.Option>
@@ -376,19 +365,19 @@ function Words() {
                                 </Select>
                             </Form.Item>
                             <Form.Item
-                                label="meaning"
+                                label="Ý nghĩa"
                                 name="means"
-                                rules={[{ required: true, message: 'Please input your meaning!' }]}
+                                rules={[{ required: true, message: 'Hãy nhập ý nghĩa của từ vựng!' }]}
                             >
                             <TextArea rows={4} />
                             </Form.Item>
-                            <h2>example: </h2>
+                            <h2>Ví dụ </h2>
                             
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>add example</Button>
+                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Thêm ví dụ</Button>
                             {showExample && 
                             (
                                 <>
-                                 <Form.Item label="context" name = "select-context">
+                                 <Form.Item label="Bối cảnh" name = "select-context">
                                 <Select>
                                     <Select.Option value="context1">context1</Select.Option>
                                     <Select.Option value="context2">context2</Select.Option>
@@ -396,18 +385,18 @@ function Words() {
                                 </Select>
                             </Form.Item>
                                 <Form.Item
-                                    label="topic"
+                                    label="Chủ đề"
                                     name="topic"
-                                    rules={[{ required: true, message: 'Please input your topic!' }]}
+                                    rules={[{ required: true, message: 'Hãy nhập chủ đề!' }]}
                                 >
                                     <Input />
                                 </Form.Item>
 
-                                <Form.Item label="picture"  valuePropName="fileList">
+                                <Form.Item label="Hình ảnh"  valuePropName="fileList">
                                     <Upload action="/upload.do" listType="picture-card">
                                         <div>
                                         <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Upload</div>
+                                        <div style={{ marginTop: 8 }}>Tải lên</div>
                                         </div>
                                     </Upload>
                                 </Form.Item>
@@ -415,25 +404,25 @@ function Words() {
                             )
                         }
                             
-                        <h2 className='mt-4'>Related word</h2>
+                        <h2 className='mt-4'>Từ ngữ liên quan</h2>
                         <Form.Item
-                            label="synonyms"
+                            label="Từ đồng nghĩa"
                             name="synonyms"
-                            rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                            rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Antonym"
+                            label="Từ trái nghĩa"
                             name="Antonymic"
-                            rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                            rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
                         >
                             <Input />
                         </Form.Item>
 
                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                             <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            add
+                            Thêm
                             </Button>
                         </Form.Item>
                         </Form>
@@ -467,8 +456,6 @@ function Words() {
         fetchData()
        
     }, [])
-
-    const [words, setWords] = useState([]);
     return (
         <>
         <div>
@@ -476,12 +463,11 @@ function Words() {
             <section>
           
                 <div className=" text-4xl  word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
-                   
-                <SearchCard onSearch={handleOnSearch} words={words} />
+                    <SearchCard />
                    
 
                     <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
-                        add
+                        Thêm
                     </Button>
                    
 

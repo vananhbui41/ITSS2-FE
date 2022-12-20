@@ -43,14 +43,14 @@ export default function SearchCard({onSearch, words}) {
                   options={words}
                   freeSolo
                   renderInput={(params) => (
-                    <TextField {...params} label="Word" onChange={setWord(params.inputProps.value)} />
+                    <TextField {...params} label="Từ vựng" onChange={setWord(params.inputProps.value)} />
                   )}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Context</InputLabel>
+                <InputLabel id="demo-simple-select-label">Bối cảnh</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -82,7 +82,7 @@ export default function SearchCard({onSearch, words}) {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Type</InputLabel>
+                <InputLabel id="demo-simple-select-label">Loại từ</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -112,7 +112,7 @@ export default function SearchCard({onSearch, words}) {
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Topic</InputLabel>
+                <InputLabel id="demo-simple-select-label">Chủ đề</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
@@ -142,7 +142,7 @@ export default function SearchCard({onSearch, words}) {
             </Grid>
           </Grid>
           <Box sx={{ mt: 2, textAlign: 'center' }} onClick={handleOnSearch}>
-            <Button variant="contained">Search</Button>
+            <Button variant="contained">Tìm kiếm</Button>
           </Box>
         </Box>
       </>

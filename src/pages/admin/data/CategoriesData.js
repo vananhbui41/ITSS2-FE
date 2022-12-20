@@ -40,7 +40,7 @@ function CategoriesData(props) {
 
   const columns = [
     {
-      title: 'Categories',
+      title: 'Loại tags',
       dataIndex: 'name',
       filteredValue: [searchedText],
       onFilter: (value, record)=>{
@@ -48,9 +48,9 @@ function CategoriesData(props) {
       },
     },
     {
-      title: 'Action',
+      title: 'Thao tác',
       key: 'action',
-      sorter: true,
+      className: 'ant-table-cell-action',
       render: (record) => {
         return(
           <Space style={{width:'100%', justifyContent:'center'}} align="center" size="middle">
@@ -82,8 +82,9 @@ function CategoriesData(props) {
   const deleteCategory = (record) => {
     
     Modal.confirm({
-      title: "Are you sure you want to delete this category",
-      okText: "Delete",
+      title: "Bạn có chắc chắn muốn xoá loại tag này không?",
+      cancelText: "Huỷ",
+      okText: "Xoá",
       onOk: () => {
         setDataSource((pre) => {
           return pre.filter((td) => td.id !== record.id)
@@ -109,21 +110,21 @@ function CategoriesData(props) {
         </AddPopup>
         <Search
         prefix = {<SearchOutlined />}
-        placeholder="Search"
+        placeholder="Tìm kiếm"
         allowClear
-        enterButton="Search"
+        enterButton="Tìm kiếm"
         onSearch={onSearch}
         />
       </div>
       <Table
         columns={columns}
         dataSource={dataSource}
-        style={{color:'red'}}
       />
       <Modal
       visible={isEditing}
-      title="Edit Category"
-      okText="Save"
+      title="Chỉnh sửa loại tag"
+      okText="Lưu"
+      cancelText= "Huỷ"
       onCancel={() => {
         resetEditing("");
       }}
