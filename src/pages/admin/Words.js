@@ -465,16 +465,16 @@ function Words() {
     // model delete words
 
     const [openDelete, setOpenDelete] = useState(false);
-    const deleteWord = (wordId) => {
+    const DeleteWord = () => {
         const fetchData = async () => {
-            const res = await deleteData(`words/${wordId}`);
-            setOpenDelete(false);
+            const res = await deleteData(`words/${dlWord}`);
+            // setOpenDelete(false);
         }
         fetchData();
-        const newData = result.filter(dt => dt.id !== wordId);
+        const newData = result.filter(dt => dt.id !== dlWord);
         setResult(newData)
     }
-    const ModelDelete = (wordId) => {
+    const ModelDelete = () => {
         const msg = `Are you sure want to delete words?`
         return (
             <Modal
@@ -494,7 +494,10 @@ function Words() {
                         </Col>
                         <Col span={12}>
                             <Button style={{ width: '80%', background: '#1677ff', color: 'white', boder: 'none' }}
-                                onClick={() => { deleteWord(wordId) }}>DELETE</Button>
+                                onClick={() => { 
+                                    DeleteWord()
+                                    setOpenDelete(false)
+                                 }}>DELETE</Button>
                         </Col>
                     </Row>
                 ]}
@@ -503,7 +506,7 @@ function Words() {
                 }}
                 width={300}
             >
-                <div style={{ display: 'none' }}>{wordId}</div>
+                <div style={{ display: 'none' }}>{dlWord}</div>
 
             </Modal>
         );
@@ -532,7 +535,7 @@ function Words() {
                                 />
                                 <ModelDelete wordId={dlWord} />
                                 <EditWords data={editData} />
-                                <GetDetailWord wordId={detailWord} />
+                                <GetDetailWord />
                             </>
 
                         ) : (
