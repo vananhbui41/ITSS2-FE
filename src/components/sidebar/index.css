@@ -18,12 +18,15 @@ a{
   text-decoration: none;
 }
 
-.word-des td {
-    padding: 10px;
-    font-size: 16px;  
+#root > div:first-child {
+  height: 100%;
 }
-.word-des th {
-  font-size: 20px;
+.word-des td , .h-screen td{
+    padding: 10px;
+    font-size: 14px;  
+}
+.word-des th , .h-screen th{
+  font-size: 18px;
 }
 
 .box-container{
@@ -32,4 +35,46 @@ a{
 #demo-simple-select-label,.css-1ifcsjq-MuiFormLabel-root-MuiInputLabel-root.Mui-focused{
   background: #F9FAFB !important;
   padding: 0 6px !important;
+}
+
+.ant-table-wrapper {
+  padding: 0px 5px;
+  border-radius: 8px;
+  box-shadow: rgb(100 100 111 / 20%) 0px 7px 29px 0px;
+}
+
+.ant-table-column-sorter {
+  display: none;
+}
+
+.add_word_modal{
+  top: 14% !important;
+}
+.ant-modal-title{
+  font-size: 20px !important;
+  text-transform: uppercase;
+
+}
+
+.ant-modal-content{
+  padding: 20px 40px !important;
+  display: flex;
+  flex-direction: column;
+}
+
+.ex_title, .relate_title{
+  font-size: 18px!important;
+  font-weight: 500 !important;
+  margin-left: 10px;
+}
+.h-screen{
+  height: 100% !important;
+}
+
+.tab_table > th.ant-table-cell:nth-child(3){
+  width: 15% !important;
+}
+.tab_table, .h-screen:nth-child(2){
+  margin: auto;
+  width: 96%;
 }

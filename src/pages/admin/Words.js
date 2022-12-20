@@ -64,8 +64,7 @@ function Words() {
                     >
                         {data.word}
                     </div>
-                );
-            }
+                )
         },
         {
             title: 'Content',
@@ -153,43 +152,44 @@ function Words() {
                             : ""
                         }
                     </div>
-                );
-            }
+                )
         },
         {
             title: 'Action',
             dataIndex: 'action',
             with: '20%',
-            render: (record, data) => {
-                return (
-                    <div
-
-                    >
-                        <Button onClick={() => {
-                            setOpenDetail(true)
-                            setDetailWord(data.id)
-                            // getDetailWord(data.id);
-                        }} ><EyeOutlined /></Button>
-                        <Button onClick={() => {
-
-                            setOpenEdit(true);
-                            // setWordData(data);
-                            // setEditData(data);
-                            // setOpenEdit(true);
-                            // setMM(true);
-                        }}>
-                            <EditOutlined />
-                        </Button>
-                        <Button onClick={() => {
-                            setOpenDelete(true);
-                            setDlWord(data.id);
-                        }}>
-                            <DeleteOutlined />
-                        </Button>
-
+            render: (record, data) => (
+                    <div 
+                       
+                    > 
+                        <a>
+                            <EyeOutlined
+                                onClick={() =>{
+                            getDetailWord(data.word);
+                        }}
+                            />
+                        </a>
+                        <a>
+                                <EditOutlined
+                                style={{color: 'green', marginLeft: '15px'}}
+                                    onClick={()=>{
+                                    // setOpenEdit(true);
+                                    setWordData(data);
+                                    setEditData(data);
+                                    setOpenEdit(true);
+                                    setMM(true);}}
+                                />
+                        </a>
+                        <a>
+                            <DeleteOutlined
+                                style={{color: 'red', marginLeft: '15px'}}
+                                onClick={()=>{
+                                deleteWord(data.word);
+                                }}
+                            />
+                        </a>
                     </div>
-                );
-            }
+                )
         },
 
     ]
@@ -396,6 +396,7 @@ function Words() {
     const ModelAdd = () => {
         return (
             <Modal
+                className='add_word_modal'
                 title="add word"
                 open={open}
                 onOk={() => setOpen(false)}
@@ -437,7 +438,7 @@ function Words() {
                         </Select>
                     </Form.Item>
                     <ListMeanings />
-                    <h2 className='mt-4'>Related word</h2>
+                    <h2 className='mt-4 relate_title'>Related word</h2>
                     <Form.Item
                         label="synonyms"
                         name="synonyms"
@@ -455,15 +456,13 @@ function Words() {
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button type="primary" htmlType="submit" style={{ background: '#4096ff' }}>
-                            add
+                            ADD
                         </Button>
                     </Form.Item>
                 </Form>
             </Modal>
         );
     }
-
-
     // model delete words
 
     const [openDelete, setOpenDelete] = useState(false);

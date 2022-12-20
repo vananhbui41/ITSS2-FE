@@ -301,7 +301,7 @@ function Tags() {
         {
             title: 'Tag',
             dataIndex: 'Tag',
-            with: '30%',
+            with: '50%',
             render: (record, data) =>{
                 return(
                     <div 
@@ -341,36 +341,35 @@ function Tags() {
        
        
         {
+            with: 10,
             title: 'Action',
             dataIndex: 'action',
-            with: '30%',
             render: (record, data) => {
                 return(
-                    <div 
-                       
-                    > 
-                        
-                        <Button onClick={()=>{
-                            console.log("data: ", data);
-                            const aaa = {'name': data.name, 'category': data.category.name};
-                            setDataTag(aaa);
-                            setDataEditTag(data);
-                            setOpenDetail(true);
-                        }}>
-                                <EditOutlined />
-                        </Button>
-
-                        <Button 
-                       onClick={()=>{
-                        setOpenDelete(true);
-                        setDataEditTag(data);
-                        setTagDelete(data.name);
-                    }}
-                        >
-                            <DeleteOutlined 
-                                
+                    <div>                      
+                        <a>
+                            <EditOutlined 
+                                style={{color: 'green', marginLeft: '15px'}}
+                                onClick={()=>{
+                                    console.log("data: ", data);
+                                    const aaa = {'name': data.name, 'category': data.category.name};
+                                    setDataTag(aaa);
+                                    setDataEditTag(data);
+                                    setOpenDetail(true);
+                                }}
                             />
-                        </Button>
+                        </a>
+
+                        <a>
+                            <DeleteOutlined 
+                            style={{color: 'red', marginLeft: '15px'}}
+                                onClick={()=>{
+                                    setOpenDelete(true);
+                                    setDataEditTag(data);
+                                    setTagDelete(data.name);
+                                }}
+                            />
+                        </a>
 
                     </div>
                 );
@@ -414,7 +413,7 @@ function Tags() {
                 </Row>
                 <Row>
                     <Col span={5}>
-                        <Button style={{background: '#1677ff', color: 'white', boder: 'none'}} 
+                        <Button style={{background: '#1677ff', color: 'white', boder: 'none',  marginBottom : '20px'}} 
                             onClick={()=>{
                                 const dt1 = dataTag;
                                 dt1.name = '';
@@ -427,6 +426,7 @@ function Tags() {
                 </Row>
                
                 <Table 
+                        className='tag_table'
                         dataSource={dataTable}
                         pagination={{defaultPageSize: 5}}
                         columns={columns}
