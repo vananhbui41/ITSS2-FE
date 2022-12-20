@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
 import SearchCard from '../../components/Homepage/SearchCard';
-import { getWords, search, getTags } from '../../api/search';
+import { getWords, getTags } from '../../api/search';
 import { } from '../../components/sidebar/index.css';
 import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/fetchData";
 import SearchResultCard from '../../components/Homepage/SearchResultCard';
 import Spinner from '../../components/Spinner';
+import { } from '../../components/Homepage/Homepage.scss';
 
 
 function Words() {
@@ -165,8 +164,8 @@ function Words() {
 
                     >
                         <Button onClick={() => {
-                            setOpenDetail(true)
                             setDetailWord(data.id)
+                            setOpenDetail(true)
                             // getDetailWord(data.id);
                         }} ><EyeOutlined /></Button>
                         <Button onClick={() => {
@@ -196,8 +195,8 @@ function Words() {
 
     const [openDetail, setOpenDetail] = useState(false);
     const [detailWord, setDetailWord] = useState();
-    const GetDetailWord = (wordId) => {
-        const item = result.filter(item => item.id === wordId);
+    const GetDetailWord = () => {
+        const item = result.filter(item => item.id === detailWord);
         return (
             <Modal
                 title="Details words"
