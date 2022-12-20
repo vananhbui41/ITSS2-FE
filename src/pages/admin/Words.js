@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { Box, Stack, Chip, Grid, CardMedia } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
 import SearchCard from '../../components/Homepage/SearchCard';
 import { getWords, getTags } from '../../api/search';
 import { } from '../../components/sidebar/index.css';
@@ -161,15 +164,13 @@ function Words() {
             render: (record, data) => {
                 return (
                     <div
-
                     >
                         <Button onClick={() => {
-                            setDetailWord(data.id)
+                            setKey(data.id);
                             setOpenDetail(true)
-                            // getDetailWord(data.id);
+
                         }} ><EyeOutlined /></Button>
                         <Button onClick={() => {
-
                             setOpenEdit(true);
                             // setWordData(data);
                             // setEditData(data);
@@ -194,20 +195,126 @@ function Words() {
     // display word details model
 
     const [openDetail, setOpenDetail] = useState(false);
-    const [detailWord, setDetailWord] = useState();
-    const GetDetailWord = () => {
-        const item = result.filter(item => item.id === detailWord);
+    const [key, setKey] = useState();
+    const Item = styled(Paper)(({ theme }) => ({
+        backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        color: theme.palette.text.secondary,
+        border: '1px solid #1A2027',
+        height: '100%'
+    }));
+
+    const [item, setItem] = useState({});
+    const [dLoading, setDLoading] = useState(false)
+    useEffect(() => {
+        const fetchData = async () => {
+            setDLoading(true);
+            getData(`words/${key}`).then((data) => {
+                setItem(data)
+            })
+            setDLoading(false);
+        }
+        fetchData()
+    }, [key])
+    const ModelDetailWord = () => {
         return (
-            <Modal
-                title="Details words"
-                centered
-                open={openDetail}
-                onOk={() => setOpenDetail(false)}
-                onCancel={() => setOpenDetail(false)}
-                width={1000}
-            >
-                <SearchResultCard result={item} />
-            </Modal>
+            <>
+                <Modal
+                    title="Details words"
+                    open={openDetail}
+                    onOk={() => setOpenDetail(false)}
+                    onCancel={() => setOpenDetail(false)}
+                    width={1000}
+                >
+                    {
+                        dLoading || item.id !== key ? (<Spinner />) :
+                            (
+                                <Box key={item.id} className='search-result-card'>
+                                    <div className='search-text'>
+                                        <span className='kanji'>
+                                            {item.word}
+                                        </span>
+                                        <span className='hiragana'>
+                                            {item.furigana}
+                                        </span>
+                                    </div>
+                                    <div className='description'>
+                                        <Stack direction="row" spacing={1}>
+                                            {item.tags?.map(tag => (
+                                                <Chip key={tag.id} label={tag.name} color="primary" variant="outlined" />
+                                            ))}
+                                        </Stack>
+                                    </div>
+                                    <div className='example'>
+                                        <Grid container spacing={2} >
+                                            {item.meanings?.map((exp) => (
+                                                <Grid item xs={2} sm={4} md={4} key={exp.id}>
+                                                    <Item>
+                                                        {/* <CardMedia
+                                                            component="img"
+                                                            height="240"
+                                                            image="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
+                                                            alt="Nicola Sturgeon on a TED talk stage"
+                                                        /> */}
+                                                        <b>Meaning</b>
+                                                        <div className='ml-5'>
+                                                            <p>{exp.meaning}</p>
+                                                            <span>{exp.explanation_of_meaning}</span>
+                                                        </div>
+                                                        <b>Example</b>
+                                                        <div className='ml-5'>
+                                                            <p>{exp.example}</p>
+                                                            <span>{exp.example_meaning}</span>
+                                                        </div>
+                                                        <b>Type</b>
+                                                        <div className='ml-5'>
+                                                            {
+                                                                exp.tags?.filter(tag => tag.category_id === 2).map(t => ( <span>{t.name}, </span>))
+                                                            }
+                                                        </div>
+                                                        <b>Context</b>
+                                                        <div className='ml-5'>
+                                                            {
+                                                                exp.tags?.filter(tag => tag.category_id === 1).map(t => ( <span>{t.name}, </span>))
+                                                            }
+                                                        </div>
+                                                        <b>Topic</b>
+                                                        <div className='ml-5'>
+                                                            {
+                                                                exp.tags?.filter(tag => tag.category_id === 3).map(t => ( <span>{t.name}, </span>))
+                                                            }
+                                                        </div>
+
+                                                    </Item>
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+                                    </div>
+                                    <div className='related-words'>
+                                        <h3>Related words</h3>
+                                        <div>
+                                            <p className='title'>類義語</p>
+                                            {item.synonym?.map((e) => (
+                                                <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3' />
+                                            ))}
+                                        </div>
+                                        <div>
+                                            <p className='title'>対義語</p>
+                                            {item.antonym?.map((e) => (
+                                                <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3' />
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Box>
+                            )
+                    }
+                </Modal>
+
+
+
+            </>
+
         )
     }
 
@@ -224,7 +331,6 @@ function Words() {
         return (
             <Modal
                 title="edit word"
-                centered
                 open={openEdit}
                 onOk={() => setOpenEdit(false)}
                 onCancel={() => setOpenEdit(false)}
@@ -468,7 +574,6 @@ function Words() {
     const DeleteWord = () => {
         const fetchData = async () => {
             const res = await deleteData(`words/${dlWord}`);
-            // setOpenDelete(false);
         }
         fetchData();
         const newData = result.filter(dt => dt.id !== dlWord);
@@ -481,7 +586,6 @@ function Words() {
                 title={msg}
                 centered
                 open={openDelete}
-
                 footer={[
                     <Row>
                         <Col span={12}>
@@ -494,10 +598,10 @@ function Words() {
                         </Col>
                         <Col span={12}>
                             <Button style={{ width: '80%', background: '#1677ff', color: 'white', boder: 'none' }}
-                                onClick={() => { 
+                                onClick={() => {
                                     DeleteWord()
                                     setOpenDelete(false)
-                                 }}>DELETE</Button>
+                                }}>DELETE</Button>
                         </Col>
                     </Row>
                 ]}
@@ -533,9 +637,9 @@ function Words() {
                                     pagination={{ defaultPageSize: 5 }}
                                     columns={columns}
                                 />
-                                <ModelDelete wordId={dlWord} />
+                                <ModelDelete />
                                 <EditWords data={editData} />
-                                <GetDetailWord />
+                                <ModelDetailWord />
                             </>
 
                         ) : (
