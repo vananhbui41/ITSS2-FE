@@ -1,9 +1,5 @@
-import React , { useEffect, useState } from 'react';
-import Checkbox from 'antd/es/checkbox/Checkbox';
-import { Helmet } from 'react-helmet-async';
-import SearchCard from '../../components/Homepage/SearchCard'; 
-import {} from '../../components/sidebar/index.css' ;
-import {getDataWord} from "./apiAdmin/wordFetch"
+
+import React, { useEffect, useState } from 'react';
 import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import Paper from '@mui/material/Paper';
@@ -14,7 +10,6 @@ import { } from '../../components/sidebar/index.css';
 import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/fetchData";
 import SearchResultCard from '../../components/Homepage/SearchResultCard';
 import Spinner from '../../components/Spinner';
-
 
 
 function Words() {
@@ -53,7 +48,7 @@ function Words() {
     }, [])
     const columns = [
         {
-            title: 'Từ vựng',
+            title: 'Word',
             dataIndex: 'word',
             with: '20%',
             render: (record, data) => {
@@ -73,7 +68,7 @@ function Words() {
             }
         },
         {
-            title: 'Bối cảnh',
+            title: 'Content',
             dataIndex: 'content',
             with: '20%',
             render: (record, data) => {
@@ -103,7 +98,7 @@ function Words() {
             }
         },
         {
-            title: 'Loại từ',
+            title: 'Type',
             dataIndex: 'type',
             with: '20%',
             render: (record, data) => {
@@ -132,7 +127,7 @@ function Words() {
             }
         },
         {
-            title: 'Chủ đề',
+            title: 'Topic',
             dataIndex: 'topic',
             with: '20%',
             render: (record, data) => {
@@ -162,7 +157,7 @@ function Words() {
             }
         },
         {
-            title: 'Thao tác',
+            title: 'Action',
             dataIndex: 'action',
             with: '20%',
             render: (record, data) => {
@@ -234,122 +229,66 @@ function Words() {
         }
         return (
             <Modal
-                title="Chỉnh sửa từ"
+                title="edit word"
                 centered
                 open={openEdit}
                 onOk={() => setOpenEdit(false)}
                 onCancel={() => setOpenEdit(false)}
                 width={1000}
-                okText="Lưu"
-                cancelText="Huỷ"
+                okText="Save"
             >
                 {/* <div>hello</div> */}
-                        <Form
-                            name="edit-word"
-                            labelCol={{ span: 8 }}
-                            wrapperCol={{ span: 16 }}
-                            initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                           
-                           <Form.Item label="Chỉnh sửa từ">
-                                <Input value={editData.word} onChange={(e)=>{
-                                    const dt1 = editData;
-                                    dt1.word = e.target.value;
-                                     setEditData(dt1);
-                                     console.log("edit word", editData);
-                               }}/>
-                            </Form.Item>
-                            <Form.Item label="Loại từ">
-                                <Select 
-                                defaultValue={editData.type} 
-                                onChange={handleType}
-                                options={[
-                                    {
-                                        value: 'Loại từ 1',
-                                        lable: 'Loại từ 1',
-                                    },
-                                    {
-                                        value: 'Loại từ 2',
-                                        lable: 'Loại từ 2',
-                                    },
-                                    {
-                                        value: 'Loại từ 3',
-                                        lable: 'Loại từ 3',
-                                    },
-                                ]}
-                                  
-                                />
-                               
-                            </Form.Item>
-                            <Form.Item
-                                label="Ý nghĩa"
-                               
-                                rules={[{ required: true, message: 'Hãy nhập ý nghĩa của từ!' }]}
-                            >
-                            <TextArea rows={4} value={editData.means} onChange={(e)=>{
-                                    const dt1 = editData;
-                                    dt1.content = e.target.value;
-                                    setEditData(dt1);
-                            }}/>
-                            </Form.Item>
-                            <h2>Ví dụ: </h2>
-                            
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Thêm ví dụ</Button>
-                            {showExample && 
-                            (
-                                <>
-                                 <Form.Item label="Bối cảnh" name = "select-context">
-                                <Select>
-                                    <Select.Option value="context1">Bối cảnh 1</Select.Option>
-                                    <Select.Option value="context2">Bối cảnh 2</Select.Option>
-                                    <Select.Option value="context3">Bối cảnh 3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                                <Form.Item
-                                    label="Chủ đề"
-                                    name="topic"
-                                    rules={[{ required: true, message: 'Hãy nhập chủ đề của bạn' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                <Form
+                    name="edit-word"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
 
-                                <Form.Item label="Hình ảnh"  valuePropName="fileList">
-                                    <Upload action="/upload.do" listType="picture-card">
-                                        <div>
-                                        <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Tải lên</div>
-                                        </div>
-                                    </Upload>
-                                </Form.Item>
-                            </>
-                            )
-                        }
-                            
-                        <h2 className='mt-4'>Từ ngữ liên quan</h2>
-                        <Form.Item
-                            label="Từ đồng nghĩa"
-                            name="synonyms"
-                            rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Từ trái nghĩa"
-                            name="Antonymic"
-                            rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            Thêm
-                            </Button>
-                        </Form.Item>
-                        </Form>
+                    <Form.Item
+                        label="word"
+                        name="word"
+                        rules={[{ required: true, message: 'Please input your word!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="furigana"
+                        name="furigana"
+                        rules={[{ required: true, message: 'Please input your furigana!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="type" name="select-type">
+                        <Select>
+                            {categories
+                                .filter((item) => item.category_id === 2)
+                                .map((item) => (
+                                    <Select.Option key={item.id} value={item.name}>{item.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <ListMeanings />
+                    <h2 className='mt-4'>Related word</h2>
+                    <Form.Item
+                        label="synonyms"
+                        name="synonyms"
+                        rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Antonym"
+                        name="Antonymic"
+                        rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                </Form>
             </Modal>
         );
     }
@@ -368,107 +307,163 @@ function Words() {
     };
     const [options, setOptions] = useState([]);
     const [meaningList, setMeaningList] = useState([{}]);
-    const [data, setData] = useState(dataSource);
 
-    const ModelAdd = () =>{
-        return(
-                    <Modal
-                        title="Thêm từ"
-                        centered
-                        open={open}
-                        onOk={() => setOpen(false)}
-                        onCancel={() => setOpen(false)}
-                        width={1000}
-                        okText="Thêm"
-                        cancelText="Huỷ"
+    useEffect(() => {
+        const fetchData = async () => {
+            const tagsData = await getTags()
+            setCategories(tagsData.data)
+            const obOptions = tagsData.data.filter(options => options.category_id === 3)
+            const newArrayOptions = []
+            obOptions.forEach((el) => {
+                newArrayOptions.push({
+                    label: el.name,
+                    value: el.name
+                })
+            })
+            setOptions(newArrayOptions)
+        }
+        fetchData()
+    }, [])
+
+    const Meaning = (idMeaning) => {
+        const DeleteMeanings = () => {
+            // const newMeaninglist = meaningList.filter(mean => mean !== idMeaning)
+            // setMeaningList(newMeaninglist)
+        }
+        return (
+            <div key={idMeaning}>
+                <Form.Item
+                    label="meaning"
+                    name="means"
+                    rules={[{ required: true, message: 'Please input your meaning!' }]}
+                >
+                    <TextArea rows={4} />
+                </Form.Item>
+                <Form.Item label="context" name="select-context">
+                    <Select>
+                        {categories
+                            .filter((item) => item.category_id === 1)
+                            .map((item) => (
+                                <Select.Option key={item.id} value={item.name}>{item.name}
+                                </Select.Option>
+                            ))}
+                    </Select>
+                </Form.Item>
+                <Form.Item
+                    label="topic"
+                    name="topic"
+                    rules={[{ required: true, message: 'Please input your topic!' }]}
+                >
+                    <Select
+                        mode="multiple"
+                        allowClear
+                        style={{ width: '100%' }}
+                        placeholder="Please select"
+                        initialValues={[]}
+                        onChange={handleChange}
+                        options={options}
+                    />
+                </Form.Item>
+
+                <Form.Item label="picture" valuePropName="fileList">
+                    <Upload action="/upload.do" listType="picture-card">
+                        <div>
+                            <PlusOutlined />
+                            <div style={{ marginTop: 8 }}>Upload</div>
+                        </div>
+                    </Upload>
+                </Form.Item>
+                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                    <Button type="primary" style={{ background: '#4096ff' }} onClick={DeleteMeanings}>
+                        Delete
+                    </Button>
+                </Form.Item>
+            </div>
+        )
+    }
+    const ListMeanings = () => {
+        const onAddBtnClick = event => {
+            setMeaningList(meaningList.concat(<Meaning key={meaningList.length + 1} idMeaning={meaningList.length + 1} />));
+        };
+
+        return (
+            <div>
+                <Button className='mt-4 text-center' onClick={onAddBtnClick}> <PlusOutlined /> Meanings</Button>
+                {
+                    meaningList.length > 0 ?
+                        meaningList.map((key, meaning) => <Meaning idMeaning={key} />) : 'No examples found'
+                }
+            </div>
+        );
+    };
+
+    const ModelAdd = () => {
+        return (
+            <Modal
+                title="add word"
+                open={open}
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+                width={1000}
+                z-index={1000}
+            >
+                <Form
+                    name="basic"
+                    labelCol={{ span: 8 }}
+                    wrapperCol={{ span: 16 }}
+                    initialValues={{ remember: true }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                >
+                    <Form.Item
+                        label="word"
+                        name="word"
+                        rules={[{ required: true, message: 'Please input your word!' }]}
                     >
-                        <Form
-                            name="basic"
-                            labelCol={{ span: 8 }}
-                            wrapperCol={{ span: 16 }}
-                            initialValues={{ remember: true }}
-                            onFinish={onFinish}
-                            onFinishFailed={onFinishFailed}
-                            autoComplete="off"
-                        >
-                            <Form.Item
-                                label="Từ vựng"
-                                name="word"
-                                rules={[{ required: true, message: 'Hãy nhập từ vựng!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                            <Form.Item label="Loại từ" name = "select-type">
-                                <Select>
-                                    <Select.Option value="type1">type1</Select.Option>
-                                    <Select.Option value="type2">type2</Select.Option>
-                                    <Select.Option value="type3">type3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                            <Form.Item
-                                label="Ý nghĩa"
-                                name="means"
-                                rules={[{ required: true, message: 'Hãy nhập ý nghĩa của từ vựng!' }]}
-                            >
-                            <TextArea rows={4} />
-                            </Form.Item>
-                            <h2>Ví dụ </h2>
-                            
-                            <Button className='mt-4' onClick={()=>{setShowExample(!showExample)}}>Thêm ví dụ</Button>
-                            {showExample && 
-                            (
-                                <>
-                                 <Form.Item label="Bối cảnh" name = "select-context">
-                                <Select>
-                                    <Select.Option value="context1">context1</Select.Option>
-                                    <Select.Option value="context2">context2</Select.Option>
-                                    <Select.Option value="context3">context3</Select.Option>
-                                </Select>
-                            </Form.Item>
-                                <Form.Item
-                                    label="Chủ đề"
-                                    name="topic"
-                                    rules={[{ required: true, message: 'Hãy nhập chủ đề!' }]}
-                                >
-                                    <Input />
-                                </Form.Item>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="furigana"
+                        name="furigana"
+                        rules={[{ required: true, message: 'Please input your furigana!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item label="type" name="select-type">
+                        <Select>
+                            {categories
+                                .filter((item) => item.category_id === 2)
+                                .map((item) => (
+                                    <Select.Option key={item.id} value={item.name}>{item.name}
+                                    </Select.Option>
+                                ))}
+                        </Select>
+                    </Form.Item>
+                    <ListMeanings />
+                    <h2 className='mt-4'>Related word</h2>
+                    <Form.Item
+                        label="synonyms"
+                        name="synonyms"
+                        rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Antonym"
+                        name="Antonymic"
+                        rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                                <Form.Item label="Hình ảnh"  valuePropName="fileList">
-                                    <Upload action="/upload.do" listType="picture-card">
-                                        <div>
-                                        <PlusOutlined />
-                                        <div style={{ marginTop: 8 }}>Tải lên</div>
-                                        </div>
-                                    </Upload>
-                                </Form.Item>
-                            </>
-                            )
-                        }
-                            
-                        <h2 className='mt-4'>Từ ngữ liên quan</h2>
-                        <Form.Item
-                            label="Từ đồng nghĩa"
-                            name="synonyms"
-                            rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-                        <Form.Item
-                            label="Từ trái nghĩa"
-                            name="Antonymic"
-                            rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
-                        >
-                            <Input />
-                        </Form.Item>
-
-                        <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                            <Button type="primary" htmlType="submit" style={{background: '#4096ff'}}>
-                            Thêm
-                            </Button>
-                        </Form.Item>
-                        </Form>
-                    </Modal>
-
+                    <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+                        <Button type="primary" htmlType="submit" style={{ background: '#4096ff' }}>
+                            add
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Modal>
         );
     }
 
@@ -481,23 +476,6 @@ function Words() {
             const res = await deleteData(`words/${wordId}`);
             setOpenDelete(false);
         }
-        fetchData()
-       
-    }, [])
-    return (
-        <>
-        <div>
-       
-            <section>
-          
-                <div className=" text-4xl  word-des " style={{display:'grid', marginTop: '5rem', padding: '20px'}} >
-                    <SearchCard />
-                   
-
-                    <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
-                        Thêm
-                    </Button>
-                   
         fetchData();
         const newData = result.filter(dt => dt.id !== wordId);
         setResult(newData)
@@ -564,7 +542,7 @@ function Words() {
                             </>
 
                         ) : (
-                            <p>Không tìm thấy bản ghi.</p>
+                            <p>Your search did not match any documents.</p>
                         )
                         }
 

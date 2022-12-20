@@ -313,7 +313,7 @@ function Tags() {
                             position: "relative",
                         }}
                     >
-                        {data.name}
+                        {data?.name ? data?.name : ""}
                     </div>
                 );
             }
@@ -333,7 +333,7 @@ function Tags() {
                             position: "relative",
                         }}
                     >
-                        {data.category.name}
+                        {data?.category?.name ?  data?.category?.name : ""}
                     </div>
                 );
             }
