@@ -8,7 +8,7 @@ export async function search({ keyword, type, context, topic }) {
     if (topic) tags.push(...topic);
     const token = localStorage.getItem('token');
     let config = {};
-    if (token) {
+    if (token && keyword) {
       config = {
         headers: {
           Authorization: `Bearer ${token}`,
