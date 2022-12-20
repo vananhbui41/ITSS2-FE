@@ -48,7 +48,7 @@ function Words() {
     }, [])
     const columns = [
         {
-            title: 'Word',
+            title: 'Từ Vựng',
             dataIndex: 'word',
             with: '20%',
             render: (record, data) => {
@@ -68,7 +68,7 @@ function Words() {
             }
         },
         {
-            title: 'Content',
+            title: 'Bối Cảnh',
             dataIndex: 'content',
             with: '20%',
             render: (record, data) => {
@@ -98,7 +98,7 @@ function Words() {
             }
         },
         {
-            title: 'Type',
+            title: 'Loại Từ',
             dataIndex: 'type',
             with: '20%',
             render: (record, data) => {
@@ -127,7 +127,7 @@ function Words() {
             }
         },
         {
-            title: 'Topic',
+            title: 'Chủ Đề',
             dataIndex: 'topic',
             with: '20%',
             render: (record, data) => {
@@ -157,7 +157,7 @@ function Words() {
             }
         },
         {
-            title: 'Action',
+            title: 'Thao Tác',
             dataIndex: 'action',
             with: '20%',
             render: (record, data) => {
@@ -229,13 +229,14 @@ function Words() {
         }
         return (
             <Modal
-                title="edit word"
+                title="Chỉnh sửa từ"
                 centered
                 open={openEdit}
                 onOk={() => setOpenEdit(false)}
                 onCancel={() => setOpenEdit(false)}
                 width={1000}
-                okText="Save"
+                okText="Lưu"
+                cancelText="Huỷ"
             >
                 {/* <div>hello</div> */}
                 <Form
@@ -249,7 +250,7 @@ function Words() {
                 >
 
                     <Form.Item
-                        label="word"
+                        label="Từ Vựng"
                         name="word"
                         rules={[{ required: true, message: 'Please input your word!' }]}
                     >
@@ -262,7 +263,7 @@ function Words() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="type" name="select-type">
+                    <Form.Item label="Loại Từ" name="select-type">
                         <Select>
                             {categories
                                 .filter((item) => item.category_id === 2)
@@ -273,16 +274,16 @@ function Words() {
                         </Select>
                     </Form.Item>
                     <ListMeanings />
-                    <h2 className='mt-4'>Related word</h2>
+                    <h2 className='mt-4'>Từ ngữ liên quan</h2>
                     <Form.Item
-                        label="synonyms"
+                        label="Từ Đồng Nghĩa"
                         name="synonyms"
                         rules={[{ required: true, message: 'Please input your synonyms!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Antonym"
+                        label="Từ Trái Nghĩa"
                         name="Antonymic"
                         rules={[{ required: true, message: 'Please input your Antonym!' }]}
                     >
@@ -333,13 +334,13 @@ function Words() {
         return (
             <div key={idMeaning}>
                 <Form.Item
-                    label="meaning"
+                    label="Ý Nghĩa"
                     name="means"
-                    rules={[{ required: true, message: 'Please input your meaning!' }]}
+                    rules={[{ required: true, message: 'Hãy nhập ý nghĩa!' }]}
                 >
                     <TextArea rows={4} />
                 </Form.Item>
-                <Form.Item label="context" name="select-context">
+                <Form.Item label="Bối Cảnh" name="select-context">
                     <Select>
                         {categories
                             .filter((item) => item.category_id === 1)
@@ -350,9 +351,9 @@ function Words() {
                     </Select>
                 </Form.Item>
                 <Form.Item
-                    label="topic"
+                    label="Chủ Đề"
                     name="topic"
-                    rules={[{ required: true, message: 'Please input your topic!' }]}
+                    rules={[{ required: true, message: 'Hãy nhập chủ đề!' }]}
                 >
                     <Select
                         mode="multiple"
@@ -365,17 +366,17 @@ function Words() {
                     />
                 </Form.Item>
 
-                <Form.Item label="picture" valuePropName="fileList">
+                <Form.Item label="Hình Ảnh" valuePropName="fileList">
                     <Upload action="/upload.do" listType="picture-card">
                         <div>
                             <PlusOutlined />
-                            <div style={{ marginTop: 8 }}>Upload</div>
+                            <div style={{ marginTop: 8 }}>Tải lên</div>
                         </div>
                     </Upload>
                 </Form.Item>
                 <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                     <Button type="primary" style={{ background: '#4096ff' }} onClick={DeleteMeanings}>
-                        Delete
+                        Xoá
                     </Button>
                 </Form.Item>
             </div>
@@ -388,10 +389,10 @@ function Words() {
 
         return (
             <div>
-                <Button className='mt-4 text-center' onClick={onAddBtnClick}> <PlusOutlined /> Meanings</Button>
+                <Button className='mt-4 text-center' onClick={onAddBtnClick}> <PlusOutlined /> Ý Nghĩa</Button>
                 {
                     meaningList.length > 0 ?
-                        meaningList.map((key, meaning) => <Meaning idMeaning={key} />) : 'No examples found'
+                        meaningList.map((key, meaning) => <Meaning idMeaning={key} />) : 'Không tìm thấy ví dụ'
                 }
             </div>
         );
@@ -400,12 +401,14 @@ function Words() {
     const ModelAdd = () => {
         return (
             <Modal
-                title="add word"
+                title="Thêm Từ"
                 open={open}
                 onOk={() => setOpen(false)}
                 onCancel={() => setOpen(false)}
                 width={1000}
                 z-index={1000}
+                okText="Thêm"
+                cancelText="Huỷ"
             >
                 <Form
                     name="basic"
@@ -417,20 +420,20 @@ function Words() {
                     autoComplete="off"
                 >
                     <Form.Item
-                        label="word"
+                        label="Từ Vựng"
                         name="word"
-                        rules={[{ required: true, message: 'Please input your word!' }]}
+                        rules={[{ required: true, message: 'Hãy nhập từ vựng!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="furigana"
                         name="furigana"
-                        rules={[{ required: true, message: 'Please input your furigana!' }]}
+                        rules={[{ required: true, message: 'Hãy nhập furigana!' }]}
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="type" name="select-type">
+                    <Form.Item label="Loại Từ" name="select-type">
                         <Select>
                             {categories
                                 .filter((item) => item.category_id === 2)
@@ -441,25 +444,25 @@ function Words() {
                         </Select>
                     </Form.Item>
                     <ListMeanings />
-                    <h2 className='mt-4'>Related word</h2>
+                    <h2 className='mt-4'>Từ ngữ liên quan</h2>
                     <Form.Item
-                        label="synonyms"
+                        label="Từ Đồng Nghĩa"
                         name="synonyms"
-                        rules={[{ required: true, message: 'Please input your synonyms!' }]}
+                        rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        label="Antonym"
+                        label="Từ Trái Nghĩa"
                         name="Antonymic"
-                        rules={[{ required: true, message: 'Please input your Antonym!' }]}
+                        rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
                     >
                         <Input />
                     </Form.Item>
 
                     <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
                         <Button type="primary" htmlType="submit" style={{ background: '#4096ff' }}>
-                            add
+                            Thêm
                         </Button>
                     </Form.Item>
                 </Form>
@@ -481,7 +484,7 @@ function Words() {
         setResult(newData)
     }
     const ModelDelete = (wordId) => {
-        const msg = `Are you sure want to delete words?`
+        const msg = `Bạn có chắc chắn muốn xoá từ ngữ này?`
         return (
             <Modal
                 title={msg}
@@ -523,7 +526,7 @@ function Words() {
                         <SearchCard onSearch={handleOnSearch} words={words} />
                         <div>
                             <Button type="primary" style={{ background: '#4096ff', width: '30%' }} onClick={() => setOpen(true)}>
-                                ADD
+                                Thêm
                             </Button>
                             {ModelAdd()}
                         </div>
@@ -542,7 +545,7 @@ function Words() {
                             </>
 
                         ) : (
-                            <p>Your search did not match any documents.</p>
+                            <p>Không tìm thấy bản ghi nào phù hợp.</p>
                         )
                         }
 
