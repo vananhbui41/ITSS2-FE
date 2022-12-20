@@ -425,19 +425,7 @@ function Tags() {
                         >Add</Button>
                     </Col>
                 </Row>
-                <Row>
-                    <Col span={5}>
-                        <Button style={{background: '#1677ff', color: 'white', boder: 'none'}} 
-                            onClick={()=>{
-                                const dt1 = dataTag;
-                                dt1.tag = '';
-                                dt1.category = '';
-                                setDataTag(dt1);
-                                setOpenAdd(true);
-                            }}
-                        >Add</Button>
-                    </Col>
-                </Row>
+               
                 <Table 
                         dataSource={dataTable}
                         pagination={{defaultPageSize: 5}}
