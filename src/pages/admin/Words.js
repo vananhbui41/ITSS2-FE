@@ -5,10 +5,13 @@ import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-de
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import SearchCard from '../../components/Homepage/SearchCard';
+
 import { getWords, search, getTags } from '../../api/search';
 import { } from '../../components/sidebar/index.css';
 import { getData, searchTagDB, postData, putData, deleteData } from "./apiAdmin/fetchData";
+
 import SearchResultCard from '../../components/Homepage/SearchResultCard';
+
 import Spinner from '../../components/Spinner';
 
 
@@ -213,6 +216,7 @@ function Words() {
                 width={1000}
             >
                 <SearchResultCard result={item} />
+              
             </Modal>
         )
     }

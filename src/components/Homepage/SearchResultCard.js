@@ -65,14 +65,13 @@ export default function SearchResultCard({ result }) {
                     <h3>Các từ liên quan</h3>
                     <div>
                         <p className='title'>Từ đồng nghĩa</p>
-                        {item.synonym.map((e) => (
-
+                        {item.synonym?.map((e) => (
                             <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
                         ))}
                     </div>
                     <div>
                     <p className='title'>Từ trái nghĩa</p>
-                        {item.antonym.map((e) => (
+                        {item.antonym?.map((e) => (
                             <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3'/>
                         ))}
                     </div>
