@@ -351,7 +351,6 @@ function Tags() {
                     > 
                         
                         <Button onClick={()=>{
-                            console.log("data: ", data);
                             const aaa = {'name': data.name, 'category': data.category.name};
                             setDataTag(aaa);
                             setDataEditTag(data);
