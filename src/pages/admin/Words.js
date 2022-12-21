@@ -224,7 +224,7 @@ function Words() {
         return (
             <>
                 <Modal
-                    title="Details words"
+                    title="chi tiet"
                     open={openDetail}
                     onOk={() => setOpenDetail(false)}
                     onCancel={() => setOpenDetail(false)}
@@ -260,17 +260,17 @@ function Words() {
                                                             image="https://pi.tedcdn.com/r/talkstar-photos.s3.amazonaws.com/uploads/72bda89f-9bbf-4685-910a-2f151c4f3a8a/NicolaSturgeon_2019T-embed.jpg?w=512"
                                                             alt="Nicola Sturgeon on a TED talk stage"
                                                         /> */}
-                                                        <b>Meaning</b>
+                                                        <b>y nghia</b>
                                                         <div className='ml-5'>
                                                             <p>{exp.meaning}</p>
                                                             <span>{exp.explanation_of_meaning}</span>
                                                         </div>
-                                                        <b>Example</b>
+                                                        <b>vi du</b>
                                                         <div className='ml-5'>
                                                             <p>{exp.example}</p>
                                                             <span>{exp.example_meaning}</span>
                                                         </div>
-                                                        <b>Type</b>
+                                                        <b>loai</b>
                                                         <div className='ml-5'>
                                                             {
                                                                 exp.tags?.filter(tag => tag.category_id === 2).map(t => ( <span>{t.name}, </span>))
@@ -295,15 +295,15 @@ function Words() {
                                         </Grid>
                                     </div>
                                     <div className='related-words'>
-                                        <h3>Related words</h3>
+                                        <h3>tu lien quan</h3>
                                         <div>
-                                            <p className='title'>類義語</p>
+                                            <p className='title'>dong nghia</p>
                                             {item.synonym?.map((e) => (
                                                 <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3' />
                                             ))}
                                         </div>
                                         <div>
-                                            <p className='title'>対義語</p>
+                                            <p className='title'>trai nghia</p>
                                             {item.antonym?.map((e) => (
                                                 <Chip key={e.id} label={e.word} variant="outlined" color="success" className='mr-3' />
                                             ))}
