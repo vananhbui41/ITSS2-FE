@@ -60,6 +60,10 @@ function Tags() {
         'name': '',
         'category': ''
     });
+    const [dataTag1, setDataTag1] = useState({
+        'name': '',
+        'category': ''
+    });
 
     const [openDelete, setOpenDelete] = useState(false);
     const [openDetail, setOpenDetail] = useState(false);
@@ -383,7 +387,11 @@ function Tags() {
        
    }
 
+   const handleType1 = (value) =>{
+        
+    setDataTag1({...dataTag1, "category":value});
    
+}
 
     return (
         <>
@@ -396,11 +404,11 @@ function Tags() {
             
                 <Row>
                     <Col span={10}>
-                    <SelectCategory dataTag={dataTag} handleType={handleType} option={listCate} />
+                    <SelectCategory dataTag={dataTag1} handleType={handleType1} option={listCate} />
 
                     </Col>
                     <Col span={5}>
-                    <SearTag dataTag={dataTag} setDataTag= {setDataTag} />
+                    <SearTag dataTag={dataTag1} setDataTag= {setDataTag1} />
            
                     </Col>
                     <Col span={4}>
