@@ -224,7 +224,7 @@ function Tags() {
     const editTag = (data) =>{
         const cate = listCate.filter(data => data.value === dataTag.category);
         // console.log("cate: ", cate);
-        const mm = {'category_id': cate.category_id, 'name': dataTag.name};
+        const mm = {'category_id': cate[0].category_id, 'name': dataTag.name};
         console.log("mm: ", mm);
         
         const fetchData = async () => {
