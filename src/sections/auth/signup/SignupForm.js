@@ -76,7 +76,7 @@ export default function SignupForm() {
           </Stack>
 
           <LoadingButton fullWidth size="large" variant="contained" onClick={handleClick} sx={{ my: 2 }}>
-            Signup
+            Đăng ký
           </LoadingButton>
         </div>
       )}
