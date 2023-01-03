@@ -56,7 +56,7 @@ export default function LoginForm() {
             />
           </Stack>
           <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick} sx={{ my: 2 }}>
-            Login
+            Đăng nhập
           </LoadingButton>
         </>
       )}

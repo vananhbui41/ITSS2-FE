@@ -70,17 +70,17 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign up to Lavie
+              Đăng ký Lavie
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-              Already have an account ?  
-              <Link href="/login" variant="subtitle2">Login</Link>
+              Bạn đã có tài khoản ?  
+              <Link href="/login" variant="subtitle2">Đăng nhập</Link>
             </Typography>
 
             <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                OR
+                Hoặc
               </Typography>
             </Divider>
 
