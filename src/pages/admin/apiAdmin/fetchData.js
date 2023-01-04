@@ -87,3 +87,5 @@ export const deleteData = async (url) => {
   const data = await res.json();
   return data;
 };
+
+

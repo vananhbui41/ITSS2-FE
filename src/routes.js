@@ -10,8 +10,10 @@ import SignupPage from './pages/SignupPage';
 import Page404 from './pages/Page404';
 import ProductsPage from './pages/ProductsPage';
 import DashboardAppPage from './pages/DashboardAppPage';
-import HomePage from './pages/guest/HomePage';
+import HomePage from './pages/guest/HomePage'; 
+
 import MainPage from './components/sidebar/MainPage';
+
 import Words from './pages/admin/Words';
 import Tags from './pages/admin/Tags';
 import Categories from './pages/admin/Categories';

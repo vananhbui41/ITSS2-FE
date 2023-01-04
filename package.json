@@ -1,4 +1,3 @@
-
 {
   "name": "@minimal/material-kit-react",
   "author": "minimals.cc",
@@ -22,9 +21,8 @@
     ],
     "rules": {
       "no-var": 0
-  }
+    }
   },
-
   "babel": {
     "presets": [
       "@babel/preset-react"
@@ -77,6 +75,7 @@
     "sass": "^1.56.1",
     "simplebar-react": "^2.4.3",
     "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "web-vitals": "^3.0.3"
   },
   "devDependencies": {

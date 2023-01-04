@@ -9,7 +9,7 @@ import {getData, searchTagDB, postData, putData,deleteData} from "./apiAdmin/fet
 const SelectCategory = ({dataTag, handleType, option}) =>{
 
     return(
-        <Form.Item label="category">
+        <Form.Item label="Loại tag">
             <Select 
             style={{width: '80%'}}
             value={dataTag.category} 
@@ -40,7 +40,7 @@ const SelectCategory = ({dataTag, handleType, option}) =>{
 const SearTag = ({dataTag, setDataTag}) =>{
     // console.log("data tag on input: ", dataTag);
     return(
-        <Form.Item label="tag" >
+        <Form.Item label="Tag" >
         <Input style={{width: '80%'}}   value={dataTag.name}
         onChange={(e) =>{
             const dt1 = dataTag;
@@ -57,6 +57,10 @@ function Tags() {
     // datatag: data de search category vs tag, cx la de edit
 
     const [dataTag, setDataTag] = useState({
+        'name': '',
+        'category': ''
+    });
+    const [dataTag1, setDataTag1] = useState({
         'name': '',
         'category': ''
     });
@@ -82,7 +86,7 @@ function Tags() {
     }
     const [listCate, setListCate] = useState();
     const ModelDelete = (tag) =>{
-        const aa = `are you sure want to delete tag "${tag}"`
+        const aa = `Bạn có chắc chắn muốn xoá tag "${tag}"`
         return(
         <Modal
             title={aa}
@@ -95,12 +99,12 @@ function Tags() {
                     <Button style={{width: '80%'}} onClick={()=>{
                         setOpenDelete(false)}}
                     >
-                        cancel
+                        Huỷ
                     </Button>
                 </Col>
                 <Col span={12}>
                     <Button style={{width: '80%',background: '#1677ff', color: 'white', boder: 'none'}} 
-                    onClick={()=>{deleteTable(tag)}}>delete</Button>
+                    onClick={()=>{deleteTable(tag)}}>Xoá</Button>
                 </Col>
             </Row>
                 ]}
@@ -133,12 +137,12 @@ function Tags() {
                         onClick={()=>{
                             setOpenAdd(false)}}
                         >
-                            cancel
+                            Huỷ
                         </Button>
                     </Col>
                     <Col span={12}>
                         <Button style={{background: '#1677ff', color: 'white', boder: 'none', width:'80%'}}
-                         onClick={() => {AddTagDB(dataTag)}} >Add</Button>
+                         onClick={() => {AddTagDB(dataTag)}} >Thêm</Button>
                     </Col>
                 </Row>
             ]}
@@ -168,7 +172,7 @@ function Tags() {
                         <Button style={{width: '80%'}} onClick={()=>{
                             setOpenDetail(false)}}
                         >
-                            cancel
+                            Huỷ
                         </Button>
                     </Col>
                     
@@ -177,7 +181,7 @@ function Tags() {
                         onClick={() =>{
                             editTag(dataTag);
                         }}
-                        >save</Button>
+                        >Lưu</Button>
                     </Col>
                 </Row>
             ]}
@@ -218,8 +222,11 @@ function Tags() {
     }
 
     const editTag = (data) =>{
-      
-        const mm = {'category_id': dataEditTag.category_id, 'name': dataTag.name};
+        const cate = listCate.filter(data => data.value === dataTag.category);
+        // console.log("cate: ", cate);
+        const mm = {'category_id': cate[0].category_id, 'name': dataTag.name};
+        console.log("mm: ", mm);
+        
         const fetchData = async () => {
             const res = await putData(`tags/${dataEditTag.id}`, mm);
            
@@ -313,13 +320,13 @@ function Tags() {
                             position: "relative",
                         }}
                     >
-                        {data.name}
+                        {data?.name ? data?.name : ""}
                     </div>
                 );
             }
         },
         {
-            title: 'category',
+            title: 'Loại tag',
             dataIndex: 'content',
             with: '40%',
             render: (record, data) =>{
@@ -333,7 +340,7 @@ function Tags() {
                             position: "relative",
                         }}
                     >
-                        {data.category.name}
+                        {data?.category?.name ?  data?.category?.name : ""}
                     </div>
                 );
             }
@@ -341,22 +348,32 @@ function Tags() {
        
        
         {
-            with: 10,
-            title: 'Action',
+            title: 'Thao tác',
             dataIndex: 'action',
             render: (record, data) => {
                 return(
-                    <div>                      
-                        <a>
-                            <EditOutlined 
-                                style={{color: 'green', marginLeft: '15px'}}
-                                onClick={()=>{
-                                    console.log("data: ", data);
-                                    const aaa = {'name': data.name, 'category': data.category.name};
-                                    setDataTag(aaa);
-                                    setDataEditTag(data);
-                                    setOpenDetail(true);
-                                }}
+                    <div 
+                       
+                    > 
+                        
+                        <Button onClick={()=>{
+                            const aaa = {'name': data.name, 'category': data.category.name};
+                            setDataTag(aaa);
+                            setDataEditTag(data);
+                            setOpenDetail(true);
+                        }}>
+                                <EditOutlined />
+                        </Button>
+
+                        <Button 
+                       onClick={()=>{
+                        setOpenDelete(true);
+                        setDataEditTag(data);
+                        setTagDelete(data.name);
+                    }}
+                        >
+                            <DeleteOutlined 
+                                
                             />
                         </a>
 
@@ -383,7 +400,11 @@ function Tags() {
        
    }
 
+   const handleType1 = (value) =>{
+        
+    setDataTag1({...dataTag1, "category":value});
    
+}
 
     return (
         <>
@@ -396,11 +417,11 @@ function Tags() {
             
                 <Row>
                     <Col span={10}>
-                    <SelectCategory dataTag={dataTag} handleType={handleType} option={listCate} />
+                    <SelectCategory dataTag={dataTag1} handleType={handleType1} option={listCate} />
 
                     </Col>
                     <Col span={5}>
-                    <SearTag dataTag={dataTag} setDataTag= {setDataTag} />
+                    <SearTag dataTag={dataTag1} setDataTag= {setDataTag1} />
            
                     </Col>
                     <Col span={4}>
@@ -408,7 +429,7 @@ function Tags() {
                     onClick={()=>{
                         setClickSearch(!clickSearch);
                     }}
-                   >search</Button>
+                   >Tìm kiếm</Button>
                     </Col>
                 </Row>
                 <Row>
@@ -421,7 +442,7 @@ function Tags() {
                                 setDataTag(dt1);
                                 setOpenAdd(true);
                             }}
-                        >Add</Button>
+                        >Thêm</Button>
                     </Col>
                 </Row>
                

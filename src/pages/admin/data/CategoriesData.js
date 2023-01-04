@@ -1,15 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Form, Radio, Button, Space, Switch, Table, Input, Modal } from 'antd';
+import { Form, Radio, Button, Space, Switch, Table, Input, Modal, message } from 'antd';
 import './categoriesData.css';
-import DialogContent from '@mui/material/DialogContent';
-import TextField from '@mui/material/TextField';
-import DialogTitle from '@mui/material/DialogTitle';
 import axios from 'axios';
-import DeletePopup from './popup/deletePopup';
-import AddPopup from './popup/addPopup';
-import FixPopup from './popup/fixPopup';
-
+import { v4 as uuidv4 } from 'uuid';
 
 function CategoriesData(props) {
   const [isEditing, setIsEditing] = useState(false);
@@ -23,7 +17,10 @@ function CategoriesData(props) {
   const { Search } = Input;
 
   // Data
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState([
+    // {  id: uuidv4(), name: `This is category No.1`},
+    // {  id: uuidv4(), name: `This is category No.2`},
+  ]);
   useEffect(() => {
     const getTodos = async () => {
       try {
@@ -31,6 +28,7 @@ function CategoriesData(props) {
           'https://lavie-backend.herokuapp.com/api/categories'
         )
         setDataSource(res.data)
+        setAddingCategory(res.data)
       } catch (error) {
         console.log(error.message)
       }
@@ -40,7 +38,7 @@ function CategoriesData(props) {
 
   const columns = [
     {
-      title: 'Categories',
+      title: 'Loại tags',
       dataIndex: 'name',
       filteredValue: [searchedText],
       onFilter: (value, record)=>{
@@ -48,9 +46,9 @@ function CategoriesData(props) {
       },
     },
     {
-      title: 'Action',
+      title: 'Thao tác',
       key: 'action',
-      sorter: true,
+      className: 'ant-table-cell-action',
       render: (record) => {
         return(
           <Space style={{width:'100%', justifyContent:'center'}} align="center" size="middle">
@@ -76,29 +74,69 @@ function CategoriesData(props) {
     },
   ];
 
+
+
   // Add Category
-  const addCategory = (name) => {
-    setDataSource([...dataSource , {name}])
+  const [isAdding, setIsAdding] = useState(false);
+  const [addingCategory, setAddingCategory] = useState({
+    // id: uuidv4(), 
+    name: ""
+  })
+  const onAddCategory = ()=>{
+    setIsAdding(true)
   }
+  const resetAdding = ()=>{
+    setIsAdding(false)
+    setAddingCategory(false)
+  }
+  // const addCategory = async (addingCategory) => {
+  //   // const request = {
+  //   //   // id: uuid(),
+  //   //   ...addingCategory,
+  //   // };
+  //   try {
+  //     const res = await axios.post(
+  //       'https://lavie-backend.herokuapp.com/api/categories',{
+  //         addingCategory
+  //       },
+  //     );
+  //     console.log(res.data);
+  //     setDataSource(pre=>{return[...pre, res.data]});
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // };
+  
+
+
   // Delete Category
-  const deleteCategory = (record) => {
-    
+  const deleteCategory = (record, id) => {
     Modal.confirm({
-      title: "Are you sure you want to delete this category",
-      okText: "Delete",
-      onOk: () => {
-        setDataSource((pre) => {
-          return pre.filter((td) => td.id !== record.id)
-        })
+      title: `Bạn có chắc chắn muốn xoá loại tag "${record.name}" không?`,
+      cancelText: "Huỷ",
+      centered: "center",
+      okText: "Xoá",
+      onOk: async () => {
+        try {
+          await axios.delete(`https://lavie-backend.herokuapp.com/api/categories/${id}`)
+          // const newCategory = dataSource.filter(td => td.id !== record.id)
+          setDataSource((pre) => {
+            return pre.filter((td) => td.id !== record.id)
+          })
+        } catch (error) {
+          console.log(error.message)
+        }
+        console.log(dataSource)
       }
     })
   }
+
   // Edit Category
-  const editCategory = (record) => {
-    setIsEditing(true)
+  const onEditCategory=(record)=>{
+    setIsEditing(true);
     setEditingCategory({...record})
   }
-  const resetEditing = () =>{
+  const resetEditing=()=>{
     setIsEditing(false);
     setEditingCategory(null);
   }
@@ -106,50 +144,112 @@ function CategoriesData(props) {
   return (
     <div className='ctg-all'>
       <div className='ctg-sbt'>
-        <AddPopup addCategory={addCategory}>
-          {props.children}
-        </AddPopup>
+        {/* Add Category */}
+        <Button type="primary" variant="outlined" onClick={()=>{
+          onAddCategory()
+        }}>
+          Thêm
+        </Button>
+        <Modal
+        title="Thêm loại tag mới"
+        visible={isAdding}
+        centered
+        cancelText="Huỷ"
+        okText="Thêm"
+        onCancel={()=>{
+          resetAdding()
+        }}
+        onOk={ ()=>{
+          // const request = {
+          //   // id: uuid(),
+          //   ...addingCategory,
+          // };
+          // try {
+          //   const res = await axios.post(
+          //     'https://lavie-backend.herokuapp.com/api/categories',
+              
+          //       request
+              
+          //   )
+            console.log(dataSource)
+            setDataSource(pre=>{
+              return [...pre, addingCategory]
+            })
+          // } catch (error) {
+          //   console.log(error)
+          // }
+          // addCategory();
+          resetAdding()
+        }}
+        >
+          <Input value={addingCategory.name} onChange={(e)=>{
+            e.preventDefault();
+            // e.stopPropagation();
+            // try {
+            //   const res = await axios.post(
+            //     'https://lavie-backend.herokuapp.com/api/categories',{
+            //       name: e.target.value
+            //     },
+            //     setAddingCategory(pre=>{
+            //       return{...pre, name: e.target.value}
+            //     }),
+            //     console.log(dataSource)
+            //   )
+            // } catch (error) {
+            //   console.log(error)
+            // }
+            setAddingCategory(()=>{
+              return{
+                // ...pre, 
+                id: uuidv4(), 
+                name: e.target.value
+              }
+            })
+            console.log(addingCategory)
+          }}/>
+        </Modal>
+
+        {/* Search Category */}
         <Search
         prefix = {<SearchOutlined />}
-        placeholder="Search"
+        placeholder="Tìm kiếm"
         allowClear
-        enterButton="Search"
+        enterButton="Tìm kiếm"
         onSearch={onSearch}
         />
       </div>
       <Table
         columns={columns}
         dataSource={dataSource}
-        style={{color:'red'}}
       />
+
+      {/* Edit Category */}
       <Modal
+      title="Chỉnh sửa loại tag"
       visible={isEditing}
-      title="Edit Category"
-      okText="Save"
-      onCancel={() => {
-        resetEditing("");
+      centered
+      cancelText="Huỷ"
+      okText="Lưu"
+      onCancel={()=>{
+        resetEditing()
       }}
-      onOk={() => {
+      onOk={()=>{
         setDataSource(pre=>{
-          return pre.map((td)=>{
-            if(td.id === editingCategory.id){
+          return pre.map(category=>{
+            if(category.id === editingCategory.id){
               return editingCategory;
             }
-            return td;
-          });
-        });
-        resetEditing("");
+            return category;
+          })
+        })
+        resetEditing();
       }}
       >
-        <Input
-          // label={dataSource}
-          value={editCategory?.name}
-          onChange={(e) => {
-            setEditingCategory((pre) => {
-              return { ...pre, name: e.target.value };
-            });
-          }}
-        />
+        <Input value={editingCategory?.name} onChange={(e)=>{
+          setEditingCategory(pre=>{
+            return{...pre, name: e.target.value}
+          })
+        }}/>
       </Modal>
     </div>
   );

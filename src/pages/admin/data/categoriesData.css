@@ -1,6 +1,6 @@
 
 .ctg-all{
-    padding-top: 150px;
+    padding-top: 100px;
 }
 
 .ant-spin-container{
@@ -35,3 +35,6 @@
     text-align: center;
 }
 
+.ant-table-cell-action{
+    text-align: center !important;
+}
