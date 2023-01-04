@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SearchOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Form, Radio, Button, Space, Switch, Table, Input, Modal } from 'antd';
+import { Form, Radio, Button, Space, Switch, Table, Input, Modal, message } from 'antd';
 import './categoriesData.css';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -87,18 +87,44 @@ function CategoriesData(props) {
     setIsAdding(false)
     setAddingCategory(false)
   }
+  // const addCategory = async (addingCategory) => {
+  //   // const request = {
+  //   //   // id: uuid(),
+  //   //   ...addingCategory,
+  //   // };
+  //   try {
+  //     const res = await axios.post(
+  //       'https://lavie-backend.herokuapp.com/api/categories',{
+  //         addingCategory
+  //       },
+  //     );
+  //     console.log(res.data);
+  //     setDataSource(pre=>{return[...pre, res.data]});
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // };
   
+
+
   // Delete Category
-  const deleteCategory = (record) => {
+  const deleteCategory = (record, id) => {
     Modal.confirm({
       title: `Bạn có chắc chắn muốn xoá loại tag "${record.name}" không?`,
       cancelText: "Huỷ",
       centered: "center",
       okText: "Xoá",
-      onOk: () => {
-        setDataSource((pre) => {
-          return pre.filter((td) => td.id !== record.id)
-        })
+      onOk: async () => {
+        try {
+          await axios.delete(`https://lavie-backend.herokuapp.com/api/categories/${id}`)
+          // const newCategory = dataSource.filter(td => td.id !== record.id)
+          setDataSource((pre) => {
+            return pre.filter((td) => td.id !== record.id)
+          })
+        } catch (error) {
+          console.log(error.message)
+        }
+        console.log(dataSource)
       }
     })
   }
@@ -131,29 +157,32 @@ function CategoriesData(props) {
         onCancel={()=>{
           resetAdding()
         }}
-        onOk={()=>{
+        onOk={ ()=>{
+          // const request = {
+          //   // id: uuid(),
+          //   ...addingCategory,
+          // };
           // try {
           //   const res = await axios.post(
           //     'https://lavie-backend.herokuapp.com/api/categories',
-          //     {
-          //       addingCategory
-          //     },
+              
+          //       request
+              
           //   )
-          //   console.log(res.data)
+            console.log(dataSource)
             setDataSource(pre=>{
               return [...pre, addingCategory]
             })
           // } catch (error) {
           //   console.log(error)
           // }
-          // setDataSource(pre=>{
-          //   return [...pre, addingCategory]
-          // })
-          // console.log(dataSource)
+          // addCategory();
           resetAdding()
         }}
         >
-          <Input value={dataSource.name} onChange={(e)=>{
+          <Input value={addingCategory.name} onChange={(e)=>{
+            e.preventDefault();
+            // e.stopPropagation();
             // try {
             //   const res = await axios.post(
             //     'https://lavie-backend.herokuapp.com/api/categories',{
@@ -167,14 +196,14 @@ function CategoriesData(props) {
             // } catch (error) {
             //   console.log(error)
             // }
-            setAddingCategory(pre=>{
+            setAddingCategory(()=>{
               return{
-                ...pre, 
+                // ...pre, 
                 id: uuidv4(), 
                 name: e.target.value
               }
             })
-            // console.log(addingCategory)
+            console.log(addingCategory)
           }}/>
         </Modal>
 
