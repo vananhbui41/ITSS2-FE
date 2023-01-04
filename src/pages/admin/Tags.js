@@ -353,28 +353,18 @@ function Tags() {
             render: (record, data) => {
                 return(
                     <div 
-                       
                     > 
                         
-                        <Button onClick={()=>{
+                        <a>
+                            <EditOutlined
+                            style={{color: 'green', marginLeft: '15px'}}
+                            onClick={()=>{
                             const aaa = {'name': data.name, 'category': data.category.name};
                             setDataTag(aaa);
                             setDataEditTag(data);
                             setOpenDetail(true);
-                        }}>
-                                <EditOutlined />
-                        </Button>
-
-                        <Button 
-                       onClick={()=>{
-                        setOpenDelete(true);
-                        setDataEditTag(data);
-                        setTagDelete(data.name);
-                    }}
-                        >
-                            <DeleteOutlined 
-                                
-                            />
+                        }}
+                        />
                         </a>
 
                         <a>

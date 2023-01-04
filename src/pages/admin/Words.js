@@ -69,6 +69,7 @@ function Words() {
                         {data.word}
                     </div>
                 )
+            }
         },
         {
             title: 'Bối Cảnh',
@@ -157,6 +158,7 @@ function Words() {
                         }
                     </div>
                 )
+            }
         },
         {
             title: 'Thao Tác',
@@ -166,35 +168,39 @@ function Words() {
                 return (
                     <div
                     >
-                        <Button onClick={() => {
+                        <a><EyeOutlined
+                        onClick={() => {
                             setKey(data.id);
                             setOpenDetail(true)
 
-                        }} ><EyeOutlined /></Button>
-                        <Button onClick={() => {
-                            setIdEdit(data.id);
-                            setOpenEdit(true);
-                            // setWordData(data);
-                            // setEditData(data);
-                            // setOpenEdit(true);
-                            // setMM(true);
-                        }}>
+                        }} 
+                        /></a>
+                        <a>
                             <EditOutlined 
+                                onClick={() => {
+                                setIdEdit(data.id);
+                                setOpenEdit(true);
+                                // setWordData(data);
+                                // setEditData(data);
+                                // setOpenEdit(true);
+                                // setMM(true);
+                            }}
                                 style={{color: 'green', marginLeft: '15px'}}
                             />
-                        </Button>
-                        <Button onClick={() => {
-                            setOpenDelete(true);
-                            setDlWord(data.id);
-                        }}>
+                        </a>
+                        <a>
                             <DeleteOutlined
+                                onClick={() => {
+                                setOpenDelete(true);
+                                setDlWord(data.id);
+                            }}
                                 style={{color: 'red', marginLeft: '15px'}}
                             />
-                        </Button>
+                        </a>
                     </div>
                 )
-        },
-
+        }
+    },
     ]
     // display word details model
 

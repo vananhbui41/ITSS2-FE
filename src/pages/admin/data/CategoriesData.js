@@ -132,7 +132,7 @@ function CategoriesData(props) {
   }
 
   // Edit Category
-  const onEditCategory=(record)=>{
+  const editCategory=(record)=>{
     setIsEditing(true);
     setEditingCategory({...record})
   }
