@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Button, Modal,  Form, Input, Select , Upload, Table, Col, Row} from 'antd';
+import { Button, Modal,  Form, Input, Select , Upload, Table, Col, Row, notification} from 'antd';
 import Checkbox from 'antd/es/checkbox/Checkbox';
-import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
+import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined, BorderBottomOutlined} from '@ant-design/icons';
 import {getData, searchTagDB, postData, putData,deleteData} from "./apiAdmin/fetchData";
-
 
 const SelectCategory = ({dataTag, handleType, option}) =>{
 
@@ -14,20 +13,7 @@ const SelectCategory = ({dataTag, handleType, option}) =>{
             style={{width: '80%'}}
             value={dataTag.category} 
             onChange={handleType}
-            // options={[
-            //     {
-            //         value: 'context',
-            //         lable: 'category1',
-            //     },
-            //     {
-            //         value: 'category2',
-            //         lable: 'category2',
-            //     },
-            //     {
-            //         value: 'category3',
-            //         lable: 'category3',
-            //     },
-            // ]}
+          
             options={option}
           
         />
@@ -53,6 +39,32 @@ const SearTag = ({dataTag, setDataTag}) =>{
     )
 }
 
+
+const App = ({mess}) => {
+    console.log("aaa");
+   
+    const aa =() => {
+        return (
+            notification.open({
+                message: mess,
+                description: mess,
+                placement: 'bottom',
+                onClick: () => {
+                    console.log('Notification Clicked!');
+                },
+            })
+        )
+    }
+
+    return (
+     
+     aa()
+        
+    );
+     
+  
+  };
+
 function Tags() {
     // datatag: data de search category vs tag, cx la de edit
 
@@ -75,9 +87,14 @@ function Tags() {
         const fetchData = async () => {
             const res = await deleteData(`tags/${dataEditTag.id}`);
             setOpenDelete(false);
+
             setOpenNotify(true);
             // const mess = res.message.name ? res.message.name: res.message;
             setNotify(res.message);
+           
+             
+         
+            
         }
         fetchData();
         // const newData = dataTable.filter(dt=> dt.name !== dataEditTag.name);
@@ -159,6 +176,7 @@ function Tags() {
 
     const ModelDetail = () =>{
         // console.log("datatag: ", dataTag);
+        
         return(
             <Modal
            
@@ -179,6 +197,7 @@ function Tags() {
                     <Col span={10}>
                         <Button style={{background: '#1677ff', color: 'white', boder: 'none', width:"80%"}} 
                         onClick={() =>{
+                        
                             editTag(dataTag);
                         }}
                         >Lưu</Button>
@@ -191,7 +210,7 @@ function Tags() {
         >
            <SearTag dataTag={dataTag} setDataTag= {setDataTag} />
            <SelectCategory dataTag={dataTag} handleType={handleType} option={listCate} />
-
+            
         </Modal>
         );
     }
@@ -234,6 +253,7 @@ function Tags() {
             setOpenNotify(true);
             const mess = res.message.name ? res.message.name: res.message;
             setNotify(mess);
+            
         }
         fetchData();
         // const fetchData = 
@@ -274,6 +294,10 @@ function Tags() {
     }, [clickSearch])
 
     const ModelNotify = () =>{
+        const timeout = setTimeout(()=>{
+            console.log("vao day ko");
+            setOpenNotify(false);
+        }, 2000);
         return(
             <Modal
            
@@ -298,6 +322,7 @@ function Tags() {
          
             width={300}
         >
+            {timeout}
            {notify}
 
         </Modal>
@@ -394,7 +419,9 @@ function Tags() {
         
     setDataTag1({...dataTag1, "category":value});
    
-}
+    }
+
+
 
     return (
         <>
@@ -404,7 +431,7 @@ function Tags() {
             <section>
                 
                 <div className="text-4xl h-screen" style={{marginTop: '5rem'}}>
-            
+                
                 <Row>
                     <Col span={10}>
                     <SelectCategory dataTag={dataTag1} handleType={handleType1} option={listCate} />
@@ -452,9 +479,14 @@ function Tags() {
                     {
                         ModelAddTag()
                     }
-                    {
+                    { openNotify &&
                         ModelNotify()
                     }
+                    
+                    {/* { 
+                     openNotify &&
+                        <App mess={notify} />
+                    } */}
                   
                 </div>
                 
