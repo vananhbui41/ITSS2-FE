@@ -68,7 +68,7 @@ function Words() {
                     >
                         {data.word}
                     </div>
-                );
+                )
             }
         },
         {
@@ -157,7 +157,7 @@ function Words() {
                             : ""
                         }
                     </div>
-                );
+                )
             }
         },
         {
@@ -168,32 +168,39 @@ function Words() {
                 return (
                     <div
                     >
-                        <Button onClick={() => {
+                        <a><EyeOutlined
+                        onClick={() => {
                             setKey(data.id);
                             setOpenDetail(true)
 
-                        }} ><EyeOutlined /></Button>
-                        <Button onClick={() => {
-                            setIdEdit(data.id);
-                            setOpenEdit(true);
-                            // setWordData(data);
-                            // setEditData(data);
-                            // setOpenEdit(true);
-                            // setMM(true);
-                        }}>
-                            <EditOutlined />
-                        </Button>
-                        <Button onClick={() => {
-                            setOpenDelete(true);
-                            setDlWord(data.id);
-                        }}>
-                            <DeleteOutlined />
-                        </Button>
+                        }} 
+                        /></a>
+                        <a>
+                            <EditOutlined 
+                                onClick={() => {
+                                setIdEdit(data.id);
+                                setOpenEdit(true);
+                                // setWordData(data);
+                                // setEditData(data);
+                                // setOpenEdit(true);
+                                // setMM(true);
+                            }}
+                                style={{color: 'green', marginLeft: '15px'}}
+                            />
+                        </a>
+                        <a>
+                            <DeleteOutlined
+                                onClick={() => {
+                                setOpenDelete(true);
+                                setDlWord(data.id);
+                            }}
+                                style={{color: 'red', marginLeft: '15px'}}
+                            />
+                        </a>
                     </div>
-                );
-            }
-        },
-
+                )
+        }
+    },
     ]
     // display word details model
 
@@ -611,6 +618,7 @@ function Words() {
     const ModelAdd = () => {
         return (
             <Modal
+                className='add_word_modal'
                 title="Thêm Từ"
                 open={open}
                 onOk={() => setOpen(false)}
@@ -654,7 +662,7 @@ function Words() {
                         </Select>
                     </Form.Item>
                     <ListMeanings />
-                    <h2 className='mt-4'>Từ ngữ liên quan</h2>
+                    <h2 className='mt-4 relate_title'>Related word</h2>
                     <Form.Item
                         label="Từ Đồng Nghĩa"
                         name="synonyms"
@@ -679,8 +687,6 @@ function Words() {
             </Modal>
         );
     }
-
-
     // model delete words
 
     const [openDelete, setOpenDelete] = useState(false);
