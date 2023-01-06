@@ -14,26 +14,12 @@ export default function Header() {
     return (
          <AppBar component="nav">
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <Logo
-                sx={{
-                    position: 'fixed',
-                    top: { xs: 16, sm: 24, md: 40 },
-                    left: { xs: 16, sm: 24, md: 40 },
-                }}
-            />
-          </IconButton>
           <Typography
             variant="h6"
             component="div"
             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
           >
-            Lavie
+            <Logo/>
           </Typography>
           {user ? (
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
