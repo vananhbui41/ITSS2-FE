@@ -25,7 +25,7 @@ export default function Header() {
           component="div"
           sx={{ flexGrow: 3, display: { xs: 'none', sm: 'block' } }}
         >
-          LaVie
+          <Logo/>
         </Typography>
         <HeaderData />
       </Toolbar>
