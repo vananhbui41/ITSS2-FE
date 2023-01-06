@@ -1,6 +1,8 @@
 import { Box,Stack,Chip,Grid,CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import IconButton from '@mui/material/IconButton';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,16 +17,28 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function SearchResultCard({ result }) {
+    const isLogin = localStorage.getItem('token') 
     const renderResult = () => result?.map(item => (
-            <Box key={item.id} className='search-result-card'>
-                <div className='search-text'>
-                    <span className='kanji'>
-                        {item.word}
-                    </span>
-                    <span className='hiragana'>
-                        {item.furigana}
-                    </span>
-                </div>
+        <Box key={item.id} className='search-result-card'>
+            <Grid container spacing={2}>
+                <Grid item xs={10}>
+                    <div className='search-text'>
+                        <span className='kanji'>
+                            {item.word}
+                        </span>
+                        <span className='hiragana'>
+                            {item.furigana}
+                        </span>
+                    </div>
+                </Grid>
+                <Grid item xs={2}>
+                    <div style={{textCenter: 'right'}}>
+                        <IconButton color="primary" aria-label="upload picture" component="label">
+                            <StarOutlineIcon />
+                        </IconButton>
+                    </div>
+                </Grid>
+            </Grid>
             <div className='description'>
                 <Grid container spacing={2}>
                     {item.tags?.map(tag => (
