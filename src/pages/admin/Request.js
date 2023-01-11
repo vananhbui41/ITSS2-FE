@@ -1,12 +1,38 @@
 import React , { useEffect, useState } from 'react';
-import { Button, Modal,  Form, Input, Select , Upload, Table} from 'antd';
+import { Button, Modal,  Form, Input, Select , Upload, Table, notification} from 'antd';
 import Checkbox from 'antd/es/checkbox/Checkbox';
 import { PlusOutlined , DeleteOutlined,CheckOutlined ,EditOutlined, EyeOutlined, CloseOutlined} from '@ant-design/icons';
 import { Helmet } from 'react-helmet-async';
 import SearchCard from '../../components/Homepage/SearchCard'; 
 import {} from '../../components/sidebar/index.css' ;
-import {getDataWord} from "./apiAdmin/wordFetch"
+import {getDataWord, deleteRequest, successReuest} from "./apiAdmin/wordFetch"
 import {search} from '../../api/search'
+
+const App = (m1, m2) => {
+    console.log("aaa");
+   
+    const aa =() => {
+        return (
+            notification.open({
+                message: m1,
+                description: m2,
+                placement: 'bottom',
+                onClick: () => {
+                    console.log('Notification Clicked!');
+                },
+            })
+        )
+    }
+
+    return (
+     
+     aa()
+        
+    );
+     
+  
+};
+
 
 function Request() {
     const [open, setOpen] = useState(false);
@@ -28,12 +54,33 @@ function Request() {
     const deleteWord   = (id) =>{
         const newData = data.filter(dt => dt.id !== id);
         setData(newData);
+        App("success", "remove success");
     }
     
 
 
     const [openEdit, setOpenEdit] = useState(false);
-   
+    const rm = (id) =>{
+        const fetchData = async () => {
+            const res = await deleteRequest(`requests/${id}`);
+           console.log("res: ", res);
+           deleteWord(id);
+        }
+        fetchData()
+       
+    }
+
+    const ss = (id) =>{
+        const fetchData = async () => {
+            const res = await successReuest(`requests/accept/${id}`, id);
+           console.log("res: ", res);
+           const newData = data.filter(dt => dt.id !== id);
+            setData(newData);
+            App("success", res.message);
+        }
+        fetchData()
+       
+    }
     
     const columns = [
         {
@@ -187,22 +234,17 @@ function Request() {
         {
             title: 'Action',
             dataIndex: 'action',
-            with: '20%',
+            with: '30%',
             render: (record, data) => {
                 return(
                     <div 
                        
                     > 
-                        <Button onClick={() =>{
-                            getDetailWord(data.word);
-                        }} ><CloseOutlined /></Button>
-                        <Button onClick={()=>{
-                           
-                            // setOpenEdit(true);
-                            // setWordData(data);
-                            // setEditData(data);
-                            // setOpenEdit(true);
-                            setMM(true);}}>
+                        <Button onClick={()=>{rm(data.id)}} >
+                            <CloseOutlined />
+                        
+                        </Button>
+                        <Button onClick={()=>{ss(data.id)}} >
                                 <CheckOutlined />
                         </Button>
                         <Button onClick={()=>{
@@ -491,9 +533,7 @@ function Request() {
 
                    
 
-                    <Button type="primary" style={{background: '#4096ff', width: '30%'}} onClick={() => setOpen(true)}>
-                        add
-                    </Button>
+                    
                    
 
                     <Table 
@@ -503,9 +543,7 @@ function Request() {
                     />
 
                    
-                     {
-                        ModelAdd()
-                    }
+                    
 
                 </div>
                 

@@ -10,10 +10,11 @@ import { useEffect, useState } from 'react';
 import './Homepage.scss';
 import { Button, Modal, Row, Col , Input
 
-, Form, Upload, Select
+, Form, Upload, Select, notification,
 } from 'antd';
 
 import { postRequest } from '../../api/request';
+
 import { getTags } from '../../api/search';
 
 const { TextArea } = Input;
@@ -26,6 +27,31 @@ const Item = styled(Paper)(({ theme }) => ({
   border: '1px solid #1A2027',
   height: '100%'
 }));
+
+const App = (mess1, m2) => {
+  console.log("noti: ", mess1, m2);
+ 
+  const aa =() => {
+      return (
+          notification.open({
+              message: mess1,
+              description: m2,
+              placement: 'bottom',
+              onClick: () => {
+                  console.log('Notification Clicked!');
+              },
+          })
+      )
+  }
+
+  return (
+   
+   aa()
+      
+  );
+   
+
+};
 
 function FormAddModel(props) {
    
@@ -105,16 +131,34 @@ function FormAddModel(props) {
           "anonym" : values.anonym ? values.anonym : null
         }
         console.log('Success1:', requestData);
+        const token = localStorage.getItem('token');
+        if(!token){
+          window.location.href = '/login';
+          
+        }
+        // props.close(false);
+        // App("failed", "sdmmmdm");
         const fetch = async () =>{
           const res = await postRequest('/requests', requestData);
           console.log("res: ", res);
+         
+          if(res.status === 1){
+            App("success", res.message);
+          }
+          else{
+            App("failed", res.message);
+          }
           props.close(false);
+          
         }
         fetch();
        
 
       };
       const onFinishFailed = (errorInfo) => {
+        props.close(false);
+        <App mess="hieudz" />
+        
         console.log('Failed:', errorInfo);
       };
     return (

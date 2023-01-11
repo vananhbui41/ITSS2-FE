@@ -11,10 +11,11 @@ export const postRequest = async(url, post) => {
             } );
         
         console.log("ok: ", res.data);
-        return 1;
+        return res.data;
     } catch (error) {
         console.log("loi");
         return {
+            status:0,
             success: false,
             message: error.response.data.message
         }

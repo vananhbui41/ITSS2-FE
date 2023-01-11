@@ -87,3 +87,31 @@ export const deleteData = async (url) => {
   const data = await res.json();
   return data;
 };
+
+export const deleteRequest = async (url) => {
+  const res = await fetch(`${apiUrl}/${url}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+     
+    },
+  });
+
+  const data = await res.json();
+  return data;
+};
+
+export const successReuest = async (url, post) => {
+  const res = await axios.post(`${apiUrl}/${url}`,{
+   
+    headers: {
+      "Content-Type": "application/json",
+      // Authorization: `Bearer ${token}`,
+    }
+  
+  
+  });
+ 
+  const data = res.data;
+  return data;
+};
