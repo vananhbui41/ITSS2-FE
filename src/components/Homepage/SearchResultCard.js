@@ -1,6 +1,9 @@
 import { Box,Stack,Chip,Grid,CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
+import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
+import IconButton from '@mui/material/IconButton';
 import { BiPlusCircle} from 'react-icons/bi';
 import { PlusOutlined , DeleteOutlined, EditOutlined, EyeOutlined} from '@ant-design/icons';
 import { useEffect, useState } from 'react';
@@ -258,13 +261,14 @@ const ModalAdd = ({setOpenModelAdd, openModalAdd, Disabled,setDisabled})=>{
 
 
 
-export default function SearchResultCard({ result }) {
-
+export default function SearchResultCard({ result,onClickBookMark }) {
+    const isLogin = localStorage.getItem('token') 
     const [openModalAdd, setOpenModalAdd1] = useState(false);
     const [componentDisabled, setComponentDisabled1] = useState(true);
     const renderResult = () => result?.map(item => (
-            <Box key={item.id} className='search-result-card'>
-                <div className='container' style={{position:"relative"}}>
+        <Box key={item.id} className='search-result-card'>
+            <Grid container spacing={2}>
+                <Grid item xs={10}>
                     <div className='search-text'>
                         <span className='kanji'>
                             {item.word}
@@ -273,11 +277,18 @@ export default function SearchResultCard({ result }) {
                             {item.furigana}
                         </span>
                     </div>
-                    <div className="icon-search">
-                       <Button onClick={()=>{setOpenModalAdd1(true)}}><BiPlusCircle /></Button> 
+                </Grid>
+                <Grid item xs={2}>
+                    <div style={{textCenter: 'right'}}>
+                        <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => onClickBookMark(item)}>
+                            {item.bookmark === 0 ? <StarOutlineIcon /> : <StarIcon />}
+                        </IconButton>
+                        <IconButton color="primary" aria-label="upload picture" component="label" onClick={()=>{setOpenModalAdd1(true)}}>
+                            <BiPlusCircle />
+                        </IconButton>
                     </div>
-                </div>
-                
+                </Grid>
+            </Grid>
             <div className='description'>
                 <Grid container spacing={2}>
                     {item.tags?.map(tag => (
