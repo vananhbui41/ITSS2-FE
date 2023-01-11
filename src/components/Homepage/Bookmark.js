@@ -8,14 +8,15 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 
-import { getHistory } from '../../api/search';
+import { getBookMarkList } from '../../api/bookMark';
 
 const Bookmark = () => {
   const [listHistory, setListHistory] = useState([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = await getHistory();
-      setListHistory(res.data);
+      const res = await getBookMarkList();
+      if(!res.data.status)
+        setListHistory(res.data);
     };
     fetch();
   },[]);

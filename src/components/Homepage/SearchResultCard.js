@@ -2,6 +2,7 @@ import { Box,Stack,Chip,Grid,CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import StarOutlineIcon from '@mui/icons-material/StarOutline';
+import StarIcon from '@mui/icons-material/Star';
 import IconButton from '@mui/material/IconButton';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -16,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 
-export default function SearchResultCard({ result }) {
+export default function SearchResultCard({ result,onClickBookMark }) {
     const isLogin = localStorage.getItem('token') 
     const renderResult = () => result?.map(item => (
         <Box key={item.id} className='search-result-card'>
@@ -33,8 +34,8 @@ export default function SearchResultCard({ result }) {
                 </Grid>
                 <Grid item xs={2}>
                     <div style={{textCenter: 'right'}}>
-                        <IconButton color="primary" aria-label="upload picture" component="label">
-                            <StarOutlineIcon />
+                        <IconButton color="primary" aria-label="upload picture" component="label" onClick={() => onClickBookMark(item)}>
+                            {item.bookmark === 0 ? <StarOutlineIcon /> : <StarIcon />}
                         </IconButton>
                     </div>
                 </Grid>
