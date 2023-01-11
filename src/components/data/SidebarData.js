@@ -16,5 +16,10 @@ export const SidebarData=[
         title: "Loại Tag",
         path: "/ad/categories",
         icon: <BiIcons.BiCategory />,
+      },
+      {
+        title: "Request",
+        path: "/ad/request",
+        icon: <BiIcons.BiCategory />,
       }
 ]

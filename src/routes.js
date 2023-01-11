@@ -17,7 +17,7 @@ import MainPage from './components/sidebar/MainPage';
 import Words from './pages/admin/Words';
 import Tags from './pages/admin/Tags';
 import Categories from './pages/admin/Categories';
-
+import Request from './pages/admin/Request';
 // ----------------------------------------------------------------------
 
 export default function Router() {
@@ -65,6 +65,8 @@ export default function Router() {
         { path:"words", element: <Words />},
         { path:"tags", element: <Tags />},
         { path:"categories", element: <Categories />},
+        { path:"request", element: <Request />},
+
       ]
     },
     {
