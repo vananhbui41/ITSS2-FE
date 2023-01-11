@@ -23,3 +23,17 @@
         }
     }
 }
+.icon-search{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    svg {
+        width: 2em!important;
+        height: 2em!important;
+    }
+    button {
+        background-color: transparent!important;
+    border-color: transparent!important;
+    box-shadow: none!important;
+    }
+}

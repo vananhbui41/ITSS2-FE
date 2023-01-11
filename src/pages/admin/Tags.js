@@ -426,7 +426,7 @@ function Tags() {
     return (
         <>
             <Helmet>
-                <title> Tags - Words | Lavie </title>
+                <title>  Lavie Tag </title>
             </Helmet>
             <section>
                 
