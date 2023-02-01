@@ -184,40 +184,53 @@ function FormAddModel(props) {
         >
        
          
-          <Form.Item label="tu vung" name='word'>
+          <Form.Item label="Từ vựng: " name='word' rules={[{ required: true, message: 'Hãy nhập từ vựng' }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="loai tu" name='type'>
+          <Form.Item label="Loại từ: " name='type'
+            rules={[{ required: true, message: 'Hãy chọn loại từ' }]}
+          >
             {/* <Select mode="multiple" /> */}
              <Select  options={type}  placeholder="Please select"/>
           </Form.Item>
-          Y NGHIA
-          <Form.Item label="y nghia" name='meaning'>
+          <p style={{fontWeight: 'bold', fontSize: '16px'}}>Ý nghĩa</p>
+          <Form.Item label="Ý nghĩa" name='meaning'
+            rules={[{ required: true, message: 'Hãy nhập ý nghĩa' }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="giai thich" name='explanation_of_meaning'>
+          <Form.Item 
+            label="Giải thích" 
+            name='explanation_of_meaning'
+            rules={[{ required: true, message: 'Hãy giải thích ý nghĩa' }]}
+          >
           <TextArea rows={4} />
           </Form.Item>
-          <Form.Item label="nguon" name='source'>
+          <Form.Item label="Nguồn" name='source'>
             <Input />
           </Form.Item>
-          <Form.Item label="boi canh" name='context'>
+          <Form.Item label="Bối cảnh" name='context'
+            rules={[{ required: true, message: 'Hãy nhập bối cảnh' }]}
+          >
             {/* <Select mode="multiple" /> */}
-             <Select  options={context}  placeholder="Please select"/>
+             <Select  options={context}  placeholder="Hãy nhập bối cảnh"/>
           </Form.Item>
-          <Form.Item  label="chu de" name='topic'>
+          <Form.Item  label="Chủ đề" name='topic'
+            rules={[{ required: true, message: 'Hãy nhập chủ đề' }]}
+          >
             {/* <Select mode="multiple" /> */}
-             <Select mode="multiple" options={topic}  placeholder="Please select"/>
+             <Select mode="multiple" options={topic}  placeholder="Hãy chọn chủ đề"/>
           </Form.Item>
-          <Form.Item label="vi du" name='example'>
+          <Form.Item label="Ví dụ" name='example'
+          >
             <Input />
           </Form.Item>
-          <Form.Item label="giai thich vi du" name='example_meaning'>
+          <Form.Item label="Giải thích ví dụ" name='example_meaning'>
             <Input />
           </Form.Item>
           
          
-          <Form.Item label="hinh anh" valuePropName="fileList">
+          <Form.Item label="Hình ảnh" valuePropName="fileList">
             <Upload action="/upload.do" listType="picture-card">
               <div>
                 <PlusOutlined />
@@ -226,16 +239,16 @@ function FormAddModel(props) {
                     marginTop: 8,
                   }}
                 >
-                  Upload
+                  Tải ảnh lên
                 </div>
               </div>
             </Upload>
           </Form.Item>
-        TU LIEN QUAN
-        <Form.Item label="tu dong nghia" name='synonym'>
+          <p style={{fontWeight: 'bold', fontSize: '16px'}}>Từ liên quan</p>
+        <Form.Item label="Từ đồng nghĩa" name='synonym'>
             <Input />
           </Form.Item>
-          <Form.Item label="tu trai nghia" name='anonym'>
+          <Form.Item label="Từ trái nghĩa" name='anonym'>
             <Input />
           </Form.Item>
          
@@ -274,7 +287,7 @@ const ModalAdd = ({setOpenModelAdd, openModalAdd, Disabled,setDisabled})=>{
     console.log("modal: ", openModalAdd);
     return(
         <Modal
-           title="DE XUAT THEM TU"
+           title="ĐỀ XUẤT THÊM TỪ"
         centered
         // open={openDetail}
         onCancel={()=>{setOpenModelAdd(false)}}
