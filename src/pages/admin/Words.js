@@ -295,6 +295,10 @@ function Words() {
                                                                 exp.tags?.filter(tag => tag.category_id === 3).map(t => (<span>{t.name}, </span>))
                                                             }
                                                         </div>
+                                                        <b>Nguồn</b>
+                                                        <div className='ml-5'>
+                                                            <span>{exp.source}</span>
+                                                        </div>
 
                                                     </Item>
                                                 </Grid>
@@ -559,6 +563,12 @@ function Words() {
                                     rules={[{ required: true, message: 'Hãy nhập ý nghĩa!' }]}
                                 >
                                     <TextArea rows={4} defaultValue={dataMeaning.example_meaning} />
+                                </Form.Item>
+                                <Form.Item
+                                    label="Nguồn"
+                                    name="source"
+                                >
+                                    <Input rows={4} defaultValue={dataMeaning.source} />
                                 </Form.Item>
                                 {/* <Form.Item label="Hình Ảnh" valuePropName="fileList">
                                     <Upload action="/upload.do" listType="picture-card">
