@@ -659,6 +659,12 @@ function Words() {
                     >
                         <Input />
                     </Form.Item>
+                    <Form.Item
+                        label="Nguồn"
+                        name="source"
+                    >
+                        <Input />
+                    </Form.Item>
                     <Form.Item label="Loại Từ" name="select-type">
                         <Select>
                             {categories
