@@ -84,7 +84,7 @@ function Request() {
     
     const columns = [
         {
-            title: 'Word',
+            title: 'Từ vựng',
             dataIndex: 'word',
             with: '20%',
             render: (record, data) =>{
@@ -104,7 +104,7 @@ function Request() {
             }
         },
         {
-            title: 'Content',
+            title: 'Bối cảnh',
             dataIndex: 'content',
             with: '20%',
             render: (record, data) =>{
@@ -137,7 +137,7 @@ function Request() {
             }
         },
         {
-            title: 'Type',
+            title: 'Loại từ',
             dataIndex: 'type',
             with: '20%',
             render: (record, data) =>{
@@ -170,7 +170,7 @@ function Request() {
             }
         },
         {
-            title: 'Topic',
+            title: 'Chủ đề',
             dataIndex: 'topic',
             with: '20%',
             render: (record, data) =>{
@@ -211,7 +211,7 @@ function Request() {
             }
         },
         {
-            title: 'phe duyet',
+            title: 'Phê duyệt',
             dataIndex: 'action',
             with: '20%',
             render: (record, data) => {
@@ -232,7 +232,7 @@ function Request() {
             }
         },
         {
-            title: 'Action',
+            title: 'Thao tác',
             dataIndex: 'action',
             with: '30%',
             render: (record, data) => {

@@ -116,6 +116,7 @@ export default function SearchCard({onSearch, words}) {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
+                  mode="multiple"
                   value={topic}
                   label="Topic"
                   onChange={(e) =>
