@@ -522,7 +522,12 @@ function Words() {
                                         options={options}
                                     />
                                 </Form.Item>
-
+                                <Form.Item
+                                    label="Nguồn"
+                                    name="source"
+                                >
+                                    <Input />
+                                </Form.Item>
                                 <Form.Item label="Hình Ảnh" valuePropName="fileList">
                                     <Upload action="/upload.do" listType="picture-card">
                                         <div>
@@ -656,12 +661,6 @@ function Words() {
                         label="furigana"
                         name="furigana"
                         rules={[{ required: true, message: 'Hãy nhập furigana!' }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Nguồn"
-                        name="source"
                     >
                         <Input />
                     </Form.Item>
