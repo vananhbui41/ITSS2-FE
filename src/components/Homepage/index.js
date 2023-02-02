@@ -59,7 +59,7 @@ export default function HomepageComponent() {
       ) : result?.length > 0 ? (
           <SearchResultCard result={result} onClickBookMark={handleOnBookMark} />
       ) : (
-        <p>Your search did not match any documents.</p>
+        <p>Từ bạn đang tìm kiếm không tồn tại</p>
       )}
       {token && <div className="mt-5">
         <ToggleButtonGroup
