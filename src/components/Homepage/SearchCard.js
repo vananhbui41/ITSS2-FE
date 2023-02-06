@@ -1,4 +1,4 @@
-import { Box, TextField,InputLabel,FormControl,Select,MenuItem,Grid,Button,Autocomplete,Chip,OutlinedInput } from '@mui/material';
+import { Box, TextField,InputLabel,FormControl,Select,MenuItem,Grid,Button,Autocomplete,Chip,OutlinedInput} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useTheme } from '@mui/material/styles';
 import { getTags } from '../../api/search';
@@ -50,13 +50,12 @@ export default function SearchCard({onSearch, words}) {
             </Grid>
             <Grid item xs={6}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Bối cảnh</InputLabel>
+                <InputLabel id="demo-simple-select-label">Bối cảnh</InputLabel> 
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   value={context}
                   label="Context"
-                  multiple
                   variant="filled"
                   onChange={(e) =>
                     setContext(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)
@@ -64,12 +63,14 @@ export default function SearchCard({onSearch, words}) {
                   input={<OutlinedInput />}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
+                      {selected.map((value) => value === '' ? (null) : ( <Chip key={value} label={value} />)
+                      )}
                     </Box>
                   )}
                 >
+                  <MenuItem value="">
+                    <span style={{color: '#ff6f6f'}}>Không lựa chọn</span>
+                  </MenuItem>
                   {categories
                     .filter((item) => item.category_id === 1)
                     .map((item) => (
@@ -77,7 +78,7 @@ export default function SearchCard({onSearch, words}) {
                         {item.name}{' '}
                       </MenuItem>
                     ))}
-                </Select>
+                </Select> 
               </FormControl>
             </Grid>
             <Grid item xs={6}>
@@ -94,12 +95,14 @@ export default function SearchCard({onSearch, words}) {
                   input={<OutlinedInput />}
                   renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
+                      {selected.map((value) => value === '' ? (null) : ( <Chip key={value} label={value} />)
+                      )}
                     </Box>
                   )}
-                >
+                > 
+                  <MenuItem value="">
+                    <span style={{color: '#ff6f6f'}}>Không lựa chọn</span>
+                  </MenuItem>
                   {categories
                     .filter((item) => item.category_id === 2)
                     .map((item) => (
@@ -112,33 +115,25 @@ export default function SearchCard({onSearch, words}) {
             </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Chủ đề</InputLabel>
-                <Select
+                <Autocomplete
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  mode="multiple"
-                  value={topic}
-                  label="Topic"
-                  onChange={(e) =>
-                    setTopic(typeof e.target.value === 'string' ? e.target.value.split(',') : e.target.value)
-                  }
-                  input={<OutlinedInput />}
-                  renderValue={(selected) => (
-                    <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                      {selected.map((value) => (
-                        <Chip key={value} label={value} />
-                      ))}
-                    </Box>
-                  )}
-                >
-                  {categories
+                  multiple
+                  id="tags-outlined"
+                  options={
+                    categories
                     .filter((item) => item.category_id === 3)
-                    .map((item) => (
-                      <MenuItem key={item.id} value={item.name} style={getStyles(item.name, categories, theme)}>
-                        {item.name}
-                      </MenuItem>
-                    ))}
-                </Select>
+                    .map((item) => item.name)
+                  }
+                  filterSelectedOptions
+                  onChange={(event, value) => setTopic(value)} 
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Chủ đề"
+                      placeholder="Chủ đề"
+                    />
+                  )}
+                /> 
               </FormControl>
             </Grid>
           </Grid>
