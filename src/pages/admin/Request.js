@@ -225,7 +225,7 @@ function Request() {
                         position: "relative",
                     }}
                     > 
-                        cho phe duyet
+                        chờ phê duyệt
 
                     </div>
                 );
