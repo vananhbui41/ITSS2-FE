@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col } from 'antd';
+import { Button, Modal, Form, Input, Select, Upload, Table, Row, Col ,notification} from 'antd';
 import { PlusOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Box, Stack, Chip, Grid, CardMedia } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -15,6 +15,37 @@ import SearchResultCard from '../../components/Homepage/SearchResultCard';
 import Spinner from '../../components/Spinner';
 import { } from '../../components/Homepage/Homepage.scss';
 
+function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => callback(reader.result));
+    reader.readAsDataURL(img);
+    console.log("re: ", reader);
+  }
+
+  const App = (mess1, m2) => {
+    console.log("noti: ", mess1, m2);
+   
+    const aa =() => {
+        return (
+            notification.open({
+                message: mess1,
+                description: m2,
+                placement: 'bottom',
+                onClick: () => {
+                    console.log('Notification Clicked!');
+                },
+            })
+        )
+    }
+  
+    return (
+     
+     aa()
+        
+    );
+     
+  
+  };
 
 function Words() {
     const [open, setOpen] = useState(false);
@@ -26,6 +57,7 @@ function Words() {
     const [words, setWords] = useState([])
     const [result, setResult] = useState([])
     const [dlWord, setDlWord] = useState();
+    const [imgs, setImgs] = useState([]);
 
     const handleOnSearch = async ({ keyword, type, context, topic }) => {
         setData({ keyword, type, context, topic })
@@ -446,11 +478,57 @@ function Words() {
 
     const [categories, setCategories] = useState([])
     const onFinish = (values) => {
-        console.log('Success:', values);
+        console.log('Successaa:', values);
+        console.log("hieu: ", imgs);
+        const dt = {
+            'word': values.word,
+            "furigana": values.furigana ,
+            "meanings": [
+                {
+                    "meaning": values.means,
+                    "explanation_of_meaning": "",
+                    "example": "",
+                    "example_meaning": "",
+                    "tags_id": [
+                       values.context, values.type, values.topic[0]
+                    ],
+                    "image": imgs,
+                    "source": ""
+
+                }
+            ],
+            "synonym": 
+                values.synonyms
+            ,
+            "antonym": 
+                values.Antonymic
+            
+
+        };
+        console.log("dttt: ", dt);
+
+        const fetchData = async () => {
+            const res = await postData(`words`, dt);
+            console.log("postoj: ", res);
+            if(res.status === 1){
+                App("success", res.message);
+              }
+              else{
+                App("failed", res.message);
+            }
+
+            setOpen(false);
+        }
+        fetchData();
+        
+
+
     };
     const { TextArea } = Input;
     const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo)
+        console.log('Failed:', errorInfo);
+        console.log("hieu: ", imgs);
+
     };
     const handleChange = (value) => {
         console.log(`selected ${value}`);
@@ -462,12 +540,14 @@ function Words() {
         const fetchData = async () => {
             const tagsData = await getTags()
             setCategories(tagsData.data)
+         
             const obOptions = tagsData.data.filter(options => options.category_id === 3)
             const newArrayOptions = []
+            console.log("obOptions: ", tagsData.data);
             obOptions.forEach((el) => {
                 newArrayOptions.push({
                     label: el.name,
-                    value: el.name
+                    value: el.id
                 })
             })
             setOptions(newArrayOptions)
@@ -498,7 +578,7 @@ function Words() {
                                         {categories
                                             .filter((item) => item.category_id === 1)
                                             .map((item) => (
-                                                <Select.Option key={item.id} value={item.name}>{item.name}
+                                                <Select.Option key={item.id} value={item.id}>{item.name}
                                                 </Select.Option>
                                             ))}
                                     </Select>
@@ -619,8 +699,8 @@ function Words() {
                 className='add_word_modal'
                 title="Thêm Từ"
                 open={open}
-                onOk={() => setOpen(false)}
                 onCancel={() => setOpen(false)}
+                footer={""}
                 width={1000}
                 z-index={1000}
                 okText="Thêm"
@@ -634,6 +714,7 @@ function Words() {
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
+
                 >
                     <Form.Item
                         label="Từ Vựng"
@@ -649,29 +730,76 @@ function Words() {
                     >
                         <Input />
                     </Form.Item>
-                    <Form.Item label="Loại Từ" name="select-type">
+                    <Form.Item label="Loại Từ" name="type">
                         <Select>
                             {categories
                                 .filter((item) => item.category_id === 2)
                                 .map((item) => (
-                                    <Select.Option key={item.id} value={item.name}>{item.name}
+                                    <Select.Option key={item.id} value={item.id}>{item.name}
                                     </Select.Option>
                                 ))}
                         </Select>
                     </Form.Item>
-                    <ListMeanings />
+                    <Form.Item
+                                    label="Ý Nghĩa"
+                                    name="means"
+                                    rules={[{ required: true, message: 'Hãy nhập ý nghĩa!' }]}
+                                >
+                                    <TextArea rows={4} />
+                                </Form.Item>
+                                <Form.Item label="Bối Cảnh" name="context">
+                                    <Select>
+                                        {categories
+                                            .filter((item) => item.category_id === 1)
+                                            .map((item) => (
+                                                <Select.Option key={item.id} value={item.id}>{item.name}
+                                                </Select.Option>
+                                            ))}
+                                    </Select>
+                                </Form.Item>
+                                <Form.Item
+                                    label="Chủ Đề"
+                                    name="topic"
+                                    rules={[{ required: true, message: 'Hãy nhập chủ đề!' }]}
+                                >
+                                    <Select
+                                        mode="multiple"
+                                        allowClear
+                                        style={{ width: '100%' }}
+                                        placeholder="Please select"
+                                        initialValues={[]}
+                                        onChange={handleChange}
+                                        options={options}
+                                    />
+                                </Form.Item>
+
+                                <Form.Item label="Hình Ảnh" valuePropName="fileList">
+                                    <Upload   listType="picture-card"
+                                        onChange={(info) => {
+                                            console.log("img", info?.file?.originFileObj);
+                                            getBase64(info?.file?.originFileObj, imgUrlOffer =>
+                                                setImgs(imgUrlOffer)
+                                            );
+                                        }}
+                                    >
+                                        <div>
+                                            <PlusOutlined />
+                                            <div style={{ marginTop: 8 }}>Tải lên</div>
+                                        </div>
+                                    </Upload>
+                                </Form.Item>
                     <h2 className='mt-4 relate_title'>Related word</h2>
                     <Form.Item
                         label="Từ Đồng Nghĩa"
                         name="synonyms"
-                        rules={[{ required: true, message: 'Hãy nhập từ đồng nghĩa!' }]}
+                        // rules={[{  message: 'Hãy nhập từ đồng nghĩa!' }]}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
                         label="Từ Trái Nghĩa"
                         name="Antonymic"
-                        rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
+                        // rules={[{ required: true, message: 'Hãy nhập từ trái nghĩa!' }]}
                     >
                         <Input />
                     </Form.Item>
@@ -743,7 +871,7 @@ function Words() {
                             <Button type="primary" style={{ background: '#4096ff', width: '30%' }} onClick={() => setOpen(true)}>
                                 Thêm
                             </Button>
-                            {ModelAdd()}
+                            {open && ModelAdd()}
                         </div>
                         {loading ? (
                             <Spinner />

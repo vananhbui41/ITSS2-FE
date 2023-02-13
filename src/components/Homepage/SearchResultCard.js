@@ -32,6 +32,11 @@ const Item = styled(Paper)(({ theme }) => ({
   border: '1px solid #1A2027',
   height: '100%'
 }));
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
 const App = (mess1, m2) => {
   console.log("noti: ", mess1, m2);
@@ -68,6 +73,7 @@ function FormAddModel(props) {
     const [type, setType] = useState();
     const [topic, setTopic] = useState();
     const [context, setContext] = useState();
+    const [images, SetImages] = useState();
 
 
     useEffect(() => {
@@ -116,7 +122,8 @@ function FormAddModel(props) {
       fetchData()
   },[])
     const onFinish = (values) => {
-    
+      console.log("hieu: ", images);
+      
         const requestData = {
           "word": values.word,
           "type": values.type,
@@ -124,9 +131,9 @@ function FormAddModel(props) {
           {
               "meaning": values.meaning,
               "explanation_of_meaning": values.explanation_of_meaning,
-              "context": values.context,
+              "context": values.context,    
               "topic": values.topic,
-              "image": "",
+              "image": images, 
               "example": values.example,
               "example_meaning": values.example_meaning,
               "source": values.source
@@ -157,7 +164,6 @@ function FormAddModel(props) {
           
         }
         fetch();
-       
 
       };
       const onFinishFailed = (errorInfo) => {
@@ -166,6 +172,20 @@ function FormAddModel(props) {
         
         console.log('Failed:', errorInfo);
       };
+
+     const handleImage = (e)=>{
+        const formData = new FormData();
+        const img = e.target.files[0];
+         console.log("img ", img);
+         formData.append('image', img);
+        
+      //   for(const pair of formData.entries()) {
+      //   console.log(pair[0]+ ', '+ pair[1]); 
+      // }
+        SetImages(img);
+        console.log(formData.getAll('image'));
+      }
+
     return (
       <>
        
@@ -229,9 +249,17 @@ function FormAddModel(props) {
             <Input />
           </Form.Item>
           
-         
+         <div >
           <Form.Item label="Hình ảnh" valuePropName="fileList">
-            <Upload action="/upload.do" listType="picture-card">
+            <Upload  listType="picture-card" 
+               onChange={(info) => {
+                getBase64(info?.file?.originFileObj, imgUrlOffer =>
+                    SetImages(imgUrlOffer)
+                );
+                
+            }}
+            
+            >
               <div>
                 <PlusOutlined />
                 <div
@@ -244,6 +272,7 @@ function FormAddModel(props) {
               </div>
             </Upload>
           </Form.Item>
+          </div>
           <p style={{fontWeight: 'bold', fontSize: '16px'}}>Từ liên quan</p>
         <Form.Item label="Từ đồng nghĩa" name='synonym'>
             <Input />
